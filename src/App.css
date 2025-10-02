@@ -1,0 +1,95 @@
+/*#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+*/
+
+.brand-logo{ width:28px; height:28px; border-radius:8px; object-fit:contain; box-shadow:var(--shadow); }
+
+
+/* HEADER: neutralizar estilo de link global */
+.nav a { color: inherit !important; text-decoration: none !important; }
+.nav a:hover { text-decoration: none !important; }
+
+/* CTA sempre com texto branco */
+.btn-primary { background: var(--primary); color: #fff; box-shadow: 0 10px 22px rgba(37,99,235,.25); }
+.btn-primary, .btn-primary * { color: #fff !important; }
+.btn-primary svg { fill: currentColor; }
+
+/* CARROSSEL: evitar corte de cartões */
+.carousel { position: relative; overflow: hidden; padding: 6px 0 22px; }
+.carousel-track {
+  display: flex;
+  align-items: stretch;
+  gap: 12px;
+  width: max-content;
+  padding-bottom: 06px;
+  animation: carousel-marquee 40s linear infinite;
+  will-change: transform;
+  margin-bottom: 10px;
+
+}
+.slide { scroll-snap-align: start; display: flex; }
+
+/* Cartão compacto, sem height:100% */
+.review {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--card);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  max-width: 340px;
+  width: 100%;
+  min-height: 20px;
+}
+.review blockquote { margin: 0 0 6px; font-size: 14px; line-height: 1.4;  }
+
+/* Largura dos slides */
+.slide { flex: 0 0 260px; }
+@media (min-width: 640px) { .slide { flex-basis: 300px; } }
+@media (min-width: 900px) { .slide { flex-basis: 340px; } }
+
+/* Marquee */
+@keyframes carousel-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
