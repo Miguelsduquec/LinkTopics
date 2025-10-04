@@ -745,7 +745,7 @@ function PrivacyContent() {
       <p>
         LinkTopics is a browser extension that helps you customize your LinkedIn feed
         by filtering or highlighting posts based on selected interests. We take privacy
-        seriously. LinkTopics operates entirely on your local device and does <strong>not</strong>
+        seriously. LinkTopics operates entirely on your local device and does <strong>not </strong>
         collect or transmit personal data to our servers.
       </p>
 
@@ -780,7 +780,7 @@ function PrivacyContent() {
       <h2 id="permissions">Permissions</h2>
       <p>
         The extension requests limited permissions (e.g., access to <code>linkedin.com</code> to filter
-        posts and <code>storage</code> to save preferences). These permissions are <strong>never</strong> used to read,
+        posts and <code>storage</code> to save preferences). These permissions are <strong>never </strong> used to read,
         alter, or transmit your private LinkedIn data.
       </p>
 
@@ -829,14 +829,14 @@ function TermsContent() {
         LinkTopics is licensed for personal, non-commercial use. You may not reverse engineer,
         decompile, or modify the software; redistribute or sell it without written permission; or
         use it to violate LinkedIn’s terms or applicable laws. The Extension is provided
-        <strong> “as is”</strong>, without warranties of any kind.
+        <strong> “as is” </strong>, without warranties of any kind.
       </p>
 
       <h2 id="acceptable-use">Acceptable Use</h2>
       <ul>
         <li>Use LinkTopics responsibly and only for lawful purposes.</li>
         <li>
-          LinkTopics does <strong>not</strong> automate actions on your behalf (likes, comments, messages, etc.).
+          LinkTopics does <strong>not </strong> automate actions on your behalf (likes, comments, messages, etc.).
           It only modifies how content is displayed on your screen, locally.
         </li>
         <li>You must comply with all LinkedIn and browser store policies.</li>
