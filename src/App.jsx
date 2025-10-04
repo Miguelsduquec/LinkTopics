@@ -779,8 +779,8 @@ function PrivacyContent() {
 
       <h2 id="permissions">Permissions</h2>
       <p>
-        The extension requests limited permissions (e.g., access to <code>linkedin.com</code> to filter
-        posts and <code>storage</code> to save preferences). These permissions are <strong>never </strong> used to read,
+        The extension requests limited permissions (e.g., access to linkedin.com to filter
+        posts and storage to save preferences). These permissions are <strong>never </strong> used to read,
         alter, or transmit your private LinkedIn data.
       </p>
 
@@ -805,8 +805,14 @@ function PrivacyContent() {
 
       <h2 id="contact">Contact</h2>
       <p>
-        Questions or concerns? Email us at{" "}
-        <a href="mailto:miguel.duquec@gmail.com">miguel.duquec@gmail.com</a>.
+        Questions or concerns? Email me at{" "}
+        <a href="mailto:miguel.duquec@gmail.com">miguel.duquec@gmail.com</a>
+      </p>
+      <p>
+        or
+      </p>
+      <p>
+        DM to <a href="https://x.com/miguelduquec">X (former Twitter)</a>
       </p>
     </>
   );
@@ -873,6 +879,12 @@ function TermsContent() {
       <p>
         For questions, suggestions, or support, email{" "}
         <a href="mailto:miguel.duquec@gmail.com">miguel.duquec@gmail.com</a>.
+      </p>
+      <p>
+        or
+      </p>
+      <p>
+        DM to <a href="https://x.com/miguelduquec">X (former Twitter)</a>
       </p>
     </>
   );
