@@ -1,14 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { SiGooglechrome } from "react-icons/si";
-import './App.css';
 
 const APP_NAME = "LinkTopics";
 const CHROME_URL = "https://chromewebstore.google.com/detail/bdilfiejpkdfbildemdncbkblegpejfb?utm_source=item-share-cb";
 const VIDEO_URL = "https://www.youtube.com/watch?v=L28hvycCQqc";
-const PRIVACY_URL = "/privacypolicy";
 const CONTACT_MAILTO = "mailto:miguel.duquec@gmail.com?subject=Support%20request";
 
-export default function LandingPage() {
+// --- Simple path router (no dependency) ---
+export default function AppRouter() {
+  const path = typeof window !== 'undefined' ? window.location.pathname : '/';
+  if (path === '/privacy-policy') return <LegalPage kind="privacy" />;
+  if (path === '/tos' || path === '/terms' || path === '/terms-of-service') return <LegalPage kind="tos" />;
+  return <LandingPage />;
+}
+
+function LandingPage() {
   const [annual, setAnnual] = useState(true);
   return (
     <main className="ltp-root">
@@ -138,9 +144,14 @@ function StyleTag() {
       .brand .dot { width:28px; height:28px; border-radius:10px; background:linear-gradient(135deg,var(--primary),#3b82f6); box-shadow:var(--shadow); }
       .nav-center { display:none; justify-content:center; gap:22px; align-items:center; font-size:14px; }
       @media (min-width:900px){ .nav-center{ display:flex; } }
+      /* Header links: remove underline */
+      .nav a { color: inherit; text-decoration: none; }
+      .nav a:hover { text-decoration: none; opacity: .85; }
       .btn { display:inline-flex; align-items:center; justify-content:center; gap:10px; border-radius:999px; font-weight:700; letter-spacing:.2px; padding:14px 20px; text-decoration:none; transition:transform .12s ease, box-shadow .12s ease, opacity .12s ease; min-height:44px; }
       .btn:active { transform:translateY(1px); }
       .btn-primary { background:var(--primary); color:#fff; box-shadow:0 10px 22px rgba(37,99,235,.25); }
+      .btn-primary, .btn-primary * { color:#fff !important; }
+      .btn-primary svg { fill: currentColor; }
       .btn-primary:hover { box-shadow:0 14px 28px rgba(37,99,235,.33); transform:translateY(-1px); }
       .btn[disabled]{background:#e5e7eb;color:#6b7280;box-shadow:none;cursor:not-allowed;transform:none;}
       .btn-chrome{ display:inline-flex; align-items:center; gap:10px; color:#fff; }
@@ -261,23 +272,25 @@ function StyleTag() {
       .footer-center{ flex:1; text-align:center; }
       .links a { color:inherit; text-decoration:none; opacity:.8; }
       .links a:hover { opacity:1; }
+      .footer-legal{ flex:1; text-align:center; }
+      .footer-legal h5{ margin:0 0 6px; font-size:12px; letter-spacing:.2em; color:var(--muted); }
+      .footer-legal a{ display:block; text-decoration:none; color:inherit; opacity:.85; margin:4px 0; }
+      .footer-legal a:hover{ opacity:1; text-decoration:underline; }
       .social-top { display:flex; align-items:center; justify-content:center; gap:12px; margin-bottom:18px; }
       .rating { display:flex; align-items:center; gap:10px; font-weight:700; }
       .stars { display:inline-flex; gap:4px; }
       .stars svg { width:18px; height:18px; fill:#f59e0b; }
-      .carousel { position:relative; overflow:hidden; }
-      .carousel-track { display:flex; gap:12px; padding-bottom:6px; width:max-content; animation:carousel-marquee 40s linear infinite; will-change: transform; align-items:stretch; }
-      .slide{ scroll-snap-align:start; }
+      .carousel { position:relative; overflow:hidden; padding:8px 0 36px; }
+      .carousel-track { display:flex; gap:16px; padding-bottom:2px; width:max-content; animation:carousel-marquee 40s linear infinite; will-change: transform; align-items:stretch; }
+      .slide{ scroll-snap-align:start; display:flex; }
       .carousel:hover .carousel-track{ animation-play-state:paused; }
       @keyframes carousel-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } } 
-      .slide { flex:0 0 280px; }
-@media (min-width:640px){ .slide{ flex-basis:320px; } }
-@media (min-width:900px){ .slide{ flex-basis:360px; } }
-      
-      
-      .review { border:1px solid var(--border); border-radius:16px; background:var(--card); padding:14px; height:100%; display:flex; flex-direction:column; max-width:360px; width:100%; }
-      .review blockquote { margin:0 0 8px; font-size:15px; line-height:1.45; }
-      .review .meta { color:var(--muted); font-size:14px; margin-top:auto; }
+      .slide { flex:0 0 260px; }
+      @media (min-width:640px){ .slide{ flex-basis:300px; } }
+      @media (min-width:900px){ .slide{ flex-basis:340px; } }
+      .review { border:1px solid var(--border); border-radius:16px; background:var(--card); padding:10px 12px; display:flex; flex-direction:column; max-width:340px; width:100%; min-height:75px; }
+      .review blockquote { margin:0 0 4px; font-size:14px; line-height:1.35; }
+      .review .meta { color:var(--muted); font-size:12px; margin-top:8px; }
       .prose h1, .prose h2, .prose h3 { margin: 16px 0 8px; }
       .prose p, .prose li { color: var(--fg); line-height:1.6; }
       .prose ul { padding-left: 18px; }
@@ -290,8 +303,7 @@ function Header() {
     <header className="nav">
       <div className="container nav-inner">
         <a href="#home" className="brand">
-          {/* antes: <div className="dot" aria-hidden="true" /> */}
-          <img src="/favicon-bg-32x32.png" alt="LinkTopics logo" className="brand-logo" />
+          <div className="dot" aria-hidden="true" />
           <span>{APP_NAME}</span>
         </a>
         <nav className="nav-center">
@@ -307,7 +319,6 @@ function Header() {
     </header>
   );
 }
-
 
 function PrimaryCTA() {
   const href = CHROME_URL && CHROME_URL.trim() ? CHROME_URL : CONTACT_MAILTO;
@@ -698,6 +709,176 @@ function FinalCTA() {
   );
 }
 
+// -------- LEGAL PAGES --------
+function LegalPage({ kind }) {
+  return (
+    <main className="ltp-root">
+      <Seo />
+      <StyleTag />
+      <Header />
+      <section className="section">
+        <div className="container prose">
+          {kind === 'privacy' ? (
+            <>
+              <SectionHeader eyebrow="Legal" title="Privacy Policy" />
+              <PrivacyContent />
+            </>
+          ) : (
+            <>
+              <SectionHeader eyebrow="Legal" title="Terms of Service" />
+              <TermsContent />
+            </>
+          )}
+        </div>
+      </section>
+      <Footer />
+    </main>
+  );
+}
+
+function PrivacyContent() {
+  return (
+    <>
+      <p><strong>Last updated:</strong> October 2025</p>
+
+      <h2 id="overview">Overview</h2>
+      <p>
+        LinkTopics is a browser extension that helps you customize your LinkedIn feed
+        by filtering or highlighting posts based on selected interests. We take privacy
+        seriously. LinkTopics operates entirely on your local device and does <strong>not</strong>
+        collect or transmit personal data to our servers.
+      </p>
+
+      <h2 id="data-we-process">Data We Process</h2>
+      <ul>
+        <li>
+          <strong>Topic preferences</strong>: stored locally in your browser storage to
+          personalize your feed.
+        </li>
+        <li>
+          <strong>Usage analytics (optional)</strong>: metrics like time saved or number of
+          hidden posts may be processed locally and are <strong>never shared externally</strong>
+          unless you explicitly opt in to future analytics or feedback programs.
+        </li>
+        <li>
+          <strong>No personal data</strong>: we do not request, collect, or store names, emails,
+          LinkedIn activity, or browsing history.
+        </li>
+        <li>
+          <strong>No tracking</strong>: no third-party trackers, cookies, or advertising identifiers.
+        </li>
+      </ul>
+
+      <h2 id="storage-deletion">Storage &amp; Deletion</h2>
+      <p>
+        All preferences and settings are stored within your browser’s local storage. You can
+        permanently delete all stored data at any time by removing the extension from your browser
+        or resetting your settings from the extension options page. No data is retained once the
+        extension is removed.
+      </p>
+
+      <h2 id="permissions">Permissions</h2>
+      <p>
+        The extension requests limited permissions (e.g., access to <code>linkedin.com</code> to filter
+        posts and <code>storage</code> to save preferences). These permissions are <strong>never</strong> used to read,
+        alter, or transmit your private LinkedIn data.
+      </p>
+
+      <h2 id="security">Security</h2>
+      <p>
+        Since all processing occurs locally on your device, your data never leaves your browser.
+        We do not operate external servers or databases for LinkTopics.
+      </p>
+
+      <h2 id="children">Children’s Privacy</h2>
+      <p>
+        LinkTopics is intended for individuals aged 16 and older. We do not knowingly collect or
+        process information from minors.
+      </p>
+
+      <h2 id="updates">Updates to This Policy</h2>
+      <p>
+        We may update this Privacy Policy periodically to reflect new features or regulatory
+        requirements. Any updates will be published on this page. Continued use of the extension
+        implies acceptance of the updated terms.
+      </p>
+
+      <h2 id="contact">Contact</h2>
+      <p>
+        Questions or concerns? Email us at{" "}
+        <a href="mailto:miguel.duquec@gmail.com">miguel.duquec@gmail.com</a>.
+      </p>
+    </>
+  );
+}
+
+
+function TermsContent() {
+  return (
+    <>
+      <p><strong>Last updated:</strong> October 2025</p>
+
+      <h2 id="agreement">Agreement</h2>
+      <p>
+        By installing or using LinkTopics (“the Extension”), you agree to these Terms of Service.
+        If you do not agree, please uninstall the extension immediately.
+      </p>
+
+      <h2 id="license">License</h2>
+      <p>
+        LinkTopics is licensed for personal, non-commercial use. You may not reverse engineer,
+        decompile, or modify the software; redistribute or sell it without written permission; or
+        use it to violate LinkedIn’s terms or applicable laws. The Extension is provided
+        <strong> “as is”</strong>, without warranties of any kind.
+      </p>
+
+      <h2 id="acceptable-use">Acceptable Use</h2>
+      <ul>
+        <li>Use LinkTopics responsibly and only for lawful purposes.</li>
+        <li>
+          LinkTopics does <strong>not</strong> automate actions on your behalf (likes, comments, messages, etc.).
+          It only modifies how content is displayed on your screen, locally.
+        </li>
+        <li>You must comply with all LinkedIn and browser store policies.</li>
+      </ul>
+
+      <h2 id="intellectual-property">Intellectual Property</h2>
+      <p>
+        All rights, trademarks, and intellectual property associated with LinkTopics remain the
+        property of its developer. Unauthorized use of the brand, logo, or source code is prohibited.
+      </p>
+
+      <h2 id="limitation-of-liability">Limitation of Liability</h2>
+      <p>
+        To the maximum extent permitted by law, the developer is not liable for any damages, data
+        loss, or business interruption resulting from the use or inability to use LinkTopics, or
+        from changes made to LinkedIn’s interface or functionality that affect extension
+        performance. You use LinkTopics at your own risk.
+      </p>
+
+      <h2 id="termination">Termination</h2>
+      <p>
+        You may terminate this agreement at any time by uninstalling the extension. We may suspend
+        or terminate access to the extension if we suspect misuse or violation of these terms.
+      </p>
+
+      <h2 id="modifications">Modifications</h2>
+      <p>
+        We reserve the right to update or modify these Terms of Service at any time. Notice of
+        material changes will be posted on our website. Continued use of LinkTopics after such
+        updates constitutes acceptance.
+      </p>
+
+      <h2 id="contact">Contact</h2>
+      <p>
+        For questions, suggestions, or support, email{" "}
+        <a href="mailto:miguel.duquec@gmail.com">miguel.duquec@gmail.com</a>.
+      </p>
+    </>
+  );
+}
+
+
 function Footer() {
   return (
     <footer>
@@ -708,7 +889,13 @@ function Footer() {
             <div style={{fontWeight:700}}>{APP_NAME}</div>
             <div style={{fontSize:12, color:'var(--muted)'}}>© {new Date().getFullYear()} — Independent & privacy‑friendly.</div>
           </div>
-        </div><div className="links" style={{marginLeft:'auto', display:'flex', gap:12, fontSize:14, alignItems:'center'}}>
+        </div>
+        <div className="footer-legal">
+          <h5>LEGAL</h5>
+          <a href="https://www.linktopics.me/tos">Terms of service</a>
+          <a href="https://www.linktopics.me/privacy-policy">Privacy policy</a>
+        </div>
+        <div className="links" style={{marginLeft:'auto', display:'flex', gap:12, fontSize:14, alignItems:'center'}}>
           <span>Made with ☕️ by <a href="https://x.com/miguelduquec" target="_blank" rel="noreferrer" style={{textDecoration:'underline'}}>Miguel</a></span>
         </div>
       </div>
