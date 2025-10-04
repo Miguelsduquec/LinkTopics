@@ -281,7 +281,7 @@ function StyleTag() {
       .stars { display:inline-flex; gap:4px; }
       .stars svg { width:18px; height:18px; fill:#f59e0b; }
       .carousel { position:relative; overflow:hidden; padding:8px 0 36px; }
-      .carousel-track { display:flex; gap:16px; padding-bottom:2px; width:max-content; animation:carousel-marquee 40s linear infinite; will-change: transform; align-items:stretch; }
+      .carousel-track { display:flex; gap:16px; padding-bottom:px; width:max-content; animation:carousel-marquee 40s linear infinite; will-change: transform; align-items:stretch; }
       .slide{ scroll-snap-align:start; display:flex; }
       .carousel:hover .carousel-track{ animation-play-state:paused; }
       @keyframes carousel-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } } 
