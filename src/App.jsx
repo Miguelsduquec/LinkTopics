@@ -757,7 +757,7 @@ function PrivacyContent() {
         </li>
         <li>
           <strong>Usage analytics (optional)</strong>: metrics like time saved or number of
-          hidden posts may be processed locally and are <strong>never shared externally</strong>
+          hidden posts may be processed locally and are <strong>never shared externally </strong>
           unless you explicitly opt in to future analytics or feedback programs.
         </li>
         <li>
