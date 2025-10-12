@@ -41,6 +41,15 @@
   color: #888;
 }
 */
+/* App.css (ou onde tens o estilo do header) */
+.dot{
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;             /* ou 50% se quiseres redondo */
+  background: url("../public/favicon-bg.ico") center/cover no-repeat; /* mete aqui o ficheiro */
+  box-shadow: var(--shadow);
+}
+
 
 .brand-logo{ width:28px; height:28px; border-radius:8px; object-fit:contain; box-shadow:var(--shadow); }
 
@@ -109,3 +118,11 @@
   from{ transform:translateX(0); }
   to  { transform:translateX(-50%); }
 }
+
+/* Hide landing-only links when viewing /blog */
+.ltp-root[data-page="blog"] .nav-center a[href="#how"],
+.ltp-root[data-page="blog"] .nav-center a[href="#pricing"],
+.ltp-root[data-page="blog"] .nav-center a[href="#faq"] {
+  display: none !important;
+}
+

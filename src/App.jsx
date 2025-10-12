@@ -1,17 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { SiGooglechrome } from "react-icons/si";
+import BlogPage from "./blog.jsx";
+import "./App.css";
 
 const APP_NAME = "LinkTopics";
 const CHROME_URL = "https://chromewebstore.google.com/detail/bdilfiejpkdfbildemdncbkblegpejfb?utm_source=item-share-cb";
 const VIDEO_URL = "https://www.youtube.com/watch?v=L28hvycCQqc";
 const CONTACT_MAILTO = "mailto:miguel.duquec@gmail.com?subject=Support%20request";
 
-// --- Simple path router (no dependency) ---
 export default function AppRouter() {
   const path = typeof window !== 'undefined' ? window.location.pathname : '/';
   if (path === '/privacy-policy') return <LegalPage kind="privacy" />;
   if (path === '/tos' || path === '/terms' || path === '/terms-of-service') return <LegalPage kind="tos" />;
-  return <LandingPage />;
+  if (path.startsWith('/blog')) return (
+    <main className="ltp-root" data-page="blog">
+      <Seo />
+      <StyleTag />
+      <Header />
+      <BlogPage />
+      <Footer />
+    </main>
+  );
+  
+    return <LandingPage />;
 }
 
 function LandingPage() {
@@ -32,12 +43,13 @@ function LandingPage() {
   );
 }
 
-function Seo() {
+export function Seo() {
   const title = "LinkTopics – Focus mode for LinkedIn";
   const description = "Tell LinkedIn what to show: hide irrelevant posts, highlight what you care about, and reorder your feed by topics.";
   const url = "https://linktopics.me/";
   const image = "https://linktopics.me/og-image.jpg";
   const siteName = "LinkTopics";
+
   const jsonLdSoftware = {
     '@context': 'https://schema.org',
     '@type': 'SoftwareApplication',
@@ -46,11 +58,12 @@ function Seo() {
     operatingSystem: 'Chrome, Edge',
     offers: [
       { '@type': 'Offer', price: '0', priceCurrency: 'USD', name: 'Free' },
-      { '@type': 'Offer', price: '4.99', priceCurrency: 'USD', name: 'Pro (monthly)' },
-      { '@type': 'Offer', price: '48', priceCurrency: 'USD', priceValidUntil: '2026-12-31', name: 'Pro (yearly)' }
+      { '@type': 'Offer', price: '4.99', priceCurrency: 'USD', name: 'Pro (monthly)'},
+      { '@type': 'Offer', price: '48', priceCurrency: 'USD', priceValidUntil: '2026-12-31', name: 'Pro (yearly)'}
     ],
     description
   };
+
   const jsonLdFAQ = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
@@ -59,19 +72,30 @@ function Seo() {
       { '@type': 'Question', name: 'Which browsers are supported?', acceptedAnswer: { '@type': 'Answer', text: 'Chrome, Brave and Edge (Chromium). Firefox on the roadmap.' } }
     ]
   };
+
   useEffect(() => {
     const ensureCharset = () => {
       let c = document.head.querySelector('meta[charset]');
       if (!c) { c = document.createElement('meta'); c.setAttribute('charset', 'utf-8'); document.head.prepend(c); }
     };
-    const set = (attr, key, value) => {
+
+    const setMeta = (attr, key, value) => {
       let el = document.head.querySelector(`meta[${attr}="${key}"]`);
       if (!el) { el = document.createElement('meta'); el.setAttribute(attr, key); document.head.appendChild(el); }
       el.setAttribute('content', value);
     };
+
     const linkRel = (rel, href, extra = {}) => {
-      let l = Array.from(document.head.querySelectorAll(`link[rel="${rel}"]`)).find(x=>x.getAttribute('href')===href);
-      if(!l){ l=document.createElement('link'); l.setAttribute('rel',rel); l.setAttribute('href',href); for (const k in extra) l.setAttribute(k, extra[k]); document.head.appendChild(l);} };
+      let l = Array.from(document.head.querySelectorAll(`link[rel="${rel}"]`)).find(x => x.getAttribute('href') === href);
+      if (!l) {
+        l = document.createElement('link');
+        l.setAttribute('rel', rel);
+        l.setAttribute('href', href);
+        for (const k in extra) l.setAttribute(k, extra[k]);
+        document.head.appendChild(l);
+      }
+    };
+
     const scriptJson = (id, data) => {
       let s = document.getElementById(id);
       if (!s) { s = document.createElement('script'); s.type = 'application/ld+json'; s.id = id; document.head.appendChild(s); }
@@ -82,11 +106,11 @@ function Seo() {
     document.title = title;
     ensureCharset();
 
-    set('name', 'description', description);
-    set('name', 'viewport', 'width=device-width, initial-scale=1, viewport-fit=cover');
-    set('name', 'theme-color', '#ffffff');
-    set('name', 'robots', 'index,follow,max-image-preview:large');
-    set('name', 'referrer', 'origin-when-cross-origin');
+    setMeta('name', 'description', description);
+    setMeta('name', 'viewport', 'width=device-width, initial-scale=1, viewport-fit=cover');
+    setMeta('name', 'theme-color', '#ffffff');
+    setMeta('name', 'robots', 'index,follow,max-image-preview:large');
+    setMeta('name', 'referrer', 'origin-when-cross-origin');
 
     linkRel('canonical', url);
     linkRel('preconnect', 'https://fonts.gstatic.com', { crossorigin: '' });
@@ -100,29 +124,30 @@ function Seo() {
     linkRel('manifest', '/site.webmanifest');
     linkRel('sitemap', '/sitemap.xml', { type: 'application/xml' });
 
-    set('property', 'og:title', title);
-    set('property', 'og:description', description);
-    set('property', 'og:type', 'website');
-    set('property', 'og:url', url);
-    set('property', 'og:site_name', siteName);
-    set('property', 'og:image', image);
-    set('property', 'og:image:width', '1200');
-    set('property', 'og:image:height', '630');
-    set('property', 'og:locale', 'en_US');
+    setMeta('property', 'og:title', title);
+    setMeta('property', 'og:description', description);
+    setMeta('property', 'og:type', 'website');
+    setMeta('property', 'og:url', url);
+    setMeta('property', 'og:site_name', siteName);
+    setMeta('property', 'og:image', image);
+    setMeta('property', 'og:image:width', '1200');
+    setMeta('property', 'og:image:height', '630');
+    setMeta('property', 'og:locale', 'en_US');
 
-    set('name', 'twitter:card', 'summary_large_image');
-    set('name', 'twitter:title', title);
-    set('name', 'twitter:description', description);
-    set('name', 'twitter:image', image);
-    set('name', 'twitter:site', '@miguelduquec');
+    setMeta('name', 'twitter:card', 'summary_large_image');
+    setMeta('name', 'twitter:title', title);
+    setMeta('name', 'twitter:description', description);
+    setMeta('name', 'twitter:image', image);
+    setMeta('name', 'twitter:site', '@miguelduquec');
 
     scriptJson('ld-software', jsonLdSoftware);
     scriptJson('ld-faq', jsonLdFAQ);
   }, []);
+
   return null;
 }
 
-function StyleTag() {
+export function StyleTag() {
   return (
     <style>{`
       :root { color-scheme: light; --bg:#ffffff; --fg:#0b0b0f; --muted:#6b7280; --card:#f7f8fb; --border:#e6e8ee; --primary:#2563eb; --shadow:0 10px 25px rgba(0,0,0,.08); }
@@ -144,7 +169,6 @@ function StyleTag() {
       .brand .dot { width:28px; height:28px; border-radius:10px; background:linear-gradient(135deg,var(--primary),#3b82f6); box-shadow:var(--shadow); }
       .nav-center { display:none; justify-content:center; gap:22px; align-items:center; font-size:14px; }
       @media (min-width:900px){ .nav-center{ display:flex; } }
-      /* Header links: remove underline */
       .nav a { color: inherit; text-decoration: none; }
       .nav a:hover { text-decoration: none; opacity: .85; }
       .btn { display:inline-flex; align-items:center; justify-content:center; gap:10px; border-radius:999px; font-weight:700; letter-spacing:.2px; padding:14px 20px; text-decoration:none; transition:transform .12s ease, box-shadow .12s ease, opacity .12s ease; min-height:44px; }
@@ -177,7 +201,7 @@ function StyleTag() {
       .btn-ghost:hover { filter:brightness(.97); box-shadow:var(--shadow); transform:translateY(-1px); }
       .panel-title { font-weight:700; margin:10px 0 6px; font-size:14px; }
       .chips { display:flex; gap:8px; flex-wrap:wrap; }
-      .chip { padding:6px 12px; border-radius:999px; font-size:12px; border:1px solid var(--border); background:#f3f4f6; color:#111; appearance:none; -webkit-appearance:none; user-select:none; }
+      .chip { padding:6px 12px; border-radius:999px; font-size:12px; border:1px solid var(--border); background:#f3f4f6; color:#111; appearance:none; user-select:none; }
       .chip-btn { cursor:pointer; transition:transform .12s ease, box-shadow .12s ease, background .12s ease, border-color .12s ease; }
       .chip-btn:not([aria-disabled="true"]):hover { background:rgba(37,99,235,.12); border-color:rgba(37,99,235,.55); box-shadow:var(--shadow); transform:translateY(-1px); }
       .chip-blue { background:rgba(37,99,235,.10); border-color:rgba(37,99,235,.35); color:#1e40af; font-weight:700; }
@@ -227,17 +251,11 @@ function StyleTag() {
       .avatar { width:56px; height:56px; border-radius:999px; background:linear-gradient(180deg,#c7d2fe,#e5e7eb); }
       .name { font-weight:700; margin-top:10px; }
       .title { font-size:12px; color:#6b7280; }
-      .post-header{display:flex;align-items:center;gap:10px;}
-      .avatar.sm{width:40px;height:40px;border-radius:999px;background:linear-gradient(180deg,#c7d2fe,#e5e7eb);} 
-      .post-title{font-weight:700;}
-      .post-meta{font-size:12px;color:var(--muted);} 
-      .post-body{font-size:14px;color:var(--fg);} 
-      .post-body p{margin:10px 0 0;line-height:1.5;} 
+      .post { background:#fff; border:1px solid var(--border); border-radius:12px; padding:14px; }
+      .post.hi { border-color:var(--primary); box-shadow:0 0 0 2px rgba(37,99,235,.2) inset; background:linear-gradient(180deg,#eef2ff,#ffffff); }
       .feed-cols { display:grid; gap:16px; grid-template-columns:1fr; padding:14px; }
       @media (min-width:900px){ .feed-cols{ grid-template-columns:260px 1fr 300px; } }
       .feed-col { display:flex; flex-direction:column; gap:14px; }
-      .post { background:#fff; border:1px solid var(--border); border-radius:12px; padding:14px; }
-      .post.hi { border-color:var(--primary); box-shadow:0 0 0 2px rgba(37,99,235,.2) inset; background:linear-gradient(180deg,#eef2ff,#ffffff); }
       .overlay-panel { position:absolute; right:12px; top:56px; width:340px; max-width:calc(100% - 24px); }
       @media (max-width:900px){ .overlay-panel{ position:static; width:100%; margin-top:12px; } }
       @media (max-width:640px){ .overlay-panel{ position:static; width:100%; } }
@@ -280,8 +298,8 @@ function StyleTag() {
       .rating { display:flex; align-items:center; gap:10px; font-weight:700; }
       .stars { display:inline-flex; gap:4px; }
       .stars svg { width:18px; height:18px; fill:#f59e0b; }
-      .carousel { position:relative; overflow:hidden; padding:8px 0 36px; }
-      .carousel-track { display:flex; gap:16px; padding-bottom:px; width:max-content; animation:carousel-marquee 40s linear infinite; will-change: transform; align-items:stretch; }
+      .carousel { position:relative; overflow:hidden; padding:8px 0 12px; }
+      .carousel-track { display:flex; gap:16px; padding-bottom:10px; width:max-content; animation:carousel-marquee 40s linear infinite; will-change: transform; align-items:stretch; }
       .slide{ scroll-snap-align:start; display:flex; }
       .carousel:hover .carousel-track{ animation-play-state:paused; }
       @keyframes carousel-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } } 
@@ -294,23 +312,27 @@ function StyleTag() {
       .prose h1, .prose h2, .prose h3 { margin: 16px 0 8px; }
       .prose p, .prose li { color: var(--fg); line-height:1.6; }
       .prose ul { padding-left: 18px; }
+      .section--tight{ padding-bottom:18px; }
+      @media (min-width:900px){ .section--tight{ padding-bottom:24px; } }
+      #how.section{ padding-top:18px; }
+      @media (min-width:900px){ #how.section{ padding-top:24px; } }
     `}</style>
   );
 }
 
-function Header() {
+export function Header() {
   return (
     <header className="nav">
       <div className="container nav-inner">
-        <a href="#home" className="brand">
-          <div className="dot" aria-hidden="true" />
-          <span>{APP_NAME}</span>
+        <a href="/" className="brand">
+        <img src="/favicon-bg-180x180.png" alt="LinkTopics" className="brand-logo" />
+        <span>{APP_NAME}</span>
         </a>
         <nav className="nav-center">
-          <a href="#home">Home</a>
           <a href="#how">How it works</a>
           <a href="#pricing">Pricing</a>
           <a href="#faq">FAQ</a>
+          <a href="/blog">Blog</a>
         </nav>
         <div className="nav-cta">
           <PrimaryCTA />
@@ -343,7 +365,7 @@ function getEmbedUrl(url) {
     if (out.includes("youtu.be/")) out = out.replace("youtu.be/", "www.youtube.com/embed/");
     if (!/^https?:\/\//i.test(out)) out = "https://" + out;
     return out;
-  } catch (e) { return url; }
+  } catch { return url; }
 }
 
 function VideoEmbed({ url, title = "Video" }) {
@@ -396,6 +418,7 @@ function ControlPanelMock({ on, setOn, hide, setHide, hl, setHl }) {
   const canAdd = totalCount < 3;
   const hiddenOnPage = (on && hide.job ? 1 : 0) + (on && hide.promoted ? 1 : 0);
   const totalPosts = 5;
+
   const toggleHide = (key) => {
     if (off) return;
     setHide((s) => {
@@ -406,6 +429,7 @@ function ControlPanelMock({ on, setOn, hide, setHide, hl, setHl }) {
       next[key] = true; return next;
     });
   };
+
   const toggleHl = (key) => {
     if (off) return;
     setHl((s) => {
@@ -416,9 +440,11 @@ function ControlPanelMock({ on, setOn, hide, setHide, hl, setHl }) {
       next[key] = true; return next;
     });
   };
+
   const hideCls = (active) => (active && !off ? "chip chip-btn chip-blue" : "chip chip-btn");
   const hlCls = (active) => (active && !off ? "chip chip-btn chip-blue" : "chip chip-btn");
   const disabledWhenFull = (active) => off || (!active && !canAdd);
+
   return (
     <div className="panel" aria-label="Extension panel mock">
       <div className="panel-row">
@@ -429,6 +455,7 @@ function ControlPanelMock({ on, setOn, hide, setHide, hl, setHl }) {
         </label>
         <button className="btn-ghost">Reload</button>
       </div>
+
       <div className="panel-group">
         <div className="panel-title">Hide topics:</div>
         <div className="chips">
@@ -437,6 +464,7 @@ function ControlPanelMock({ on, setOn, hide, setHide, hl, setHl }) {
           <button type="button" className={hideCls(hide.promoted)} aria-disabled={disabledWhenFull(hide.promoted)} onClick={()=>toggleHide('promoted')}>Promoted</button>
         </div>
       </div>
+
       <div className="panel-group">
         <div className="panel-title">Highlight topics:</div>
         <div className="chips">
@@ -446,6 +474,7 @@ function ControlPanelMock({ on, setOn, hide, setHide, hl, setHl }) {
         </div>
         <div className="panel-note">You selected <strong className="red">{totalCount}</strong> of <strong>3</strong> allowed topics.</div>
       </div>
+
       <div className="panel-stats">
         <div className="panel-stats-title">Posts</div>
         <div className="panel-stats-body">
@@ -453,6 +482,7 @@ function ControlPanelMock({ on, setOn, hide, setHide, hl, setHl }) {
           <span><strong className="red">{totalPosts}</strong> in total</span>
         </div>
       </div>
+
       <div className="panel-actions">
         <button className="btn-lock" aria-label="Add more topics" disabled>
           <span role="img" aria-hidden="true">🔒</span> Add more topics
@@ -463,7 +493,7 @@ function ControlPanelMock({ on, setOn, hide, setHide, hl, setHl }) {
   );
 }
 
-function SectionHeader({ eyebrow, title, subtitle }) {
+export function SectionHeader({ eyebrow, title, subtitle }) {
   return (
     <div className="section-header">
       {eyebrow && <div className="eyebrow" style={{marginBottom:6}}>{eyebrow}</div>}
@@ -477,6 +507,7 @@ function HowItWorks() {
   const [filterOn, setFilterOn] = useState(true);
   const [hide, setHide] = useState({ job: false, liked: false, promoted: false });
   const [hl, setHl] = useState({ it: false, marketing: false, startups: false });
+
   return (
     <section id="how" className="section">
       <div className="container">
@@ -519,6 +550,7 @@ function LinkedInFeed({ on, hide, hl, setOn, setHide, setHl }) {
   const show1 = !(on && hide && hide.job);
   const show3 = !(on && hide && hide.promoted);
   const hi = !!(on && hl && hl.it);
+
   const posts = [
     { id:1, title:'Capgemini', meta:'2h • Following', body:'We’re hiring a Power Platform Developer in Portugal. Hybrid role, great team—apply inside.' },
     { id:2, title:'Azure Updates', meta:'1h • Following', body:'New Azure Functions features improve cold-starts and diagnostics for .NET and Node runtimes.' },
@@ -526,7 +558,9 @@ function LinkedInFeed({ on, hide, hl, setOn, setHide, setHl }) {
     { id:4, title:'Interesting Engineering', meta:'3h • Following', body:'From microservices to event-driven systems: why messaging patterns matter for scalable backends.' },
     { id:5, title:'Microsoft Dev', meta:'45m • Following', body:'Power Platform: best practices for connectors, environment strategy, and ALM automation.' }
   ];
+
   const visible = posts.filter(p => !(p.id===1 && !show1) && !(p.id===3 && !show3));
+
   const Post = ({title, body, meta, highlighted}) => (
     <div className={`post ${highlighted ? 'hi' : ''}`}>
       <div style={{display:'flex', alignItems:'center', gap:8}}>
@@ -543,6 +577,7 @@ function LinkedInFeed({ on, hide, hl, setOn, setHide, setHl }) {
       </div>
     </div>
   );
+
   return (
     <div className="mock-feed">
       <div className="feed-toolbar">
@@ -552,6 +587,7 @@ function LinkedInFeed({ on, hide, hl, setOn, setHide, setHl }) {
           <ExtGlyph />
         </div>
       </div>
+
       <div className="feed-cols">
         <div className="feed-col side-left">
           <div className="profile-card">
@@ -562,16 +598,19 @@ function LinkedInFeed({ on, hide, hl, setOn, setHide, setHl }) {
           <div className="side-card" />
           <div className="side-card" />
         </div>
+
         <div className="feed-col">
           {visible.map(p => (
             <Post key={p.id} title={p.title} body={p.body} meta={p.meta} highlighted={hi && (p.id===2 || p.id===4)} />
           ))}
         </div>
+
         <div className="feed-col" style={{display:'none'}}>
           <div className="side-card" />
           <div className="side-card" />
         </div>
       </div>
+
       <div className="overlay-panel">
         <ControlPanelMock on={on} setOn={setOn} hide={hide} setHide={setHide} hl={hl} setHl={setHl} />
       </div>
@@ -590,11 +629,13 @@ function SocialProof() {
     { q: "Great for filtering noise while prospecting.", a: "— Marco, SDR" },
     { q: "Simple setup and it just works.", a: "— Laura, Software Engineer" }
   ];
+
   const Stars = () => (
     <div className="stars">{[...Array(5)].map((_,i)=> (<svg key={i} viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.1 5.6.8-4 3.9.9 5.6L10 14.7 4.9 17.2 5.8 11.6 1.8 7.7l5.6-.8L10 1.8z"/></svg>))}</div>
   );
+
   return (
-    <section className="section">
+    <section className="section section--tight">
       <div className="container">
         <div className="social-top">
           <div className="rating"><Stars /> 4.9/5 from early users</div>
@@ -650,7 +691,7 @@ function Pricing({ annual, setAnnual }) {
               <li>Priority support</li>
             </ul>
             <div className="price-cta" style={{display:'flex', gap:10}}>
-              <button className="btn btn-primary" type="button" disabled>Start 14‑day trial (soon)</button>
+              <button className="btn btn-primary" type="button" disabled>Start 14-day trial (soon)</button>
             </div>
           </div>
         </div>
@@ -661,12 +702,13 @@ function Pricing({ annual, setAnnual }) {
 
 function FAQ() {
   const items = [
-    { q: "Does it violate LinkedIn’s ToS?", a: "We’re read‑only on the page (hide/highlight/reorder UI). No mass actions or automations. Use responsibly; not affiliated with LinkedIn." },
-    { q: "Is my data safe?", a: "We process everything locally in your browser. No third‑party trackers by default. You can delete your data anytime." },
-    { q: "Will it slow down my LinkedIn?", a: "It’s lightweight and you can pause per‑site or per‑session anytime." },
+    { q: "Does it violate LinkedIn’s ToS?", a: "We’re read-only on the page (hide/highlight/reorder UI). No mass actions or automations. Use responsibly; not affiliated with LinkedIn." },
+    { q: "Is my data safe?", a: "We process everything locally in your browser. No third-party trackers by default. You can delete your data anytime." },
+    { q: "Will it slow down my LinkedIn?", a: "It’s lightweight and you can pause per-site or per-session anytime." },
     { q: "Which browsers are supported?", a: "Chrome, Brave, Edge (Chromium). Firefox on the roadmap." },
-    { q: "What’s the difference vs. generic filters?", a: "Topics (semantic), measurable ROI (time saved), Focus scheduling, and safe‑by‑design." },
+    { q: "What’s the difference vs. generic filters?", a: "Topics (semantic), measurable ROI (time saved), Focus scheduling, and safe-by-design." },
   ];
+
   return (
     <section id="faq" className="section">
       <div className="container">
@@ -709,7 +751,32 @@ function FinalCTA() {
   );
 }
 
-// -------- LEGAL PAGES --------
+function BlogPageFallback() {
+  return (
+    <main className="ltp-root">
+      <Seo />
+      <StyleTag />
+      <Header />
+      <section className="section">
+        <div className="container prose">
+          <SectionHeader eyebrow="Blog" title="Latest posts" />
+          <div className="feed-col">
+            <article className="post">
+              <h3>Introducing LinkTopics</h3>
+              <p>Why topics beat keywords for keeping your LinkedIn signal high.</p>
+            </article>
+            <article className="post">
+              <h3>How we keep your data local</h3>
+              <p>Everything runs in your browser—here’s how the extension is built.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+      <Footer />
+    </main>
+  );
+}
+
 function LegalPage({ kind }) {
   return (
     <main className="ltp-root">
@@ -736,162 +803,39 @@ function LegalPage({ kind }) {
   );
 }
 
-function PrivacyContent() {
+function PrivacyContent(){
   return (
     <>
-      <p><strong>Last updated:</strong> October 2025</p>
-
-      <h2 id="overview">Overview</h2>
-      <p>
-        LinkTopics is a browser extension that helps you customize your LinkedIn feed
-        by filtering or highlighting posts based on selected interests. We take privacy
-        seriously. LinkTopics operates entirely on your local device and does <strong>not </strong>
-        collect or transmit personal data to our servers.
-      </p>
-
-      <h2 id="data-we-process">Data We Process</h2>
+      <p>We respect your privacy. LinkTopics runs locally in your browser and does not automate actions on LinkedIn.</p>
+      <h2>Data we process</h2>
       <ul>
-        <li>
-          <strong>Topic preferences</strong>: stored locally in your browser storage to
-          personalize your feed.
-        </li>
-        <li>
-          <strong>Usage analytics (optional)</strong>: metrics like time saved or number of
-          hidden posts may be processed locally and are <strong>never shared externally </strong>
-          unless you explicitly opt in to future analytics or feedback programs.
-        </li>
-        <li>
-          <strong>No personal data</strong>: we do not request, collect, or store names, emails,
-          LinkedIn activity, or browsing history.
-        </li>
-        <li>
-          <strong>No tracking</strong>: no third-party trackers, cookies, or advertising identifiers.
-        </li>
+        <li>Your topic preferences (saved in your browser).</li>
+        <li>Optional analytics like time saved (local only unless you opt-in).</li>
+        <li>No login, no third-party trackers by default.</li>
       </ul>
-
-      <h2 id="storage-deletion">Storage &amp; Deletion</h2>
-      <p>
-        All preferences and settings are stored within your browser’s local storage. You can
-        permanently delete all stored data at any time by removing the extension from your browser
-        or resetting your settings from the extension options page. No data is retained once the
-        extension is removed.
-      </p>
-
-      <h2 id="permissions">Permissions</h2>
-      <p>
-        The extension requests limited permissions (e.g., access to linkedin.com to filter
-        posts and storage to save preferences). These permissions are <strong>never </strong> used to read,
-        alter, or transmit your private LinkedIn data.
-      </p>
-
-      <h2 id="security">Security</h2>
-      <p>
-        Since all processing occurs locally on your device, your data never leaves your browser.
-        We do not operate external servers or databases for LinkTopics.
-      </p>
-
-      <h2 id="children">Children’s Privacy</h2>
-      <p>
-        LinkTopics is intended for individuals aged 16 and older. We do not knowingly collect or
-        process information from minors.
-      </p>
-
-      <h2 id="updates">Updates to This Policy</h2>
-      <p>
-        We may update this Privacy Policy periodically to reflect new features or regulatory
-        requirements. Any updates will be published on this page. Continued use of the extension
-        implies acceptance of the updated terms.
-      </p>
-
-      <h2 id="contact">Contact</h2>
-      <p>
-        Questions or concerns? Email me at{" "}
-        <a href="mailto:miguel.duquec@gmail.com">miguel.duquec@gmail.com</a>
-      </p>
-      <p>
-        or
-      </p>
-      <p>
-        DM to <a href="https://x.com/miguelduquec">X (former Twitter)</a>
-      </p>
+      <h2>Storage & deletion</h2>
+      <p>Your settings live in your browser storage and can be deleted any time from the extension options.</p>
+      <h2>Contact</h2>
+      <p>Questions? <a href="mailto:miguel.duquec@gmail.com">miguel.duquec@gmail.com</a></p>
     </>
   );
 }
 
-
-function TermsContent() {
+function TermsContent(){
   return (
     <>
-      <p><strong>Last updated:</strong> October 2025</p>
-
-      <h2 id="agreement">Agreement</h2>
-      <p>
-        By installing or using LinkTopics (“the Extension”), you agree to these Terms of Service.
-        If you do not agree, please uninstall the extension immediately.
-      </p>
-
-      <h2 id="license">License</h2>
-      <p>
-        LinkTopics is licensed for personal, non-commercial use. You may not reverse engineer,
-        decompile, or modify the software; redistribute or sell it without written permission; or
-        use it to violate LinkedIn’s terms or applicable laws. The Extension is provided
-        <strong> “as is” </strong>, without warranties of any kind.
-      </p>
-
-      <h2 id="acceptable-use">Acceptable Use</h2>
-      <ul>
-        <li>Use LinkTopics responsibly and only for lawful purposes.</li>
-        <li>
-          LinkTopics does <strong>not </strong> automate actions on your behalf (likes, comments, messages, etc.).
-          It only modifies how content is displayed on your screen, locally.
-        </li>
-        <li>You must comply with all LinkedIn and browser store policies.</li>
-      </ul>
-
-      <h2 id="intellectual-property">Intellectual Property</h2>
-      <p>
-        All rights, trademarks, and intellectual property associated with LinkTopics remain the
-        property of its developer. Unauthorized use of the brand, logo, or source code is prohibited.
-      </p>
-
-      <h2 id="limitation-of-liability">Limitation of Liability</h2>
-      <p>
-        To the maximum extent permitted by law, the developer is not liable for any damages, data
-        loss, or business interruption resulting from the use or inability to use LinkTopics, or
-        from changes made to LinkedIn’s interface or functionality that affect extension
-        performance. You use LinkTopics at your own risk.
-      </p>
-
-      <h2 id="termination">Termination</h2>
-      <p>
-        You may terminate this agreement at any time by uninstalling the extension. We may suspend
-        or terminate access to the extension if we suspect misuse or violation of these terms.
-      </p>
-
-      <h2 id="modifications">Modifications</h2>
-      <p>
-        We reserve the right to update or modify these Terms of Service at any time. Notice of
-        material changes will be posted on our website. Continued use of LinkTopics after such
-        updates constitutes acceptance.
-      </p>
-
-      <h2 id="contact">Contact</h2>
-      <p>
-        For questions, suggestions, or support, email{" "}
-        <a href="mailto:miguel.duquec@gmail.com">miguel.duquec@gmail.com</a>.
-      </p>
-      <p>
-        or
-      </p>
-      <p>
-        DM to <a href="https://x.com/miguelduquec">X (former Twitter)</a>
-      </p>
+      <p>By installing and using LinkTopics you agree to these terms.</p>
+      <h2>License</h2>
+      <p>LinkTopics is provided “as is” without warranties of any kind. Do not reverse engineer or redistribute.</p>
+      <h2>Acceptable use</h2>
+      <p>Use the extension responsibly and in accordance with LinkedIn’s terms. We do not automate actions on your behalf.</p>
+      <h2>Liability</h2>
+      <p>To the maximum extent permitted by law, we are not liable for any damages arising from the use of the extension.</p>
     </>
   );
 }
 
-
-function Footer() {
+export function Footer() {
   return (
     <footer>
       <div className="container footer-inner">
@@ -899,7 +843,7 @@ function Footer() {
           <div className="dot" aria-hidden="true" />
           <div>
             <div style={{fontWeight:700}}>{APP_NAME}</div>
-            <div style={{fontSize:12, color:'var(--muted)'}}>© {new Date().getFullYear()} — Independent & privacy‑friendly.</div>
+            <div style={{fontSize:12, color:'var(--muted)'}}>© {new Date().getFullYear()} — Independent & privacy-friendly.</div>
           </div>
         </div>
         <div className="footer-legal">
@@ -914,3 +858,7 @@ function Footer() {
     </footer>
   );
 }
+
+// Se quiseres usar o BlogPage definido em ./blog.jsx, o fallback acima não é usado.
+// Mantive-o aqui apenas como exemplo. Se o teu ./blog.jsx exporta por defeito BlogPage,
+// podes apagar a função BlogPageFallback e deixar a importação no topo ativa.
