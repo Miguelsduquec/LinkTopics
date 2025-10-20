@@ -44,8 +44,8 @@ function LandingPage() {
 }
 
 export function Seo() {
-  const title = "LinkTopics – Focus mode for LinkedIn";
-  const description = "Tell LinkedIn what to show: hide irrelevant posts, highlight what you care about, and reorder your feed by topics.";
+  const title = "LinkTopics – LinkedIn Feed Filter (Chrome Extension)";
+  const description = "A LinkedIn feed cleaner: hide ads and promoted posts, remove job posts from the feed, mute keywords, and highlight topics. The simplest Chrome extension to focus on what matters and keep a clean, focused LinkedIn";
   const url = "https://linktopics.me/";
   const image = "https://linktopics.me/og-image.jpg";
   const siteName = "LinkTopics";
@@ -325,7 +325,7 @@ export function Header() {
     <header className="nav">
       <div className="container nav-inner">
         <a href="/" className="brand">
-        <img src="/favicon-bg-180x180.png" alt="LinkTopics" className="brand-logo" />
+        <img src="/../favicon-bg-180x180.png" alt="LinkTopics" className="brand-logo" />
         <span>{APP_NAME}</span>
         </a>
         <nav className="nav-center">

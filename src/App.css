@@ -46,7 +46,7 @@
   width: 28px;
   height: 28px;
   border-radius: 8px;             /* ou 50% se quiseres redondo */
-  background: url("../public/favicon-bg.ico") center/cover no-repeat; /* mete aqui o ficheiro */
+  background: url("/favicon-bg.ico") center/cover no-repeat; /* mete aqui o ficheiro */
   box-shadow: var(--shadow);
 }
 

@@ -1,7 +1,7 @@
 // =============================
 // blog.jsx — SuperX-style + HTML posts (covers from thumbnails)
 // =============================
-import React, { useMemo, Children, isValidElement, cloneElement } from "react";
+import React, { useMemo, Children, isValidElement, cloneElement, useEffect } from "react";
 import "./blog.css";
 
 // HTML posts (Vite ?raw) + covers (import imagem para o bundler)
@@ -13,6 +13,162 @@ import coverFacebook from "./posts/002-linkedin-vs-facebook/thumbnail.jpeg";
 
 import postRemoveAdsHtml from "./posts/003-remove-ads/contentUseLinktopicsToRemoveAds.html?raw";
 import coverRemoveAds from "./posts/003-remove-ads/thumbnail.jpeg";
+
+/* --- SEO UTILITIES (head helpers) --- */
+function setMeta(attr, key, value) {
+  if (!value) return;
+  let el = document.head.querySelector(`meta[${attr}="${key}"]`);
+  if (!el) {
+    el = document.createElement("meta");
+    el.setAttribute(attr, key);
+    document.head.appendChild(el);
+  }
+  el.setAttribute("content", value);
+}
+function setTitle(title) {
+  if (title) document.title = title;
+}
+function setLink(rel, href, extra = {}) {
+  if (!href) return;
+  let el = Array.from(document.head.querySelectorAll(`link[rel="${rel}"]`)).find(x => x.getAttribute("href") === href);
+  if (!el) {
+    el = document.createElement("link");
+    el.setAttribute("rel", rel);
+    el.setAttribute("href", href);
+    for (const k in extra) el.setAttribute(k, extra[k]);
+    document.head.appendChild(el);
+  } else {
+    el.setAttribute("href", href);
+  }
+}
+function setJsonLd(id, data) {
+  if (!data) return;
+  let s = document.getElementById(id);
+  if (!s) {
+    s = document.createElement("script");
+    s.type = "application/ld+json";
+    s.id = id;
+    document.head.appendChild(s);
+  }
+  s.textContent = JSON.stringify(data);
+}
+function siteOrigin() {
+  return typeof window !== "undefined" ? window.location.origin : "https://linktopics.me";
+}
+
+/* --- BLOG SEO COMPONENTS --- */
+function BlogListSeo() {
+  const title = "Blog – LinkedIn Feed Filter Tips (Chrome Extension) | LinkTopics";
+  const description =
+    "Guides to clean your LinkedIn feed: hide ads/sponsored, mute keywords, highlight topics, and boost productivity with LinkTopics (Chrome extension).";
+  const url = siteOrigin() + "/blog";
+  const image = siteOrigin() + "/og-image.jpg";
+
+  useEffect(() => {
+    setTitle(title);
+    setMeta("name", "description", description);
+    setLink("canonical", url);
+
+    // Open Graph
+    setMeta("property", "og:title", title);
+    setMeta("property", "og:description", description);
+    setMeta("property", "og:type", "website");
+    setMeta("property", "og:url", url);
+    setMeta("property", "og:image", image);
+    setMeta("property", "og:site_name", "LinkTopics");
+
+    // Twitter
+    setMeta("name", "twitter:card", "summary_large_image");
+    setMeta("name", "twitter:title", title);
+    setMeta("name", "twitter:description", description);
+    setMeta("name", "twitter:image", image);
+    setMeta("name", "twitter:site", "@miguelduquec");
+
+    // BreadcrumbList
+    setJsonLd("ld-breadcrumb", {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", position: 1, name: "Home", item: siteOrigin() + "/" },
+        { "@type": "ListItem", position: 2, name: "Blog", item: url }
+      ]
+    });
+  }, [title, description, url, image]);
+
+  return null;
+}
+
+function BlogPostSeo({ post }) {
+  const origin = siteOrigin();
+  const url = `${origin}/blog/${post.slug}`;
+  const title = `${post.title} | LinkTopics – LinkedIn Feed Filter`;
+  const description =
+    post.excerpt ||
+    "Filter your LinkedIn feed: hide sponsored/promoted posts, mute keywords, and highlight topics with LinkTopics.";
+  const image = post.cover ? (post.cover.startsWith("http") ? post.cover : origin + post.cover) : origin + "/og-image.jpg";
+
+  // tenta normalizar data
+  const toISO = (d) => {
+    try {
+      const dt = new Date(d);
+      return isNaN(dt.getTime()) ? undefined : dt.toISOString();
+    } catch { return undefined; }
+  };
+  const datePublished = post.dateISO || toISO(post.date);
+  const dateModified = post.updatedISO || datePublished;
+
+  useEffect(() => {
+    setTitle(title);
+    setMeta("name", "description", description);
+    setLink("canonical", url);
+
+    // Open Graph (article)
+    setMeta("property", "og:title", title);
+    setMeta("property", "og:description", description);
+    setMeta("property", "og:type", "article");
+    setMeta("property", "og:url", url);
+    setMeta("property", "og:image", image);
+    setMeta("property", "og:site_name", "LinkTopics");
+
+    // Twitter
+    setMeta("name", "twitter:card", "summary_large_image");
+    setMeta("name", "twitter:title", title);
+    setMeta("name", "twitter:description", description);
+    setMeta("name", "twitter:image", image);
+    setMeta("name", "twitter:site", "@miguelduquec");
+
+    // Article JSON-LD
+    setJsonLd("ld-article", {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: post.title,
+      description,
+      image: [image],
+      url,
+      datePublished,
+      dateModified,
+      author: { "@type": "Person", name: "Miguel Duque" },
+      publisher: {
+        "@type": "Organization",
+        name: "LinkTopics",
+        logo: { "@type": "ImageObject", url: origin + "/apple-touch-icon.png" }
+      }
+    });
+
+    // Breadcrumbs
+    setJsonLd("ld-breadcrumb", {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", position: 1, name: "Home", item: origin + "/" },
+        { "@type": "ListItem", position: 2, name: "Blog", item: origin + "/blog" },
+        { "@type": "ListItem", position: 3, name: post.title, item: url }
+      ]
+    });
+  }, [title, description, url, image, datePublished, dateModified, post.title, origin]);
+
+  return null;
+}
 
 /* --- UTILITIES --- */
 const slugify = (str = "") =>
@@ -103,9 +259,10 @@ const posts = [
     slug: "stay-focused-on-linkedin-with-linktopics",
     title: "Stay Focused on LinkedIn with LinkTopics",
     date: "Oct 12, 2025",
+    dateISO: "2025-10-12T00:00:00.000Z",
     cover: coverIntro,
     excerpt:
-      "Focus mode for LinkedIn: cut noise and keep only the topics that matter.",
+      "LinkedIn feed filter: cut noise, hide irrelevant posts, and keep only the topics that matter.",
     html: postIntroHtml, // ./posts/001-focus-mode/content.html
     tags: ["guide", "productivity"],
   },
@@ -113,9 +270,10 @@ const posts = [
     slug: "is-linkedin-turning-into-facebook-not-anymore",
     title: "Is LinkedIn Turning Into Facebook? Not Anymore.",
     date: "Oct 11, 2025",
+    dateISO: "2025-10-11T00:00:00.000Z",
     cover: coverFacebook,
     excerpt:
-      "Why knowledge-first beats virality on LinkedIn — and how to adapt.",
+      "Why knowledge-first beats virality on LinkedIn — and how to adapt with filters and topic highlights.",
     html: postFacebookHtml, // ./posts/002-linkedin-vs-facebook/contentTurnToFacebook.html
     tags: ["algorithms", "strategy"],
   },
@@ -123,9 +281,10 @@ const posts = [
     slug: "remove-ads-and-noise-on-linkedin",
     title: "Remove Ads & Noise on LinkedIn with LinkTopics",
     date: "Oct 10, 2025",
+    dateISO: "2025-10-10T00:00:00.000Z",
     cover: coverRemoveAds,
     excerpt:
-      "Hide promoted posts, likes, and job spam. Make your feed useful again.",
+      "Hide sponsored/promoted posts, likes, and job spam. Clean your LinkedIn feed and focus on what matters.",
     html: postRemoveAdsHtml, // ./posts/003-remove-ads/contentUseLinktopicsToRemoveAds.html
     tags: ["how-to", "filters"],
   },
@@ -135,7 +294,6 @@ const posts = [
 function SectionHeader({ eyebrow, title, subtitle }) {
   return (
     <div className="blog-sec-header">
-
       <h1 className="blog-h1">{title}</h1>
       {subtitle && <p className="blog-sub">{subtitle}</p>}
     </div>
@@ -224,6 +382,7 @@ function TableOfContents({ headings }) {
 function BlogList() {
   return (
     <section className="blog-section">
+      <BlogListSeo />
       <div className="container blog-container">
         <SectionHeader
           eyebrow="Blog"
@@ -285,6 +444,7 @@ function BlogPost({ post }) {
 
   return (
     <article className="blog-article">
+      <BlogPostSeo post={post} />
       <div className="container blog-container">
         <nav className="blog-breadcrumbs">
           <a href="/blog" aria-label="Back to blog">
