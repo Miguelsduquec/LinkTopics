@@ -48,7 +48,7 @@ export function Seo() {
   const description =
     "A LinkedIn feed cleaner: hide ads and promoted posts, remove job posts from the feed, mute keywords, and highlight topics. The simplest Chrome extension to focus on what matters and keep a clean, focused LinkedIn";
   const url = "https://www.linktopics.me/"; // usa o domínio final com www se for o canónico
-  const ogImage = `${url}og/linktopics-og-1200x630.png`; // 1200x630, <=5MB, HTTPS
+  const ogImage = `${url}1280x630_OG_image.png`;
   const siteName = "LinkTopics";
 
   const jsonLdSoftware = {
@@ -128,27 +128,7 @@ export function Seo() {
     linkRel("sitemap", "/sitemap.xml", { type: "application/xml" });
 
     // Open Graph
-    setMeta("property", "og:title", title);
-    setMeta("property", "og:description", description);
-    setMeta("property", "og:type", "website");
-    setMeta("property", "og:url", url);
-    setMeta("property", "og:site_name", siteName);
-    setMeta("property", "og:image", ogImage);
-    setMeta("property", "og:image:width", "1200");
-    setMeta("property", "og:image:height", "630");
-    setMeta("property", "og:image:alt", "LinkTopics – Filter your LinkedIn feed by topic");
-    setMeta("property", "og:locale", "en_US");
-
-    // Twitter / X
-    setMeta("name", "twitter:card", "summary_large_image");
-    setMeta("name", "twitter:title", title);
-    setMeta("name", "twitter:description", description);
-    setMeta("name", "twitter:image", ogImage);
-    setMeta("name", "twitter:image:alt", "LinkTopics – Filter your LinkedIn feed by topic");
-    setMeta("name", "twitter:site", "@miguelduquec");
-    setMeta("name", "twitter:domain", "linktopics.me");
-    // opcional: o og:url já cobre isto
-    // setMeta("name", "twitter:url", url);
+    ;
 
     // Structured Data
     scriptJson("ld-software", jsonLdSoftware);
