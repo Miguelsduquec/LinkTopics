@@ -45,52 +45,53 @@ function LandingPage() {
 
 export function Seo() {
   const title = "LinkTopics – LinkedIn Feed Filter (Chrome Extension)";
-  const description = "A LinkedIn feed cleaner: hide ads and promoted posts, remove job posts from the feed, mute keywords, and highlight topics. The simplest Chrome extension to focus on what matters and keep a clean, focused LinkedIn";
-  const url = "https://linktopics.me/";
-  const image = '../public/favicon-64x64.png';
+  const description =
+    "A LinkedIn feed cleaner: hide ads and promoted posts, remove job posts from the feed, mute keywords, and highlight topics. The simplest Chrome extension to focus on what matters and keep a clean, focused LinkedIn";
+  const url = "https://www.linktopics.me/"; // usa o domínio final com www se for o canónico
+  const ogImage = `${url}og/linktopics-og-1200x630.png`; // 1200x630, <=5MB, HTTPS
   const siteName = "LinkTopics";
 
   const jsonLdSoftware = {
-    '@context': 'https://schema.org',
-    '@type': 'SoftwareApplication',
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
     name: siteName,
-    applicationCategory: 'BrowserExtension',
-    operatingSystem: 'Chrome, Edge',
+    applicationCategory: "BrowserExtension",
+    operatingSystem: "Chrome, Edge",
     offers: [
-      { '@type': 'Offer', price: '0', priceCurrency: 'USD', name: 'Free' },
-      { '@type': 'Offer', price: '4.99', priceCurrency: 'USD', name: 'Pro (monthly)'},
-      { '@type': 'Offer', price: '48', priceCurrency: 'USD', priceValidUntil: '2026-12-31', name: 'Pro (yearly)'}
+      { "@type": "Offer", price: "0", priceCurrency: "USD", name: "Free" },
+      { "@type": "Offer", price: "4.99", priceCurrency: "USD", name: "Pro (monthly)" },
+      { "@type": "Offer", price: "48", priceCurrency: "USD", priceValidUntil: "2026-12-31", name: "Pro (yearly)" }
     ],
     description
   };
 
   const jsonLdFAQ = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
     mainEntity: [
-      { '@type': 'Question', name: 'Is my data safe?', acceptedAnswer: { '@type': 'Answer', text: 'Everything runs locally in your browser. No risky automations.' } },
-      { '@type': 'Question', name: 'Which browsers are supported?', acceptedAnswer: { '@type': 'Answer', text: 'Chrome, Brave and Edge (Chromium). Firefox on the roadmap.' } }
+      { "@type": "Question", name: "Is my data safe?", acceptedAnswer: { "@type": "Answer", text: "Everything runs locally in your browser. No risky automations." } },
+      { "@type": "Question", name: "Which browsers are supported?", acceptedAnswer: { "@type": "Answer", text: "Chrome, Brave and Edge (Chromium). Firefox on the roadmap." } }
     ]
   };
 
   useEffect(() => {
     const ensureCharset = () => {
-      let c = document.head.querySelector('meta[charset]');
-      if (!c) { c = document.createElement('meta'); c.setAttribute('charset', 'utf-8'); document.head.prepend(c); }
+      let c = document.head.querySelector("meta[charset]");
+      if (!c) { c = document.createElement("meta"); c.setAttribute("charset", "utf-8"); document.head.prepend(c); }
     };
 
     const setMeta = (attr, key, value) => {
       let el = document.head.querySelector(`meta[${attr}="${key}"]`);
-      if (!el) { el = document.createElement('meta'); el.setAttribute(attr, key); document.head.appendChild(el); }
-      el.setAttribute('content', value);
+      if (!el) { el = document.createElement("meta"); el.setAttribute(attr, key); document.head.appendChild(el); }
+      el.setAttribute("content", value);
     };
 
     const linkRel = (rel, href, extra = {}) => {
-      let l = Array.from(document.head.querySelectorAll(`link[rel="${rel}"]`)).find(x => x.getAttribute('href') === href);
+      let l = Array.from(document.head.querySelectorAll(`link[rel="${rel}"]`)).find(x => x.getAttribute("href") === href);
       if (!l) {
-        l = document.createElement('link');
-        l.setAttribute('rel', rel);
-        l.setAttribute('href', href);
+        l = document.createElement("link");
+        l.setAttribute("rel", rel);
+        l.setAttribute("href", href);
         for (const k in extra) l.setAttribute(k, extra[k]);
         document.head.appendChild(l);
       }
@@ -98,54 +99,65 @@ export function Seo() {
 
     const scriptJson = (id, data) => {
       let s = document.getElementById(id);
-      if (!s) { s = document.createElement('script'); s.type = 'application/ld+json'; s.id = id; document.head.appendChild(s); }
+      if (!s) { s = document.createElement("script"); s.type = "application/ld+json"; s.id = id; document.head.appendChild(s); }
       s.textContent = JSON.stringify(data);
     };
 
-    document.documentElement.lang = 'en';
+    document.documentElement.lang = "en";
     document.title = title;
     ensureCharset();
 
-    setMeta('name', 'description', description);
-    setMeta('name', 'viewport', 'width=device-width, initial-scale=1, viewport-fit=cover');
-    setMeta('name', 'theme-color', '#ffffff');
-    setMeta('name', 'robots', 'index,follow,max-image-preview:large');
-    setMeta('name', 'referrer', 'origin-when-cross-origin');
+    // Essentials
+    setMeta("name", "description", description);
+    setMeta("name", "viewport", "width=device-width, initial-scale=1, viewport-fit=cover");
+    setMeta("name", "theme-color", "#ffffff");
+    setMeta("name", "robots", "index,follow,max-image-preview:large");
+    setMeta("name", "referrer", "origin-when-cross-origin");
 
-    linkRel('canonical', url);
-    linkRel('preconnect', 'https://fonts.gstatic.com', { crossorigin: '' });
-    linkRel('preconnect', 'https://fonts.googleapis.com');
-    linkRel('stylesheet', 'https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
-    linkRel('preconnect', 'https://www.youtube.com');
-    linkRel('preconnect', 'https://i.ytimg.com');
-    linkRel('icon', '/favicon-32x32.png', { sizes: '32x32', type: 'image/png' });
-    linkRel('icon', '/favicon-16x16.png', { sizes: '16x16', type: 'image/png' });
-    linkRel('apple-touch-icon', '/apple-touch-icon.png');
-    linkRel('manifest', '/site.webmanifest');
-    linkRel('sitemap', '/sitemap.xml', { type: 'application/xml' });
+    // Links
+    linkRel("canonical", url);
+    linkRel("preconnect", "https://fonts.gstatic.com", { crossorigin: "" });
+    linkRel("preconnect", "https://fonts.googleapis.com");
+    linkRel("stylesheet", "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap");
+    linkRel("preconnect", "https://www.youtube.com");
+    linkRel("preconnect", "https://i.ytimg.com");
+    linkRel("icon", "/favicon-32x32.png", { sizes: "32x32", type: "image/png" });
+    linkRel("icon", "/favicon-16x16.png", { sizes: "16x16", type: "image/png" });
+    linkRel("apple-touch-icon", "/apple-touch-icon.png");
+    linkRel("manifest", "/site.webmanifest");
+    linkRel("sitemap", "/sitemap.xml", { type: "application/xml" });
 
-    setMeta('property', 'og:title', title);
-    setMeta('property', 'og:description', description);
-    setMeta('property', 'og:type', 'website');
-    setMeta('property', 'og:url', url);
-    setMeta('property', 'og:site_name', siteName);
-    setMeta('property', 'og:image', image);
-    setMeta('property', 'og:image:width', '1200');
-    setMeta('property', 'og:image:height', '630');
-    setMeta('property', 'og:locale', 'en_US');
+    // Open Graph
+    setMeta("property", "og:title", title);
+    setMeta("property", "og:description", description);
+    setMeta("property", "og:type", "website");
+    setMeta("property", "og:url", url);
+    setMeta("property", "og:site_name", siteName);
+    setMeta("property", "og:image", ogImage);
+    setMeta("property", "og:image:width", "1200");
+    setMeta("property", "og:image:height", "630");
+    setMeta("property", "og:image:alt", "LinkTopics – Filter your LinkedIn feed by topic");
+    setMeta("property", "og:locale", "en_US");
 
-    setMeta('name', 'twitter:card', '../public/favicon-64x64.png');
-    setMeta('name', 'twitter:title', title);
-    setMeta('name', 'twitter:description', description);
-    setMeta('name', 'twitter:image', image);
-    setMeta('name', 'twitter:site', '@miguelduquec');
+    // Twitter / X
+    setMeta("name", "twitter:card", "summary_large_image");
+    setMeta("name", "twitter:title", title);
+    setMeta("name", "twitter:description", description);
+    setMeta("name", "twitter:image", ogImage);
+    setMeta("name", "twitter:image:alt", "LinkTopics – Filter your LinkedIn feed by topic");
+    setMeta("name", "twitter:site", "@miguelduquec");
+    setMeta("name", "twitter:domain", "linktopics.me");
+    // opcional: o og:url já cobre isto
+    // setMeta("name", "twitter:url", url);
 
-    scriptJson('ld-software', jsonLdSoftware);
-    scriptJson('ld-faq', jsonLdFAQ);
+    // Structured Data
+    scriptJson("ld-software", jsonLdSoftware);
+    scriptJson("ld-faq", jsonLdFAQ);
   }, []);
 
   return null;
 }
+
 
 export function StyleTag() {
   return (
