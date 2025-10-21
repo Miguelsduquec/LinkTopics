@@ -47,7 +47,7 @@ export function Seo() {
   const title = "LinkTopics – LinkedIn Feed Filter (Chrome Extension)";
   const description = "A LinkedIn feed cleaner: hide ads and promoted posts, remove job posts from the feed, mute keywords, and highlight topics. The simplest Chrome extension to focus on what matters and keep a clean, focused LinkedIn";
   const url = "https://linktopics.me/";
-  const image = "https://linktopics.me/og-image.jpg";
+  const image = '../public/favicon-64x64.png';
   const siteName = "LinkTopics";
 
   const jsonLdSoftware = {
@@ -134,7 +134,7 @@ export function Seo() {
     setMeta('property', 'og:image:height', '630');
     setMeta('property', 'og:locale', 'en_US');
 
-    setMeta('name', 'twitter:card', 'summary_large_image');
+    setMeta('name', 'twitter:card', '../public/favicon-64x64.png');
     setMeta('name', 'twitter:title', title);
     setMeta('name', 'twitter:description', description);
     setMeta('name', 'twitter:image', image);
