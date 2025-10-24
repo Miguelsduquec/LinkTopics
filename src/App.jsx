@@ -677,7 +677,7 @@ function Pricing({ annual, setAnnual }) {
               {annual && (<li className="em"><span className="price-em">Save $12</span></li>)}
               <li>Unlimited topics</li>
               <li>Highlight topics show first in feed</li>
-              <li>More topics: Personal stories, Achievements, Live videos, Network, and more.</li>
+              <li>More topics: Reacted by, Personal stories, Achievements, Live videos and more.</li>
               <li>Presets for Devs, Founders, HR, Sales</li>
               <li>Personal analytics & weekly summary</li>
               <li>Priority support</li>

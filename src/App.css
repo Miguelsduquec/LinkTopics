@@ -126,3 +126,7 @@
   display: none !important;
 }
 
+.price-list {
+  list-style-type: none;
+  padding-left: 0;
+}
