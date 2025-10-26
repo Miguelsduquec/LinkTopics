@@ -1,0 +1,20 @@
+# Robots.txt — LinkTopics
+# Este ficheiro indica aos motores de busca o que podem rastrear e onde encontrar o sitemap
+
+User-agent: *
+Allow: /
+
+# Evita rastreamento de ficheiros técnicos ou desnecessários
+Disallow: /src/
+Disallow: /node_modules/
+Disallow: /assets/
+Disallow: /*.js$
+Disallow: /*.css$
+Disallow: /*.map$
+Disallow: /*.json$
+
+# Permite indexação completa do conteúdo público
+Allow: /$
+
+# Indica a localização do sitemap principal
+Sitemap: https://linktopics.me/sitemap.xml
