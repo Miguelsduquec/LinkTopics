@@ -1,7 +1,13 @@
 // =============================
-// blog.jsx — SuperX-style + HTML posts (covers from thumbnails)
+// blog.jsx — Blog com HTML posts + SEO dinâmico
 // =============================
-import React, { useMemo, Children, isValidElement, cloneElement, useEffect } from "react";
+import React, {
+  useMemo,
+  Children,
+  isValidElement,
+  cloneElement,
+  useEffect,
+} from "react";
 import "./blog.css";
 
 // HTML posts (Vite ?raw) + covers (import imagem para o bundler)
@@ -14,7 +20,9 @@ import coverFacebook from "./posts/002-linkedin-vs-facebook/thumbnail.jpeg";
 import postRemoveAdsHtml from "./posts/003-remove-ads/contentUseLinktopicsToRemoveAds.html?raw";
 import coverRemoveAds from "./posts/003-remove-ads/thumbnail.jpeg";
 
-/* --- SEO UTILITIES (head helpers) --- */
+/* ----------------------------------------------------
+   HEAD helpers
+---------------------------------------------------- */
 function setMeta(attr, key, value) {
   if (!value) return;
   let el = document.head.querySelector(`meta[${attr}="${key}"]`);
@@ -30,16 +38,15 @@ function setTitle(title) {
 }
 function setLink(rel, href, extra = {}) {
   if (!href) return;
-  let el = Array.from(document.head.querySelectorAll(`link[rel="${rel}"]`)).find(x => x.getAttribute("href") === href);
+  // tenta encontrar um link existente do mesmo rel
+  let el = document.head.querySelector(`link[rel="${rel}"]`);
   if (!el) {
     el = document.createElement("link");
     el.setAttribute("rel", rel);
-    el.setAttribute("href", href);
-    for (const k in extra) el.setAttribute(k, extra[k]);
     document.head.appendChild(el);
-  } else {
-    el.setAttribute("href", href);
   }
+  el.setAttribute("href", href);
+  for (const k in extra) el.setAttribute(k, extra[k]);
 }
 function setJsonLd(id, data) {
   if (!data) return;
@@ -53,16 +60,21 @@ function setJsonLd(id, data) {
   s.textContent = JSON.stringify(data);
 }
 function siteOrigin() {
-  return typeof window !== "undefined" ? window.location.origin : "https://linktopics.me";
+  return typeof window !== "undefined"
+    ? window.location.origin
+    : "https://linktopics.me";
 }
 
-/* --- BLOG SEO COMPONENTS --- */
+/* ----------------------------------------------------
+   BLOG SEO
+---------------------------------------------------- */
 function BlogListSeo() {
-  const title = "Blog – LinkedIn Feed Filter Tips (Chrome Extension) | LinkTopics";
+  const title =
+    "Blog – LinkedIn Feed Filter Tips (Chrome Extension) | LinkTopics";
   const description =
     "Guides to clean your LinkedIn feed: hide ads/sponsored, mute keywords, highlight topics, and boost productivity with LinkTopics (Chrome extension).";
   const url = siteOrigin() + "/blog";
-  const image = siteOrigin() + "/og-image.jpg";
+  const image = siteOrigin() + "/1280x630_OG_image.png";
 
   useEffect(() => {
     setTitle(title);
@@ -75,6 +87,8 @@ function BlogListSeo() {
     setMeta("property", "og:type", "website");
     setMeta("property", "og:url", url);
     setMeta("property", "og:image", image);
+    setMeta("property", "og:image:width", "1200");
+    setMeta("property", "og:image:height", "630");
     setMeta("property", "og:site_name", "LinkTopics");
 
     // Twitter
@@ -88,10 +102,10 @@ function BlogListSeo() {
     setJsonLd("ld-breadcrumb", {
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
-      "itemListElement": [
+      itemListElement: [
         { "@type": "ListItem", position: 1, name: "Home", item: siteOrigin() + "/" },
-        { "@type": "ListItem", position: 2, name: "Blog", item: url }
-      ]
+        { "@type": "ListItem", position: 2, name: "Blog", item: url },
+      ],
     });
   }, [title, description, url, image]);
 
@@ -105,17 +119,24 @@ function BlogPostSeo({ post }) {
   const description =
     post.excerpt ||
     "Filter your LinkedIn feed: hide sponsored/promoted posts, mute keywords, and highlight topics with LinkTopics.";
-  const image = post.cover ? (post.cover.startsWith("http") ? post.cover : origin + post.cover) : origin + "/og-image.jpg";
+  const image = post.cover
+    ? post.cover.startsWith("http")
+      ? post.cover
+      : origin + post.cover
+    : origin + "/1280x630_OG_image.png";
 
-  // tenta normalizar data
   const toISO = (d) => {
     try {
       const dt = new Date(d);
       return isNaN(dt.getTime()) ? undefined : dt.toISOString();
-    } catch { return undefined; }
+    } catch {
+      return undefined;
+    }
   };
   const datePublished = post.dateISO || toISO(post.date);
   const dateModified = post.updatedISO || datePublished;
+  const section = post.tags?.[0] || "LinkedIn";
+  const tags = post.tags || [];
 
   useEffect(() => {
     setTitle(title);
@@ -128,6 +149,8 @@ function BlogPostSeo({ post }) {
     setMeta("property", "og:type", "article");
     setMeta("property", "og:url", url);
     setMeta("property", "og:image", image);
+    setMeta("property", "og:image:width", "1200");
+    setMeta("property", "og:image:height", "630");
     setMeta("property", "og:site_name", "LinkTopics");
 
     // Twitter
@@ -137,7 +160,19 @@ function BlogPostSeo({ post }) {
     setMeta("name", "twitter:image", image);
     setMeta("name", "twitter:site", "@miguelduquec");
 
-    // Article JSON-LD
+    // Article meta
+    if (datePublished)
+      setMeta("property", "article:published_time", datePublished);
+    if (dateModified)
+      setMeta("property", "article:modified_time", dateModified);
+    setMeta("property", "article:section", section);
+    // remove tags antigos para evitar duplicados
+    document
+      .querySelectorAll('meta[property="article:tag"]')
+      .forEach((m) => m.remove());
+    tags.forEach((t) => setMeta("property", "article:tag", t));
+
+    // JSON-LD Article
     setJsonLd("ld-article", {
       "@context": "https://schema.org",
       "@type": "Article",
@@ -151,26 +186,42 @@ function BlogPostSeo({ post }) {
       publisher: {
         "@type": "Organization",
         name: "LinkTopics",
-        logo: { "@type": "ImageObject", url: origin + "/apple-touch-icon.png" }
-      }
+        logo: {
+          "@type": "ImageObject",
+          url: origin + "/favicon-bg-180x180.png",
+        },
+      },
     });
 
     // Breadcrumbs
     setJsonLd("ld-breadcrumb", {
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
-      "itemListElement": [
+      itemListElement: [
         { "@type": "ListItem", position: 1, name: "Home", item: origin + "/" },
         { "@type": "ListItem", position: 2, name: "Blog", item: origin + "/blog" },
-        { "@type": "ListItem", position: 3, name: post.title, item: url }
-      ]
+        { "@type": "ListItem", position: 3, name: post.title, item: url },
+      ],
     });
-  }, [title, description, url, image, datePublished, dateModified, post.title, origin]);
+  }, [
+    title,
+    description,
+    url,
+    image,
+    datePublished,
+    dateModified,
+    post.title,
+    origin,
+    section,
+    tags,
+  ]);
 
   return null;
 }
 
-/* --- UTILITIES --- */
+/* ----------------------------------------------------
+   Utils de conteúdo
+---------------------------------------------------- */
 const slugify = (str = "") =>
   String(str)
     .toLowerCase()
@@ -219,13 +270,16 @@ function enhanceHtml(html = "") {
   if (typeof window === "undefined" || typeof DOMParser === "undefined") {
     const re = /<h([23])[^>]*>([\s\S]*?)<\/h\1>/gi;
     const headings = [];
-    let m, output = html;
+    let m,
+      output = html;
     while ((m = re.exec(html))) {
       const level = Number(m[1]);
       const text = m[2].replace(/<[^>]+>/g, "").trim();
       const id = slugify(text);
       output = output.replace(m[0], (full) =>
-        /id="/.test(full) ? full : full.replace(/<h[23]/, (x) => `${x} id="${id}"`)
+        /id="/.test(full)
+          ? full
+          : full.replace(/<h[23]/, (x) => `${x} id="${id}"`)
       );
       headings.push({ id, text, level });
     }
@@ -248,12 +302,13 @@ function readingTimeFromText(text = "") {
   const words = text.trim().split(/\s+/).filter(Boolean).length;
   return Math.max(1, Math.round(words / 200));
 }
-
 function estimateReadingTime(content) {
   return readingTimeFromText(collectText(content));
 }
 
-/* --- POSTS (HTML only; add more as needed) --- */
+/* ----------------------------------------------------
+   POSTS
+---------------------------------------------------- */
 const posts = [
   {
     slug: "stay-focused-on-linkedin-with-linktopics",
@@ -263,7 +318,7 @@ const posts = [
     cover: coverIntro,
     excerpt:
       "LinkedIn feed filter: cut noise, hide irrelevant posts, and keep only the topics that matter.",
-    html: postIntroHtml, // ./posts/001-focus-mode/content.html
+    html: postIntroHtml,
     tags: ["guide", "productivity"],
   },
   {
@@ -274,7 +329,7 @@ const posts = [
     cover: coverFacebook,
     excerpt:
       "Why knowledge-first beats virality on LinkedIn — and how to adapt with filters and topic highlights.",
-    html: postFacebookHtml, // ./posts/002-linkedin-vs-facebook/contentTurnToFacebook.html
+    html: postFacebookHtml,
     tags: ["algorithms", "strategy"],
   },
   {
@@ -285,13 +340,15 @@ const posts = [
     cover: coverRemoveAds,
     excerpt:
       "Hide sponsored/promoted posts, likes, and job spam. Clean your LinkedIn feed and focus on what matters.",
-    html: postRemoveAdsHtml, // ./posts/003-remove-ads/contentUseLinktopicsToRemoveAds.html
+    html: postRemoveAdsHtml,
     tags: ["how-to", "filters"],
   },
 ];
 
-/* --- SMALL UI PRIMITIVES --- */
-function SectionHeader({ eyebrow, title, subtitle }) {
+/* ----------------------------------------------------
+   UI primitives
+---------------------------------------------------- */
+function SectionHeader({ title, subtitle }) {
   return (
     <div className="blog-sec-header">
       <h1 className="blog-h1">{title}</h1>
@@ -299,34 +356,9 @@ function SectionHeader({ eyebrow, title, subtitle }) {
     </div>
   );
 }
-
 function Tag({ children }) {
   return <span className="blog-tag">{children}</span>;
 }
-
-function Callout({ icon = "💡", label = "Tip", children }) {
-  return (
-    <div className="callout">
-      <div className="callout-icon" aria-hidden>
-        {icon}
-      </div>
-      <div className="callout-body">
-        <div className="callout-label">{label}</div>
-        <div>{children}</div>
-      </div>
-    </div>
-  );
-}
-
-function TipBox({ title, children }) {
-  return (
-    <div className="tipbox">
-      <div className="tipbox-title">{title}</div>
-      <div className="tipbox-body">{children}</div>
-    </div>
-  );
-}
-
 function ShareBar({ title, slug }) {
   const url =
     typeof window !== "undefined" ? window.location.origin + "/blog/" + slug : "";
@@ -359,7 +391,6 @@ function ShareBar({ title, slug }) {
     </div>
   );
 }
-
 function TableOfContents({ headings }) {
   if (!headings?.length) return null;
   return (
@@ -378,14 +409,15 @@ function TableOfContents({ headings }) {
   );
 }
 
-/* --- PAGE LAYOUTS --- */
+/* ----------------------------------------------------
+   Page layouts
+---------------------------------------------------- */
 function BlogList() {
   return (
     <section className="blog-section">
       <BlogListSeo />
       <div className="container blog-container">
         <SectionHeader
-          eyebrow="Blog"
           title="Latest posts"
           subtitle="Grow faster on LinkedIn with focus & smart filtering."
         />
@@ -489,7 +521,9 @@ function BlogPost({ post }) {
   );
 }
 
-/* --- TOP-LEVEL PAGE: decides between list or detail --- */
+/* ----------------------------------------------------
+   Top-level router
+---------------------------------------------------- */
 export default function BlogPage() {
   const path =
     typeof window !== "undefined" ? window.location.pathname : "/blog";
@@ -505,7 +539,7 @@ export default function BlogPage() {
     return (
       <section className="blog-section">
         <div className="container blog-container">
-          <SectionHeader eyebrow="Blog" title="Post not found" />
+          <SectionHeader title="Post not found" />
           <p>
             We couldn’t find that post. <a href="/blog">Go back to the blog.</a>
           </p>

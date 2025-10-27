@@ -1,9 +1,6 @@
 # Robots.txt — LinkTopics
 # Este ficheiro indica aos motores de busca o que podem rastrear e onde encontrar o sitemap
 
-User-agent: *
-Allow: /
-
 # Evita rastreamento de ficheiros técnicos ou desnecessários
 Disallow: /src/
 Disallow: /node_modules/
@@ -18,3 +15,12 @@ Allow: /$
 
 # Indica a localização do sitemap principal
 Sitemap: https://linktopics.me/sitemap.xml
+
+User-agent: *
+Allow: /
+Sitemap: https://www.linktopics.me/sitemap.xml
+
+# Bloquear ficheiros técnicos
+Disallow: /src/
+Disallow: /node_modules/
+Disallow: /vite.svg
