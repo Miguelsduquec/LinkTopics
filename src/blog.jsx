@@ -60,10 +60,11 @@ function setJsonLd(id, data) {
   s.textContent = JSON.stringify(data);
 }
 function siteOrigin() {
-  return typeof window !== "undefined"
-    ? window.location.origin
-    : "https://linktopics.me";
+  if (typeof window === "undefined") return "https://www.linktopics.me";
+  const o = window.location.origin || "https://www.linktopics.me";
+  return o.replace("://linktopics.me", "://www.linktopics.me");
 }
+
 
 /* ----------------------------------------------------
    BLOG SEO
