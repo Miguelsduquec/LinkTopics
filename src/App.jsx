@@ -21,12 +21,29 @@ export default function AppRouter() {
       <Footer />
     </main>
   );
-  
-    return <LandingPage />;
+
+  return <LandingPage />;
 }
 
 function LandingPage() {
   const [annual, setAnnual] = useState(true);
+
+  // --- Scroll suave para a âncora (#hash) ---
+  useEffect(() => {
+    const scrollToHash = () => {
+      const h = decodeURIComponent(window.location.hash || "").replace("#", "");
+      if (!h) return;
+      requestAnimationFrame(() => {
+        const el = document.getElementById(h);
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    };
+    scrollToHash();
+    window.addEventListener("hashchange", scrollToHash);
+    return () => window.removeEventListener("hashchange", scrollToHash);
+  }, []);
+  // -----------------------------------------
+
   return (
     <main className="ltp-root">
       <Seo />
@@ -34,7 +51,7 @@ function LandingPage() {
       <Header />
       <Hero />
       <SocialProof />
-      <HowItWorks />
+      {/* Secção HowItWorks removida */}
       <Pricing annual={annual} setAnnual={setAnnual} />
       <FAQ />
       <FinalCTA />
@@ -47,7 +64,7 @@ export function Seo() {
   const title = "LinkTopics – LinkedIn Feed Filter (Chrome Extension)";
   const description =
     "A LinkedIn feed cleaner: hide ads and promoted posts, remove job posts from the feed, mute keywords, and highlight topics. The simplest Chrome extension to focus on what matters and keep a clean, focused LinkedIn";
-  const url = "https://www.linktopics.me/"; // usa o domínio final com www se for o canónico
+  const url = "https://www.linktopics.me/";
   const ogImage = `${url}1280x630_OG_image.png`;
   const siteName = "LinkTopics";
 
@@ -127,9 +144,6 @@ export function Seo() {
     linkRel("manifest", "/site.webmanifest");
     linkRel("sitemap", "/sitemap.xml", { type: "application/xml" });
 
-    // Open Graph
-    ;
-
     // Structured Data
     scriptJson("ld-software", jsonLdSoftware);
     scriptJson("ld-faq", jsonLdFAQ);
@@ -137,7 +151,6 @@ export function Seo() {
 
   return null;
 }
-
 
 export function StyleTag() {
   return (
@@ -186,72 +199,6 @@ export function StyleTag() {
       .hero-visual { display:flex; flex-direction:column; gap:16px; }
       .video-wrap { aspect-ratio:16/9; width:100%; border-radius:16px; overflow:hidden; box-shadow:var(--shadow); background:#000; }
       @media (max-width:480px){ .video-wrap{ border-radius:12px; } }
-      .panel { border:1px solid var(--border); border-radius:14px; background:#fff; padding:16px; box-shadow:var(--shadow); }
-      .panel-row { display:flex; align-items:center; gap:12px; justify-content:flex-start; margin-bottom:12px; }
-      .panel-label { font-size:14px; font-weight:600; margin-right:8px; }
-      .btn-ghost { margin-left:auto; border:1px solid var(--border); background:#fff; border-radius:10px; padding:6px 10px; font-weight:600; font-size:12px; transition:filter .12s ease, box-shadow .12s ease, transform .12s ease; }
-      .btn-ghost:hover { filter:brightness(.97); box-shadow:var(--shadow); transform:translateY(-1px); }
-      .panel-title { font-weight:700; margin:10px 0 6px; font-size:14px; }
-      .chips { display:flex; gap:8px; flex-wrap:wrap; }
-      .chip { padding:6px 12px; border-radius:999px; font-size:12px; border:1px solid var(--border); background:#f3f4f6; color:#111; appearance:none; user-select:none; }
-      .chip-btn { cursor:pointer; transition:transform .12s ease, box-shadow .12s ease, background .12s ease, border-color .12s ease; }
-      .chip-btn:not([aria-disabled="true"]):hover { background:rgba(37,99,235,.12); border-color:rgba(37,99,235,.55); box-shadow:var(--shadow); transform:translateY(-1px); }
-      .chip-blue { background:rgba(37,99,235,.10); border-color:rgba(37,99,235,.35); color:#1e40af; font-weight:700; }
-      .chip[aria-disabled="true"] { pointer-events:none; opacity:.6; filter:grayscale(0.1); }
-      .panel-note { font-size:12px; color:#374151; margin-top:6px; }
-      .panel-stats { margin-top:12px; border:1px solid var(--border); border-radius:10px; overflow:hidden; }
-      .panel-stats-title { background:#f9fafb; padding:8px 12px; font-weight:700; font-size:14px; border-bottom:none; }
-      .panel-stats-body { display:flex; justify-content:space-between; padding:10px 12px; font-size:14px; }
-      .panel-actions { display:flex; align-items:center; gap:12px; margin-top:12px; }
-      .btn-lock { display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border:1px solid var(--border); background:#fff; border-radius:10px; font-size:13px; color:#6b7280; }
-      .btn-learn { background:#fde047; color:#111; padding:8px 12px; border-radius:10px; font-weight:700; text-decoration:none; }
-      .btn-learn:hover { filter:brightness(.95); box-shadow:var(--shadow); }
-      .red { color:#dc2626; }
-      .switch { position:relative; display:inline-block; width:44px; height:24px; }
-      .switch input { opacity:0; width:0; height:0; }
-      .slider { position:absolute; cursor:pointer; inset:0; background:#e5e7eb; transition:.2s; border-radius:999px; }
-      .slider::before { position:absolute; content:""; height:18px; width:18px; left:3px; top:3px; background:white; transition:.2s; border-radius:50%; box-shadow:0 1px 2px rgba(0,0,0,.2); }
-      .switch input:checked + .slider { background:var(--primary); }
-      .switch input:checked + .slider::before { transform:translateX(20px); }
-      .section-header { text-align:center; margin-bottom:28px; }
-      .section-header h2 { font-size:clamp(26px,3vw,36px); margin:4px 0; color:var(--fg); }
-      .section-header p { color:var(--muted); }
-      .eyebrow { font-size:clamp(14px,1.2vw,16px); font-weight:800; color:var(--primary); }
-      .steps { display:grid; gap:18px; grid-template-columns:1fr; }
-      @media (min-width:900px){ .steps{ grid-template-columns:repeat(3,1fr); } }
-      .step { display:flex; gap:14px; }
-      .step-index { width:42px; height:42px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:#111; color:#fff; font-weight:700; }
-      .step h4 { margin:0 0 6px; }
-      .step p { margin:0; color:var(--muted); font-size:14px; }
-      .how-mock { margin-top:28px; }
-      .mock-feed { position:relative; border:1px solid var(--border); border-radius:16px; overflow:hidden; background:#f3f4f6; box-shadow:var(--shadow); }
-      .feed-toolbar { height:44px; background:#fff; border-bottom:1px solid var(--border); display:grid; grid-template-columns:1fr auto 1fr; align-items:center; padding:0 10px; }
-      .address-bar { justify-self:center; display:inline-flex; align-items:center; gap:8px; padding:6px 12px; border:1px solid var(--border); background:#f3f4f6; border-radius:999px; font-size:12px; color:#374151; }
-      .address-bar .lock { width:12px; height:12px; border:2px solid currentColor; border-bottom:none; border-radius:2px; position:relative; }
-      .address-bar .lock::after { content:""; position:absolute; left:50%; transform:translateX(-50%); top:-6px; width:10px; height:6px; border:2px solid currentColor; border-bottom:none; border-radius:6px 6px 0 0; }
-      .ext-icon { justify-self:end; width:36px; height:36px; border-radius:999px; display:flex; align-items:center; justify-content:center; }
-      .ext-icon.on { background:var(--primary); color:#fff; }
-      .ext-icon.off { background:#e5e7eb; color:#0b0b0f; }
-      .window-dots{display:inline-flex;gap:6px;align-items:center;}
-      .window-dot{width:12px;height:12px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12);} 
-      .window-dot.r{background:#ff5f56;} 
-      .window-dot.y{background:#ffbd2e;} 
-      .window-dot.g{background:#27c93f;}
-      .side-left { display:none; }
-      @media (min-width:900px){ .side-left{ display:flex; } }
-      .profile-card { background:#fff; border:1px solid var(--border); border-radius:12px; padding:14px; }
-      .avatar { width:56px; height:56px; border-radius:999px; background:linear-gradient(180deg,#c7d2fe,#e5e7eb); }
-      .name { font-weight:700; margin-top:10px; }
-      .title { font-size:12px; color:#6b7280; }
-      .post { background:#fff; border:1px solid var(--border); border-radius:12px; padding:14px; }
-      .post.hi { border-color:var(--primary); box-shadow:0 0 0 2px rgba(37,99,235,.2) inset; background:linear-gradient(180deg,#eef2ff,#ffffff); }
-      .feed-cols { display:grid; gap:16px; grid-template-columns:1fr; padding:14px; }
-      @media (min-width:900px){ .feed-cols{ grid-template-columns:260px 1fr 300px; } }
-      .feed-col { display:flex; flex-direction:column; gap:14px; }
-      .overlay-panel { position:absolute; right:12px; top:56px; width:340px; max-width:calc(100% - 24px); }
-      @media (max-width:900px){ .overlay-panel{ position:static; width:100%; margin-top:12px; } }
-      @media (max-width:640px){ .overlay-panel{ position:static; width:100%; } }
-      .side-card { background:#fff; border:1px solid var(--border); border-radius:12px; padding:12px; min-height:80px; }
       .pricing-grid { display:grid; gap:18px; grid-template-columns:1fr; }
       @media (min-width:1000px){ .pricing-grid{ grid-template-columns:repeat(2,1fr); } }
       .price-card { border:1px solid var(--border); border-radius:16px; padding:22px; background:var(--card); display:flex; flex-direction:column; }
@@ -306,8 +253,6 @@ export function StyleTag() {
       .prose ul { padding-left: 18px; }
       .section--tight{ padding-bottom:18px; }
       @media (min-width:900px){ .section--tight{ padding-bottom:24px; } }
-      #how.section{ padding-top:18px; }
-      @media (min-width:900px){ #how.section{ padding-top:24px; } }
     `}</style>
   );
 }
@@ -317,11 +262,11 @@ export function Header() {
     <header className="nav">
       <div className="container nav-inner">
         <a href="/" className="brand">
-        <img src="/../favicon-bg-180x180.png" alt="LinkTopics" className="brand-logo" />
-        <span>{APP_NAME}</span>
+          <img src="/../favicon-bg-180x180.png" alt="LinkTopics" className="brand-logo" />
+          <span>{APP_NAME}</span>
         </a>
         <nav className="nav-center">
-          <a href="#how">How it works</a>
+          {/* Link “How it works” removido */}
           <a href="#pricing">Pricing</a>
           <a href="#faq">FAQ</a>
           <a href="/blog">Blog</a>
@@ -404,212 +349,6 @@ function Hero() {
   );
 }
 
-function ControlPanelMock({ on, setOn, hide, setHide, hl, setHl }) {
-  const off = !on;
-  const totalCount = Object.values(hide).filter(Boolean).length + Object.values(hl).filter(Boolean).length;
-  const canAdd = totalCount < 3;
-  const hiddenOnPage = (on && hide.job ? 1 : 0) + (on && hide.promoted ? 1 : 0);
-  const totalPosts = 5;
-
-  const toggleHide = (key) => {
-    if (off) return;
-    setHide((s) => {
-      const next = { ...s };
-      const cur = !!next[key];
-      if (cur) { next[key] = false; return next; }
-      if (!canAdd) return s;
-      next[key] = true; return next;
-    });
-  };
-
-  const toggleHl = (key) => {
-    if (off) return;
-    setHl((s) => {
-      const next = { ...s };
-      const cur = !!next[key];
-      if (cur) { next[key] = false; return next; }
-      if (!canAdd) return s;
-      next[key] = true; return next;
-    });
-  };
-
-  const hideCls = (active) => (active && !off ? "chip chip-btn chip-blue" : "chip chip-btn");
-  const hlCls = (active) => (active && !off ? "chip chip-btn chip-blue" : "chip chip-btn");
-  const disabledWhenFull = (active) => off || (!active && !canAdd);
-
-  return (
-    <div className="panel" aria-label="Extension panel mock">
-      <div className="panel-row">
-        <div className="panel-label">Filtering</div>
-        <label className="switch" aria-label="Filtering toggle">
-          <input type="checkbox" checked={on} onChange={(e)=>setOn(e.target.checked)} />
-          <span className="slider" />
-        </label>
-        <button className="btn-ghost">Reload</button>
-      </div>
-
-      <div className="panel-group">
-        <div className="panel-title">Hide topics:</div>
-        <div className="chips">
-          <button type="button" className={hideCls(hide.job)} aria-disabled={disabledWhenFull(hide.job)} onClick={()=>toggleHide('job')}>Job posts</button>
-          <button type="button" className={hideCls(hide.liked)} aria-disabled={disabledWhenFull(hide.liked)} onClick={()=>toggleHide('liked')}>Liked by</button>
-          <button type="button" className={hideCls(hide.promoted)} aria-disabled={disabledWhenFull(hide.promoted)} onClick={()=>toggleHide('promoted')}>Promoted</button>
-        </div>
-      </div>
-
-      <div className="panel-group">
-        <div className="panel-title">Highlight topics:</div>
-        <div className="chips">
-          <button type="button" className={hlCls(hl.it)} aria-disabled={disabledWhenFull(hl.it)} onClick={()=>toggleHl('it')}>IT</button>
-          <button type="button" className={hlCls(hl.marketing)} aria-disabled={disabledWhenFull(hl.marketing)} onClick={()=>toggleHl('marketing')}>Marketing</button>
-          <button type="button" className={hlCls(hl.startups)} aria-disabled={disabledWhenFull(hl.startups)} onClick={()=>toggleHl('startups')}>Startups</button>
-        </div>
-        <div className="panel-note">You selected <strong className="red">{totalCount}</strong> of <strong>3</strong> allowed topics.</div>
-      </div>
-
-      <div className="panel-stats">
-        <div className="panel-stats-title">Posts</div>
-        <div className="panel-stats-body">
-          <span><strong className="red">{hiddenOnPage}</strong> on this page</span>
-          <span><strong className="red">{totalPosts}</strong> in total</span>
-        </div>
-      </div>
-
-      <div className="panel-actions">
-        <button className="btn-lock" aria-label="Add more topics" disabled>
-          <span role="img" aria-hidden="true">🔒</span> Add more topics
-        </button>
-        <a className="btn-learn" href="#how">Learn More…</a>
-      </div>
-    </div>
-  );
-}
-
-export function SectionHeader({ eyebrow, title, subtitle }) {
-  return (
-    <div className="section-header">
-      {eyebrow && <div className="eyebrow" style={{marginBottom:6}}>{eyebrow}</div>}
-      <h2>{title}</h2>
-      {subtitle && <p>{subtitle}</p>}
-    </div>
-  );
-}
-
-function HowItWorks() {
-  const [filterOn, setFilterOn] = useState(true);
-  const [hide, setHide] = useState({ job: false, liked: false, promoted: false });
-  const [hl, setHl] = useState({ it: false, marketing: false, startups: false });
-
-  return (
-    <section id="how" className="section">
-      <div className="container">
-        <SectionHeader eyebrow="How it works" title="3 steps to a focused feed" />
-        <div className="steps">
-          <Step index={1} title="Change Language to English" text={'Click the "Me" icon, on top bar > Language > English.'} />
-          <Step index={2} title="Pick your topics" text="Hide noise, highlight what matters, and reorder when needed." />
-          <Step index={3} title="Track your gains" text="See posts removed, relevant posts found, and time saved." />
-        </div>
-        <div className="how-mock">
-          <LinkedInFeed on={filterOn} hide={hide} hl={hl} setOn={setFilterOn} setHide={setHide} setHl={setHl} />
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Step({ index, title, text }) {
-  return (
-    <div className="step">
-      <div className="step-index">{index}</div>
-      <div>
-        <h4>{title}</h4>
-        <p>{text}</p>
-      </div>
-    </div>
-  );
-}
-
-function ExtGlyph() {
-  return (
-    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-      <rect x="3" y="4" width="18" height="16" rx="3" ry="3" fill="currentColor" />
-      <rect x="6" y="8" width="12" height="9" rx="1.5" ry="1.5" fill="#fff" opacity=".15" />
-    </svg>
-  );
-}
-
-function LinkedInFeed({ on, hide, hl, setOn, setHide, setHl }) {
-  const show1 = !(on && hide && hide.job);
-  const show3 = !(on && hide && hide.promoted);
-  const hi = !!(on && hl && hl.it);
-
-  const posts = [
-    { id:1, title:'Capgemini', meta:'2h • Following', body:'We’re hiring a Power Platform Developer in Portugal. Hybrid role, great team—apply inside.' },
-    { id:2, title:'Azure Updates', meta:'1h • Following', body:'New Azure Functions features improve cold-starts and diagnostics for .NET and Node runtimes.' },
-    { id:3, title:'Digital Marketing', meta:'Sponsored', body:'Promote your brand to 1M+ professionals. Launch highly targeted campaigns on LinkedIn with AdPro. Start today.' },
-    { id:4, title:'Interesting Engineering', meta:'3h • Following', body:'From microservices to event-driven systems: why messaging patterns matter for scalable backends.' },
-    { id:5, title:'Microsoft Dev', meta:'45m • Following', body:'Power Platform: best practices for connectors, environment strategy, and ALM automation.' }
-  ];
-
-  const visible = posts.filter(p => !(p.id===1 && !show1) && !(p.id===3 && !show3));
-
-  const Post = ({title, body, meta, highlighted}) => (
-    <div className={`post ${highlighted ? 'hi' : ''}`}>
-      <div style={{display:'flex', alignItems:'center', gap:8}}>
-        <div className="post-header" style={{flex:1}}>
-          <div className="avatar sm" />
-          <div>
-            <div className="post-title">{title}</div>
-            <div className="post-meta">{meta}</div>
-          </div>
-        </div>
-      </div>
-      <div className="post-body">
-        <p>{body}</p>
-      </div>
-    </div>
-  );
-
-  return (
-    <div className="mock-feed">
-      <div className="feed-toolbar">
-        <div className="window-dots"><span className="window-dot r"></span><span className="window-dot y"></span><span className="window-dot g"></span></div>
-        <div className="address-bar"><span className="lock" aria-hidden="true"></span>linkedin.com</div>
-        <div className={`ext-icon ${on ? 'on' : 'off'}`} title={on ? 'Filtering ON' : 'Filtering OFF'}>
-          <ExtGlyph />
-        </div>
-      </div>
-
-      <div className="feed-cols">
-        <div className="feed-col side-left">
-          <div className="profile-card">
-            <div className="avatar" />
-            <div className="name">Miguel Carreira</div>
-            <div className="title">Power Platform developer | Microsoft Dynamics 365 | RPA</div>
-          </div>
-          <div className="side-card" />
-          <div className="side-card" />
-        </div>
-
-        <div className="feed-col">
-          {visible.map(p => (
-            <Post key={p.id} title={p.title} body={p.body} meta={p.meta} highlighted={hi && (p.id===2 || p.id===4)} />
-          ))}
-        </div>
-
-        <div className="feed-col" style={{display:'none'}}>
-          <div className="side-card" />
-          <div className="side-card" />
-        </div>
-      </div>
-
-      <div className="overlay-panel">
-        <ControlPanelMock on={on} setOn={setOn} hide={hide} setHide={setHide} hl={hl} setHl={setHl} />
-      </div>
-    </div>
-  );
-}
-
 function SocialProof() {
   const reviews = [
     { q: "I liked this first version, Miguel told me next version will have things I asked for ;)", a: "— Rachel, HR Lead" },
@@ -663,10 +402,8 @@ function Pricing({ annual, setAnnual }) {
             <div className="price-title">Free</div>
             <div className="price-amount">$0</div>
             <ul className="price-list">
-              <li>Up to 3 topics</li>
-              <li>Hide + basic Highlight</li>
-              <li>Counters (posts/time)</li>
-              <li>1 preset</li>
+              <li>Hide Promoted posts</li>
+              <li>Counters (On Page/Total)</li>
             </ul>
             <div className="price-cta"><PrimaryCTA /></div>
           </div>
@@ -675,11 +412,11 @@ function Pricing({ annual, setAnnual }) {
             <div className="price-amount">{annual ? (<><span>$3.99</span> <span className="price-sub">/month billed as $48 per year</span></>) : (<>$4.99 <span className="price-sub">/month</span></>)}</div>
             <ul className="price-list">
               {annual && (<li className="em"><span className="price-em">Save $12</span></li>)}
-              <li>Unlimited topics</li>
-              <li>Highlight topics show first in feed</li>
-              <li>More topics: Reacted by, Personal stories, Achievements, Live videos and more.</li>
-              <li>Presets for Devs, Founders, HR, Sales</li>
-              <li>Personal analytics & weekly summary</li>
+              <li>Hide Promoted posts</li>
+              <li>Hide Liked/Reacted Posts</li>
+              <li>Hide Shared/Reshared posts</li>
+              <li>Hide Suggested/Recommended Posts</li>
+              <li>Counters (On Page/Total)</li>
               <li>Priority support</li>
             </ul>
             <div className="price-cta" style={{display:'flex', gap:10}}>
@@ -689,6 +426,16 @@ function Pricing({ annual, setAnnual }) {
         </div>
       </div>
     </section>
+  );
+}
+
+export function SectionHeader({ eyebrow, title, subtitle }) {
+  return (
+    <div className="section-header">
+      {eyebrow && <div className="eyebrow" style={{marginBottom:6}}>{eyebrow}</div>}
+      <h2>{title}</h2>
+      {subtitle && <p>{subtitle}</p>}
+    </div>
   );
 }
 
@@ -851,6 +598,4 @@ export function Footer() {
   );
 }
 
-// Se quiseres usar o BlogPage definido em ./blog.jsx, o fallback acima não é usado.
-// Mantive-o aqui apenas como exemplo. Se o teu ./blog.jsx exporta por defeito BlogPage,
-// podes apagar a função BlogPageFallback e deixar a importação no topo ativa.
+// Nota: Removi os componentes HowItWorks, Step, ExtGlyph, LinkedInFeed e ControlPanelMock.
