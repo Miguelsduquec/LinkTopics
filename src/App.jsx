@@ -9,8 +9,8 @@ const VIDEO_URL = "https://www.youtube.com/watch?v=L28hvycCQqc";
 const CONTACT_MAILTO = "mailto:miguel.duquec@gmail.com?subject=Support%20request";
 
 /* >>> LINKS DO STRIPE */
-const STRIPE_MONTHLY_URL = "https://buy.stripe.com/test_00w3cv4MqaWpdbxc8wbsc09";
-const STRIPE_YEARLY_URL  = "https://buy.stripe.com/test_28EcN5fr4e8Bb3p5K8bsc08";
+const STRIPE_MONTHLY_URL = "https://buy.stripe.com/dRm8wPceS5C57RddcAbsc04";
+const STRIPE_YEARLY_URL  = "https://buy.stripe.com/3cI6oHfr4c0t5J51tSbsc05";
 
 // --- LICENÇA / PRO ---
 const API_VERIFY_URL = "/api/stripe-verify";
