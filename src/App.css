@@ -163,3 +163,23 @@
     padding-bottom: 0px !important; /* versão desktop */
   }
 }
+/* Botão CTA amarelo com o mesmo estilo do btn-primary */
+.btn-gold {
+  background: #ffd600;                /* amarelo */
+  color: #111;                        /* texto escuro p/ contraste */
+  box-shadow: 0 10px 22px rgba(253,224,71,.35);
+}
+.btn-gold, .btn-gold * { color:#111 !important; }
+.btn-gold:hover { 
+  box-shadow: 0 14px 28px rgba(253,224,71,.45); 
+  transform: translateY(-1px);
+}
+.btn-gold:active { transform: translateY(1px); }
+
+/* Mesma “pilha” visual do Add to Chrome */
+.btn-gold {
+  display:inline-flex; align-items:center; justify-content:center;
+  gap:10px; border-radius:999px; font-weight:700; letter-spacing:.2px;
+  padding:14px 20px; min-height:44px; text-decoration:none; transition:transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+  border: none;
+}

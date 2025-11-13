@@ -8,6 +8,30 @@ const CHROME_URL = "https://chromewebstore.google.com/detail/bdilfiejpkdfbildemd
 const VIDEO_URL = "https://www.youtube.com/watch?v=L28hvycCQqc";
 const CONTACT_MAILTO = "mailto:miguel.duquec@gmail.com?subject=Support%20request";
 
+/* >>> LINKS DO STRIPE */
+const STRIPE_MONTHLY_URL = "https://buy.stripe.com/test_00w3cv4MqaWpdbxc8wbsc09";
+const STRIPE_YEARLY_URL  = "https://buy.stripe.com/test_28EcN5fr4e8Bb3p5K8bsc08";
+
+// --- LICENÇA / PRO ---
+const API_VERIFY_URL = "/api/stripe-verify";
+const LICENSE_STORAGE_KEY = "ltp_license";
+
+// util: ler querystring
+const getQuery = (key) => new URLSearchParams(window.location.search).get(key);
+
+// guardar licença local + avisar extensão
+function setLicense(token) {
+  try {
+    if (token) localStorage.setItem(LICENSE_STORAGE_KEY, token);
+    // Notifica a extensão (content/options escutam esta msg)
+    window.postMessage({ type: "LTP_LICENSE_UPDATE", token }, "*");
+  } catch (e) { /* no-op */ }
+}
+
+function getLicense() {
+  try { return localStorage.getItem(LICENSE_STORAGE_KEY) || ""; } catch { return ""; }
+}
+
 export default function AppRouter() {
   const path = typeof window !== 'undefined' ? window.location.pathname : '/';
   if (path === '/privacy-policy') return <LegalPage kind="privacy" />;
@@ -27,8 +51,11 @@ export default function AppRouter() {
 
 function LandingPage() {
   const [annual, setAnnual] = useState(true);
+  const [proActive, setProActive] = useState(!!getLicense());
+  const [verifying, setVerifying] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
-  // --- Scroll suave para a âncora (#hash) ---
+  // Scroll suave para #hash
   useEffect(() => {
     const scrollToHash = () => {
       const h = decodeURIComponent(window.location.hash || "").replace("#", "");
@@ -42,16 +69,67 @@ function LandingPage() {
     window.addEventListener("hashchange", scrollToHash);
     return () => window.removeEventListener("hashchange", scrollToHash);
   }, []);
-  // -----------------------------------------
+
+  // Quando voltamos do Stripe: ?session_id=cs_test_...
+  useEffect(() => {
+    const sid = typeof window !== "undefined" ? getQuery("session_id") : null;
+    if (!sid) return;
+
+    const verify = async () => {
+      try {
+        setVerifying(true);
+        setErrorMsg("");
+        const res = await fetch(`${API_VERIFY_URL}?session_id=${encodeURIComponent(sid)}`, {
+          method: "GET",
+          headers: { "Accept": "application/json" }
+        });
+        if (!res.ok) throw new Error("Verification failed");
+        const data = await res.json(); // { ok:true, token:"<jwt>", plan:"monthly|yearly" }
+        if (data?.ok && data?.token) {
+          setLicense(data.token);
+          setProActive(true);
+          // limpa o session_id da barra (para não repetir chamadas ao recarregar)
+          const url = new URL(window.location.href);
+          url.searchParams.delete("session_id");
+          window.history.replaceState({}, "", url.toString());
+        } else {
+          throw new Error(data?.error || "Invalid response");
+        }
+      } catch (e) {
+        setErrorMsg("We couldn't activate Pro automatically. Please contact support.");
+      } finally {
+        setVerifying(false);
+      }
+    };
+
+    verify();
+  }, []);
 
   return (
     <main className="ltp-root">
       <Seo />
       <StyleTag />
       <Header />
+
+      {/* Banner de estado Pro */}
+      {verifying && (
+        <div style={{background:"#fef3c7", color:"#78350f", padding:"10px 0"}}>
+          <div className="container">Activating Pro… one moment.</div>
+        </div>
+      )}
+      {!verifying && proActive && (
+        <div style={{background:"#ecfeff", color:"#064e3b", padding:"10px 0"}}>
+          <div className="container">✅ Pro is active on this browser. Open LinkedIn with LinkTopics to enjoy all features.</div>
+        </div>
+      )}
+      {errorMsg && (
+        <div style={{background:"#fee2e2", color:"#7f1d1d", padding:"10px 0"}}>
+          <div className="container">⚠️ {errorMsg}</div>
+        </div>
+      )}
+
       <Hero />
       <SocialProof />
-      {/* Secção HowItWorks removida */}
       <Pricing annual={annual} setAnnual={setAnnual} />
       <FAQ />
       <FinalCTA />
@@ -59,6 +137,7 @@ function LandingPage() {
     </main>
   );
 }
+
 
 export function Seo() {
   const title = "LinkTopics – LinkedIn Feed Filter (Chrome Extension)";
@@ -188,6 +267,8 @@ export function StyleTag() {
       @media (max-width:480px){ .btn-chrome span{ font-size:14px; } .btn-chrome svg{ width:26px;height:26px; } }
       .btn-secondary { border:1px solid var(--border); color:var(--fg); background:#fff; }
       .btn-secondary:hover { background:#f9fafb; }
+
+      /* HERO */
       .hero { padding:40px 0; }
       @media (min-width:900px){ .hero { padding:72px 0; } }
       .hero h1 { font-size:clamp(34px,4.2vw,56px); line-height:1.05; margin:0 0 12px; }
@@ -199,6 +280,8 @@ export function StyleTag() {
       .hero-visual { display:flex; flex-direction:column; gap:16px; }
       .video-wrap { aspect-ratio:16/9; width:100%; border-radius:16px; overflow:hidden; box-shadow:var(--shadow); background:#000; }
       @media (max-width:480px){ .video-wrap{ border-radius:12px; } }
+
+      /* PRICING */
       .pricing-grid { display:grid; gap:18px; grid-template-columns:1fr; }
       @media (min-width:1000px){ .pricing-grid{ grid-template-columns:repeat(2,1fr); } }
       .price-card { border:1px solid var(--border); border-radius:16px; padding:22px; background:var(--card); display:flex; flex-direction:column; }
@@ -216,13 +299,18 @@ export function StyleTag() {
       @media (max-width:480px){ .billing-toggle{ font-size:14px; } .billing-toggle button{ padding:8px 12px; } }
       .billing-toggle button { border-radius:999px; padding:8px 16px; font-weight:700; }
       .billing-toggle .active { background:#111; color:#fff; }
+
+      /* FAQ */
       .faq-grid { display:grid; gap:12px; grid-template-columns:1fr; }
       @media (min-width:1000px){ .faq-grid{ grid-template-columns:repeat(2,1fr); } }
       .faq-item { border:1px solid var(--border); border-radius:16px; background:var(--card); }
       .faq-q { width:100%; text-align:left; background:none; border:none; padding:14px 16px; font-weight:700; display:flex; justify-content:space-between; align-items:center; }
       .faq-a { padding:0 16px 16px; color:var(--muted); font-size:14px; }
+
+      /* FINAL */
       .final { padding:72px 0; }
       .final-card { border:1px solid var(--border); border-radius:24px; padding:36px; text-align:center; background:linear-gradient(135deg,#ecfeff,#faf5ff); }
+
       footer { border-top:1px solid var(--border); }
       .footer-inner { padding:26px 0; display:flex; flex-wrap:wrap; align-items:center; gap:16px; }
       @media (max-width:640px){ .footer-inner{ gap:12px; } }
@@ -233,6 +321,7 @@ export function StyleTag() {
       .footer-legal h5{ margin:0 0 6px; font-size:12px; letter-spacing:.2em; color:var(--muted); }
       .footer-legal a{ display:block; text-decoration:none; color:inherit; opacity:.85; margin:4px 0; }
       .footer-legal a:hover{ opacity:1; text-decoration:underline; }
+
       .social-top { display:flex; align-items:center; justify-content:center; gap:12px; margin-bottom:18px; }
       .rating { display:flex; align-items:center; gap:10px; font-weight:700; }
       .stars { display:inline-flex; gap:4px; }
@@ -248,11 +337,24 @@ export function StyleTag() {
       .review { border:1px solid var(--border); border-radius:16px; background:var(--card); padding:10px 12px; display:flex; flex-direction:column; max-width:340px; width:100%; min-height:75px; }
       .review blockquote { margin:0 0 4px; font-size:14px; line-height:1.35; }
       .review .meta { color:var(--muted); font-size:12px; margin-top:8px; }
+
       .prose h1, .prose h2, .prose h3 { margin: 16px 0 8px; }
       .prose p, .prose li { color: var(--fg); line-height:1.6; }
       .prose ul { padding-left: 18px; }
       .section--tight{ padding-bottom:18px; }
       @media (min-width:900px){ .section--tight{ padding-bottom:24px; } }
+
+      /* --- Botão CTA amarelo (mesmo estilo do Add to Chrome) --- */
+      .btn-gold {
+        background:#fde047; color:#111; box-shadow:0 10px 22px rgba(253,224,71,.35);
+        display:inline-flex; align-items:center; justify-content:center; gap:10px;
+        border-radius:999px; font-weight:700; letter-spacing:.2px; padding:14px 20px;
+        min-height:44px; text-decoration:none; transition:transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+        border:none;
+      }
+      .btn-gold, .btn-gold * { color:#111 !important; }
+      .btn-gold:hover { box-shadow:0 14px 28px rgba(253,224,71,.45); transform:translateY(-1px); }
+      .btn-gold:active { transform:translateY(1px); }
     `}</style>
   );
 }
@@ -266,7 +368,6 @@ export function Header() {
           <span>{APP_NAME}</span>
         </a>
         <nav className="nav-center">
-          {/* Link “How it works” removido */}
           <a href="#pricing">Pricing</a>
           <a href="#faq">FAQ</a>
           <a href="/blog">Blog</a>
@@ -407,9 +508,15 @@ function Pricing({ annual, setAnnual }) {
             </ul>
             <div className="price-cta"><PrimaryCTA /></div>
           </div>
+
           <div className="price-card pop">
             <div className="price-title">Pro</div>
-            <div className="price-amount">{annual ? (<><span>$3.99</span> <span className="price-sub">/month billed as $48 per year</span></>) : (<>$4.99 <span className="price-sub">/month</span></>)}</div>
+            <div className="price-amount">
+              {annual
+                ? (<><span>$3.99</span> <span className="price-sub">/month billed as $48 per year</span></>)
+                : (<>$4.99 <span className="price-sub">/month</span></>)
+              }
+            </div>
             <ul className="price-list">
               {annual && (<li className="em"><span className="price-em">Save $12</span></li>)}
               <li>Hide Promoted posts</li>
@@ -420,7 +527,15 @@ function Pricing({ annual, setAnnual }) {
               <li>Priority support</li>
             </ul>
             <div className="price-cta" style={{display:'flex', gap:10}}>
-              <button className="btn btn-primary" type="button" disabled>Start 14-day trial (soon)</button>
+            <a
+            className="btn btn-gold"
+            href={annual ? STRIPE_YEARLY_URL : STRIPE_MONTHLY_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            >
+            Start Now
+            </a>
+
             </div>
           </div>
         </div>
