@@ -20,6 +20,9 @@ import coverFacebook from "./posts/002-linkedin-vs-facebook/thumbnail.jpeg";
 import postRemoveAdsHtml from "./posts/003-remove-ads/contentUseLinktopicsToRemoveAds.html?raw";
 import coverRemoveAds from "./posts/003-remove-ads/thumbnail.jpeg";
 
+import posthidelinkedinads from "./posts/004-hide-linkedin-ads/content.html?raw";
+import coverposthidelinkedinads from "./posts/004-hide-linkedin-ads/thumbnail.jpeg";
+
 /* ----------------------------------------------------
    HEAD helpers
 ---------------------------------------------------- */
@@ -343,6 +346,17 @@ const posts = [
       "Hide sponsored/promoted posts, likes, and job spam. Clean your LinkedIn feed and focus on what matters.",
     html: postRemoveAdsHtml,
     tags: ["how-to", "filters"],
+  },
+  {
+    slug: "hide-linkedin-adds",
+    title: "How to remove ads from Linkedin",
+    date: "Nov 21, 2025",
+    dateISO: "2025-11-21T00:00:00.000Z",
+    cover: coverposthidelinkedinads,
+    excerpt:
+      "Hide sponsored/promoted posts, likes, and job spam. Clean your LinkedIn feed and focus on what matters.",
+    html: posthidelinkedinads,
+    tags: ["how-to", "filters", "productivity"],
   },
 ];
 

@@ -142,7 +142,7 @@ function LandingPage() {
 export function Seo() {
   const title = "LinkTopics – LinkedIn Feed Filter (Chrome Extension)";
   const description =
-    "A LinkedIn feed cleaner: hide ads and promoted posts, remove job posts from the feed, mute keywords, and highlight topics. The simplest Chrome extension to focus on what matters and keep a clean, focused LinkedIn";
+    "A LinkedIn feed cleaner: hide ads and promoted posts, reacted posts, liked post and more. The simplest Chrome extension to focus on what matters and keep a clean, focused LinkedIn";
   const url = "https://www.linktopics.me/";
   const ogImage = `${url}1280x630_OG_image.png`;
   const siteName = "LinkTopics";
