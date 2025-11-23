@@ -1,0 +1,62 @@
+name: Daily Blog Publisher
+
+on:
+  schedule:
+    - cron: "0 8 * * *"
+  workflow_dispatch: {}
+
+env:
+  TZ: Europe/Lisbon
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Config git user
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Publish today's posts
+        run: |
+          TODAY=$(date +'%Y-%m-%d')
+          echo "Hoje é: $TODAY"
+
+          SCHEDULED_DIR="src/blog/scheduled"
+          PUBLISHED_DIR="src/blog/posts"
+
+          MATCHES=$(ls -d "$SCHEDULED_DIR"/"$TODAY"-* 2>/dev/null || true)
+
+          if [ -z "$MATCHES" ]; then
+            echo "Nenhum post agendado para hoje."
+            exit 0
+          fi
+
+          echo "Posts a publicar:"
+          echo "$MATCHES"
+
+          for DIR in $MATCHES; do
+            BASENAME=$(basename "$DIR")
+            echo "A mover $DIR -> $PUBLISHED_DIR/$BASENAME"
+            mv "$DIR" "$PUBLISHED_DIR/$BASENAME"
+          done
+
+          git status
+
+          if git diff --quiet; then
+            echo "Sem alterações para commitar."
+            exit 0
+          fi
+
+          git add .
+          git commit -m "Publish blog posts for $TODAY"
+          git push
