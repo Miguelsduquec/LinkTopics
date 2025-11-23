@@ -26,7 +26,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      - name: Publish today's posts
+      - name: Move today's scheduled posts
         run: |
           TODAY=$(date +'%Y-%m-%d')
           echo "Hoje é: $TODAY"
@@ -50,6 +50,11 @@ jobs:
             mv "$DIR" "$PUBLISHED_DIR/$BASENAME"
           done
 
+      - name: Generate sitemap.xml
+        run: node scripts/generate-sitemap.js
+
+      - name: Commit and push changes
+        run: |
           git status
 
           if git diff --quiet; then
@@ -58,5 +63,5 @@ jobs:
           fi
 
           git add .
-          git commit -m "Publish blog posts for $TODAY"
+          git commit -m "Publish blog posts and update sitemap"
           git push
