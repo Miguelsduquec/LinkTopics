@@ -337,12 +337,13 @@ const LEGACY_POSTS = {
    Loader dinâmico de posts em src/posts/*
 ---------------------------------------------------- */
 
-// HTML como módulos (podem vir como { default: string } no build)
+// HTML bruto (string) de todos os content*.html
 const htmlModules = import.meta.glob("./posts/*/content*.html", {
   eager: true,
+  as: "raw",
 });
 
-// Thumbnails (qualquer extensão)
+// Thumbnails (URL de imagem)
 const coverModules = import.meta.glob("./posts/*/thumbnail.*", {
   eager: true,
 });
@@ -354,19 +355,11 @@ const coverModules = import.meta.glob("./posts/*/thumbnail.*", {
 function buildPosts() {
   const posts = [];
 
-  Object.entries(htmlModules).forEach(([path, mod]) => {
+  Object.entries(htmlModules).forEach(([path, html]) => {
     // path ex: "./posts/2025-11-24-remove-liked-by/content.html"
     const m = path.match(/\.\/posts\/([^/]+)\/content/i);
     if (!m) return;
     const folder = m[1]; // "2025-11-24-remove-liked-by" ou "001-focus-mode"
-
-    // garantir que html é sempre string
-    const html =
-      typeof mod === "string"
-        ? mod
-        : typeof mod?.default === "string"
-        ? mod.default
-        : "";
 
     const legacy = LEGACY_POSTS[folder];
 
