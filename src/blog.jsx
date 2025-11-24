@@ -1,5 +1,6 @@
+
 // =============================
-// blog.jsx — Blog com HTML posts + SEO dinâmico
+// blog.jsx — Blog dinâmico com HTML posts + SEO
 // =============================
 import React, {
   useMemo,
@@ -9,19 +10,6 @@ import React, {
   useEffect,
 } from "react";
 import "./blog.css";
-
-// HTML posts (Vite ?raw) + covers (import imagem para o bundler)
-import postIntroHtml from "./posts/001-focus-mode/content.html?raw";
-import coverIntro from "./posts/001-focus-mode/thumbnail.jpeg";
-
-import postFacebookHtml from "./posts/002-linkedin-vs-facebook/contentTurnToFacebook.html?raw";
-import coverFacebook from "./posts/002-linkedin-vs-facebook/thumbnail.jpeg";
-
-import postRemoveAdsHtml from "./posts/003-remove-ads/contentUseLinktopicsToRemoveAds.html?raw";
-import coverRemoveAds from "./posts/003-remove-ads/thumbnail.jpeg";
-
-import posthidelinkedinads from "./posts/004-hide-linkedin-ads/content.html?raw";
-import coverposthidelinkedinads from "./posts/004-hide-linkedin-ads/thumbnail.jpeg";
 
 /* ----------------------------------------------------
    HEAD helpers
@@ -41,7 +29,6 @@ function setTitle(title) {
 }
 function setLink(rel, href, extra = {}) {
   if (!href) return;
-  // tenta encontrar um link existente do mesmo rel
   let el = document.head.querySelector(`link[rel="${rel}"]`);
   if (!el) {
     el = document.createElement("link");
@@ -67,7 +54,6 @@ function siteOrigin() {
   const o = window.location.origin || "https://www.linktopics.me";
   return o.replace("://linktopics.me", "://www.linktopics.me");
 }
-
 
 /* ----------------------------------------------------
    BLOG SEO
@@ -170,7 +156,6 @@ function BlogPostSeo({ post }) {
     if (dateModified)
       setMeta("property", "article:modified_time", dateModified);
     setMeta("property", "article:section", section);
-    // remove tags antigos para evitar duplicados
     document
       .querySelectorAll('meta[property="article:tag"]')
       .forEach((m) => m.remove());
@@ -268,9 +253,7 @@ function enhanceContentAndHeadings(content) {
   return { enhanced, headings };
 }
 
-// HTML: insere ids em <h2>/<h3> e extrai TOC
 function enhanceHtml(html = "") {
-  // SSR fallback simples
   if (typeof window === "undefined" || typeof DOMParser === "undefined") {
     const re = /<h([23])[^>]*>([\s\S]*?)<\/h\1>/gi;
     const headings = [];
@@ -289,7 +272,6 @@ function enhanceHtml(html = "") {
     }
     return { html: output, headings };
   }
-  // Cliente
   const parser = new DOMParser();
   const doc = parser.parseFromString(html, "text/html");
   const headings = [];
@@ -311,54 +293,138 @@ function estimateReadingTime(content) {
 }
 
 /* ----------------------------------------------------
-   POSTS
+   Meta fixa para posts antigos (001–004)
 ---------------------------------------------------- */
-const posts = [
-  {
-  slug: "hide-linkedin-ads",
-  title: "How to remove ads from Linkedin",
-  date: "Nov 21, 2025",
-  dateISO: "2025-11-21T00:00:00.000Z",
-  cover: coverposthidelinkedinads,
-  excerpt:
-    "Hide sponsored/promoted posts, likes, and job spam. Clean your LinkedIn feed and focus on what matters.",
-  html: posthidelinkedinads,
-  tags: ["how-to", "filters", "productivity"],
-  },
-  {
+const LEGACY_POSTS = {
+  "001-focus-mode": {
     slug: "stay-focused-on-linkedin-with-linktopics",
     title: "Stay Focused on LinkedIn with LinkTopics",
     date: "Oct 12, 2025",
     dateISO: "2025-10-12T00:00:00.000Z",
-    cover: coverIntro,
     excerpt:
       "LinkedIn feed filter: cut noise, hide irrelevant posts, and keep only the topics that matter.",
-    html: postIntroHtml,
     tags: ["guide", "productivity"],
   },
-  {
+  "002-linkedin-vs-facebook": {
     slug: "is-linkedin-turning-into-facebook-not-anymore",
     title: "Is LinkedIn Turning Into Facebook? Not Anymore.",
     date: "Oct 11, 2025",
     dateISO: "2025-10-11T00:00:00.000Z",
-    cover: coverFacebook,
     excerpt:
       "Why knowledge-first beats virality on LinkedIn — and how to adapt with filters and topic highlights.",
-    html: postFacebookHtml,
     tags: ["algorithms", "strategy"],
   },
-  {
+  "003-remove-ads": {
     slug: "remove-ads-and-noise-on-linkedin",
     title: "Remove Ads & Noise on LinkedIn with LinkTopics",
     date: "Oct 10, 2025",
     dateISO: "2025-10-10T00:00:00.000Z",
-    cover: coverRemoveAds,
     excerpt:
       "Hide sponsored/promoted posts, likes, and job spam. Clean your LinkedIn feed and focus on what matters.",
-    html: postRemoveAdsHtml,
     tags: ["how-to", "filters"],
-  }
-];
+  },
+  "004-hide-linkedin-ads": {
+    slug: "hide-linkedin-adds",
+    title: "How to remove ads from Linkedin",
+    date: "Nov 21, 2025",
+    dateISO: "2025-11-21T00:00:00.000Z",
+    excerpt:
+      "Hide sponsored/promoted posts, likes, and job spam. Clean your LinkedIn feed and focus on what matters.",
+    tags: ["how-to", "filters", "productivity"],
+  },
+};
+
+/* ----------------------------------------------------
+   Loader dinâmico de posts em src/posts/*
+---------------------------------------------------- */
+
+// HTML bruto de todos os content*.html
+const htmlModules = import.meta.glob("./posts/*/content*.html", {
+  eager: true,
+  as: "raw",
+});
+
+// Thumbnails
+const coverModules = import.meta.glob("./posts/*/thumbnail.@(png|jpg|jpeg|webp)", {
+  eager: true,
+});
+
+/**
+ * Constrói o array de posts a partir de src/posts/*
+ * Respeita LEGACY_POSTS para os primeiros 4
+ */
+function buildPosts() {
+  const posts = [];
+
+  Object.entries(htmlModules).forEach(([path, html]) => {
+    // path ex: "./posts/2025-11-24-remove-liked-by/content.html"
+    const m = path.match(/\.\/posts\/([^/]+)\/content/i);
+    if (!m) return;
+    const folder = m[1]; // "2025-11-24-remove-liked-by" ou "001-focus-mode"
+
+    const legacy = LEGACY_POSTS[folder];
+    const coverKeyPrefix = `./posts/${folder}/`;
+    const coverKey = Object.keys(coverModules).find((k) =>
+      k.startsWith(coverKeyPrefix)
+    );
+    const cover = coverKey ? coverModules[coverKey] : null;
+
+    let title = "";
+    let slug = "";
+    let excerpt = "";
+    let date;
+    let dateISO;
+    let tags = ["LinkedIn", "how-to"];
+
+    if (legacy) {
+      ({ title, slug, excerpt, date, dateISO, tags } = legacy);
+    } else {
+      // Ler <h1> e primeiro <p> do HTML
+      const h1Match = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i);
+      const pMatch = html.match(/<p[^>]*>([\s\S]*?)<\/p>/i);
+      const stripTags = (str = "") => str.replace(/<[^>]+>/g, "").trim();
+
+      title = h1Match ? stripTags(h1Match[1]) : folder;
+      excerpt = pMatch ? stripTags(pMatch[1]) : "";
+      slug = slugify(title);
+
+      // Derivar data da pasta: 2025-11-24-...
+      const dMatch = folder.match(/^(\d{4}-\d{2}-\d{2})-/);
+      if (dMatch) {
+        dateISO = `${dMatch[1]}T00:00:00.000Z`;
+        const dObj = new Date(dateISO);
+        const opts = { year: "numeric", month: "short", day: "numeric" };
+        date = dObj.toLocaleDateString("en-US", opts);
+      } else {
+        date = "Unknown date";
+        dateISO = undefined;
+      }
+    }
+
+    posts.push({
+      folder,
+      slug,
+      title,
+      date,
+      dateISO,
+      cover,
+      excerpt,
+      html,
+      tags,
+    });
+  });
+
+  // Ordenar por data desc (posts mais recentes primeiro)
+  posts.sort((a, b) => {
+    const da = a.dateISO || "";
+    const db = b.dateISO || "";
+    return da < db ? 1 : da > db ? -1 : 0;
+  });
+
+  return posts;
+}
+
+const posts = buildPosts();
 
 /* ----------------------------------------------------
    UI primitives
@@ -465,7 +531,6 @@ function BlogList() {
 }
 
 function BlogPost({ post }) {
-  // Suporta HTML (post.html) e JSX (post.content)
   const { enhancedNode, enhancedHtml, headings, reading } = useMemo(() => {
     if (post.html) {
       const { html, headings } = enhanceHtml(post.html);
