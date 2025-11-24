@@ -338,16 +338,16 @@ const LEGACY_POSTS = {
    Loader dinâmico de posts em src/posts/*
 ---------------------------------------------------- */
 
-// HTML bruto de todos os content*.html
+// HTML posts como módulos namespace (vamos buscar o .default)
 const htmlModules = import.meta.glob("./posts/*/content*.html", {
   eager: true,
-  as: "raw",
 });
 
-// Thumbnails
-const coverModules = import.meta.glob("./posts/*/thumbnail.@(png|jpg|jpeg|webp)", {
+// Thumbnails (qualquer extensão: png/jpg/jpeg/webp)
+const coverModules = import.meta.glob("./posts/*/thumbnail.*", {
   eager: true,
 });
+
 
 /**
  * Constrói o array de posts a partir de src/posts/*
@@ -356,18 +356,35 @@ const coverModules = import.meta.glob("./posts/*/thumbnail.@(png|jpg|jpeg|webp)"
 function buildPosts() {
   const posts = [];
 
-  Object.entries(htmlModules).forEach(([path, html]) => {
+  Object.entries(htmlModules).forEach(([path, mod]) => {
     // path ex: "./posts/2025-11-24-remove-liked-by/content.html"
     const m = path.match(/\.\/posts\/([^/]+)\/content/i);
     if (!m) return;
-    const folder = m[1]; // "2025-11-24-remove-liked-by" ou "001-focus-mode"
+    const folder = m[1];
 
-    const legacy = LEGACY_POSTS[folder];
+    // garantir que html é SEMPRE uma string
+    const html =
+      typeof mod === "string"
+        ? mod
+        : (mod && typeof mod.default === "string" ? mod.default : "");
+
+        const legacy = LEGACY_POSTS[folder];
     const coverKeyPrefix = `./posts/${folder}/`;
     const coverKey = Object.keys(coverModules).find((k) =>
       k.startsWith(coverKeyPrefix)
     );
-    const cover = coverKey ? coverModules[coverKey] : null;
+
+    let cover = null;
+    if (coverKey) {
+      const modCover = coverModules[coverKey];
+      cover =
+        typeof modCover === "string"
+          ? modCover
+          : (modCover && typeof modCover.default === "string"
+              ? modCover.default
+              : null);
+    }
+
 
     let title = "";
     let slug = "";
