@@ -1,4 +1,3 @@
-
 // =============================
 // blog.jsx — Blog dinâmico com HTML posts + SEO
 // =============================
@@ -338,16 +337,15 @@ const LEGACY_POSTS = {
    Loader dinâmico de posts em src/posts/*
 ---------------------------------------------------- */
 
-// HTML posts como módulos namespace (vamos buscar o .default)
+// HTML como módulos (podem vir como { default: string } no build)
 const htmlModules = import.meta.glob("./posts/*/content*.html", {
   eager: true,
 });
 
-// Thumbnails (qualquer extensão: png/jpg/jpeg/webp)
+// Thumbnails (qualquer extensão)
 const coverModules = import.meta.glob("./posts/*/thumbnail.*", {
   eager: true,
 });
-
 
 /**
  * Constrói o array de posts a partir de src/posts/*
@@ -360,16 +358,20 @@ function buildPosts() {
     // path ex: "./posts/2025-11-24-remove-liked-by/content.html"
     const m = path.match(/\.\/posts\/([^/]+)\/content/i);
     if (!m) return;
-    const folder = m[1];
+    const folder = m[1]; // "2025-11-24-remove-liked-by" ou "001-focus-mode"
 
-    // garantir que html é SEMPRE uma string
+    // garantir que html é sempre string
     const html =
       typeof mod === "string"
         ? mod
-        : (mod && typeof mod.default === "string" ? mod.default : "");
+        : typeof mod?.default === "string"
+        ? mod.default
+        : "";
 
-        const legacy = LEGACY_POSTS[folder];
-    const coverKeyPrefix = `./posts/${folder}/`;
+    const legacy = LEGACY_POSTS[folder];
+
+    // cover correspondente
+    const coverKeyPrefix = `./posts/${folder}/thumbnail.`;
     const coverKey = Object.keys(coverModules).find((k) =>
       k.startsWith(coverKeyPrefix)
     );
@@ -380,11 +382,10 @@ function buildPosts() {
       cover =
         typeof modCover === "string"
           ? modCover
-          : (modCover && typeof modCover.default === "string"
-              ? modCover.default
-              : null);
+          : typeof modCover?.default === "string"
+          ? modCover.default
+          : null;
     }
-
 
     let title = "";
     let slug = "";
@@ -541,6 +542,11 @@ function BlogList() {
               </a>
             </article>
           ))}
+          {!posts.length && (
+            <p style={{ marginTop: "2rem" }}>
+              No posts found. Check that src/posts/*/content.html exists.
+            </p>
+          )}
         </div>
       </div>
     </section>
