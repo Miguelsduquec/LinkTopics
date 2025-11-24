@@ -51,7 +51,7 @@ jobs:
           done
 
       - name: Generate sitemap.xml
-        run: node scripts/generate-sitemap.js
+        run: node scripts/generate-sitemap.cjs
 
       - name: Commit and push changes
         run: |
