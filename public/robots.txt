@@ -8,11 +8,8 @@ Allow: /
 # Bloquear ficheiros técnicos que não são páginas
 Disallow: /src/
 Disallow: /node_modules/
-Disallow: /assets/
 Disallow: /*.map$
-Disallow: /*.json$
-Disallow: /*.txt$
 Disallow: /vite.svg
 
-# Sitemap principal
+# Sitemap principal (gerado automaticamente)
 Sitemap: https://www.linktopics.me/sitemap.xml

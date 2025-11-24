@@ -315,6 +315,17 @@ function estimateReadingTime(content) {
 ---------------------------------------------------- */
 const posts = [
   {
+  slug: "hide-linkedin-ads",
+  title: "How to remove ads from Linkedin",
+  date: "Nov 21, 2025",
+  dateISO: "2025-11-21T00:00:00.000Z",
+  cover: coverposthidelinkedinads,
+  excerpt:
+    "Hide sponsored/promoted posts, likes, and job spam. Clean your LinkedIn feed and focus on what matters.",
+  html: posthidelinkedinads,
+  tags: ["how-to", "filters", "productivity"],
+  },
+  {
     slug: "stay-focused-on-linkedin-with-linktopics",
     title: "Stay Focused on LinkedIn with LinkTopics",
     date: "Oct 12, 2025",
@@ -346,18 +357,7 @@ const posts = [
       "Hide sponsored/promoted posts, likes, and job spam. Clean your LinkedIn feed and focus on what matters.",
     html: postRemoveAdsHtml,
     tags: ["how-to", "filters"],
-  },
-  {
-    slug: "hide-linkedin-adds",
-    title: "How to remove ads from Linkedin",
-    date: "Nov 21, 2025",
-    dateISO: "2025-11-21T00:00:00.000Z",
-    cover: coverposthidelinkedinads,
-    excerpt:
-      "Hide sponsored/promoted posts, likes, and job spam. Clean your LinkedIn feed and focus on what matters.",
-    html: posthidelinkedinads,
-    tags: ["how-to", "filters", "productivity"],
-  },
+  }
 ];
 
 /* ----------------------------------------------------
