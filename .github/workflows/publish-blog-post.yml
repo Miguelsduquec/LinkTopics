@@ -31,8 +31,9 @@ jobs:
           TODAY=$(date +'%Y-%m-%d')
           echo "Hoje é: $TODAY"
 
-          SCHEDULED_DIR="src/blog/scheduled"
-          PUBLISHED_DIR="src/blog/posts"
+          SCHEDULED_DIR="src/scheduled"
+          PUBLISHED_DIR="src/posts"
+
 
           MATCHES=$(ls -d "$SCHEDULED_DIR"/"$TODAY"-* 2>/dev/null || true)
 

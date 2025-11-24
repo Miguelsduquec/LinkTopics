@@ -78,7 +78,7 @@ function formatDate(iso) {
 }
 
 function generate() {
-  const postsDir = path.join(__dirname, "..", "src", "blog", "posts");
+  const postsDir = path.join(__dirname, "..", "src", "posts");
   const publicDir = path.join(__dirname, "..", "public");
   const sitemapPath = path.join(publicDir, "sitemap.xml");
 
