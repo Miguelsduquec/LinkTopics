@@ -51,7 +51,7 @@
   box-shadow: var(--shadow);
 }
 
-.brand-logo{ width:28px; height:28px; border-radius:8px; object-fit:contain; box-shadow:var(--shadow); }
+.brand-logo{ width:42px; height:42px; border-radius:8px; object-fit:contain; box-shadow:var(--shadow); }
 
 /* HEADER */
 /* HEADER: neutralizar estilo de link */
