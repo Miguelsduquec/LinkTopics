@@ -183,3 +183,14 @@
   padding:14px 20px; min-height:44px; text-decoration:none; transition:transform .12s ease, box-shadow .12s ease, opacity .12s ease;
   border: none;
 }
+/* CTA mais compacto no header */
+.nav-cta .btn {
+  padding: 10px 14px;      /* antes 14px 20px */
+  min-height: 36px;       /* antes 44px */
+  font-size: 14px;
+}
+
+.nav-cta .btn-chrome svg {
+  width: 22px;
+  height: 22px;
+}
