@@ -325,7 +325,7 @@ const LEGACY_POSTS = {
     tags: ["how-to", "filters"],
   },
   "004-hide-linkedin-ads": {
-    slug: "hide-linkedin-adds",
+    slug: "hide-linkedin-ads",
     title: "How to remove ads from Linkedin",
     date: "Nov 21, 2025",
     dateISO: "2025-11-21T00:00:00.000Z",
