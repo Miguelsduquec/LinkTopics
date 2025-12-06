@@ -7,7 +7,9 @@ import React, {
   isValidElement,
   cloneElement,
   useEffect,
+  useState,          
 } from "react";
+
 import "./blog.css";
 
 /* ----------------------------------------------------
@@ -505,6 +507,51 @@ function TableOfContents({ headings }) {
    Page layouts
 ---------------------------------------------------- */
 function BlogList() {
+  const PAGE_SIZE = 6;
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const totalPages = Math.max(1, Math.ceil(posts.length / PAGE_SIZE));
+
+  const safePage = Math.min(Math.max(currentPage, 1), totalPages);
+  const startIndex = (safePage - 1) * PAGE_SIZE;
+  const pagePosts = posts.slice(startIndex, startIndex + PAGE_SIZE);
+
+  const goToPage = (page) => {
+    if (page < 1 || page > totalPages) return;
+    setCurrentPage(page);
+    // opcional: scroll para o topo da lista
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  // cria a lista [1, ..., N] com "..." no meio quando necessário
+  const getPaginationItems = () => {
+    if (totalPages <= 7) {
+      return Array.from({ length: totalPages }, (_, i) => ({
+        type: "page",
+        page: i + 1,
+        key: `page-${i + 1}`,
+      }));
+    }
+
+    const pages = new Set([1, totalPages, safePage]);
+    if (safePage - 1 > 1) pages.add(safePage - 1);
+    if (safePage + 1 < totalPages) pages.add(safePage + 1);
+
+    const sorted = Array.from(pages).sort((a, b) => a - b);
+
+    const items = [];
+    for (let i = 0; i < sorted.length; i++) {
+      const p = sorted[i];
+      if (i > 0 && p - sorted[i - 1] > 1) {
+        items.push({ type: "dots", key: `dots-${sorted[i - 1]}-${p}` });
+      }
+      items.push({ type: "page", page: p, key: `page-${p}` });
+    }
+    return items;
+  };
+
+  const paginationItems = getPaginationItems();
+
   return (
     <section className="blog-section">
       <BlogListSeo />
@@ -513,8 +560,9 @@ function BlogList() {
           title="Latest posts"
           subtitle="Grow faster on LinkedIn with focus & smart filtering."
         />
+
         <div className="blog-grid">
-          {posts.map((p) => (
+          {pagePosts.map((p) => (
             <article key={p.slug} className="blog-card">
               <a className="blog-card-link" href={`/blog/${p.slug}`}>
                 {p.cover && (
@@ -535,16 +583,63 @@ function BlogList() {
               </a>
             </article>
           ))}
+
           {!posts.length && (
             <p style={{ marginTop: "2rem" }}>
               No posts found. Check that src/posts/*/content.html exists.
             </p>
           )}
         </div>
+
+        {posts.length > PAGE_SIZE && (
+          <nav
+            className="blog-pagination"
+            aria-label="Blog pagination"
+          >
+            <button
+              type="button"
+              className="blog-page-nav"
+              onClick={() => goToPage(safePage - 1)}
+              disabled={safePage === 1}
+            >
+              ← Previous
+            </button>
+
+            {paginationItems.map((item) =>
+              item.type === "dots" ? (
+                <span key={item.key} className="blog-page-dots">
+                  …
+                </span>
+              ) : (
+                <button
+                  key={item.key}
+                  type="button"
+                  className={
+                    "blog-page-btn" +
+                    (item.page === safePage ? " blog-page-btn-active" : "")
+                  }
+                  onClick={() => goToPage(item.page)}
+                >
+                  {item.page}
+                </button>
+              )
+            )}
+
+            <button
+              type="button"
+              className="blog-page-nav"
+              onClick={() => goToPage(safePage + 1)}
+              disabled={safePage === totalPages}
+            >
+              Next →
+            </button>
+          </nav>
+        )}
       </div>
     </section>
   );
 }
+
 
 function BlogPost({ post }) {
   const { enhancedNode, enhancedHtml, headings, reading } = useMemo(() => {

@@ -93,3 +93,48 @@
 .sharebar{ display:flex; gap:8px; flex-wrap:wrap; margin-top:22px; padding-top:12px; border-top:1px solid var(--blog-border); }
 .sharebtn{ font-size:14px; padding:8px 10px; border-radius:10px; border:1px solid var(--blog-border); background:#fff; cursor:pointer; text-decoration:none; color:#0f172a; }
 .sharebtn:hover{ background:#f8fafc; }
+
+
+.blog-pagination {
+  margin-top: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.blog-page-nav,
+.blog-page-btn {
+  border: 1px solid #e0e0e0;
+  background: #fff;
+  border-radius: 999px;
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+  min-width: 2.2rem;
+  text-align: center;
+  transition: background 0.15s ease, border-color 0.15s ease,
+    color 0.15s ease, transform 0.05s ease;
+}
+
+.blog-page-nav:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.blog-page-btn-active {
+  background: #111827;
+  border-color: #111827;
+  color: #fff;
+}
+
+.blog-page-btn:not(.blog-page-btn-active):hover,
+.blog-page-nav:not(:disabled):hover {
+  background: #f3f4f6;
+  border-color: #d1d5db;
+}
+
+.blog-page-dots {
+  padding: 0 0.4rem;
+  color: #9ca3af;
+}
