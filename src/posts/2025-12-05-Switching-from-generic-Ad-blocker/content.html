@@ -1,57 +1,171 @@
-<!--
-slug: switching-from-adblock-to-linktopics
-title: Switching From a Generic Ad Blocker to LinkTopics: A Simple Migration Guide
-meta_description: Already using an ad blocker on LinkedIn? Learn how to switch to LinkTopics in minutes and get cleaner, more precise filtering without breaking your feed.
-og_title: Switching From a Generic Ad Blocker to LinkTopics
-og_description: Step-by-step guide for LinkedIn users who want to move from generic ad blockers to a focused solution like LinkTopics.
--->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Switching From a Generic Ad Blocker to LinkTopics: A Simple Migration Guide</title>
+  <meta name="description" content="Already using an ad blocker on LinkedIn? Learn how to switch to LinkTopics in minutes and get cleaner, more precise filtering without breaking your feed." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<h1>Switching From a Generic Ad Blocker to LinkTopics</h1>
+  <!-- Canonical -->
+  <link rel="canonical" href="https://linktopics.me/blog/switching-from-a-generic-ad-blocker-to-linktopics" />
 
-<p>If you already use a generic ad blocker like AdBlock or uBlock, you might be wondering if LinkTopics is really necessary.</p>
-  <p>The short answer: if LinkedIn is an important part of your work, a specialised tool will almost always give you a better experience.</p>
+  <!-- Open Graph -->
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Switching From a Generic Ad Blocker to LinkTopics" />
+  <meta property="og:description" content="Step-by-step guide for LinkedIn users switching from generic ad blockers to a focused solution like LinkTopics." />
+  <meta property="og:url" content="https://linktopics.me/blog/switching-from-a-generic-ad-blocker-to-linktopics" />
+  <meta property="og:site_name" content="LinkTopics" />
+  <meta property="og:image" content="https://linktopics.me/images/blog/switching-from-adblock-to-linktopics-cover.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
 
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Switching From a Generic Ad Blocker to LinkTopics" />
+  <meta name="twitter:description" content="Step-by-step guide for LinkedIn users who want to move from generic ad blockers to LinkTopics." />
+  <meta name="twitter:image" content="https://linktopics.me/images/blog/switching-from-adblock-to-linktopics-cover.jpg" />
 
-<p>This guide shows how to switch from a generic ad blocker to <strong>LinkTopics</strong> in a few simple steps.</p>
+  <!-- JSON-LD: Article -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Switching From a Generic Ad Blocker to LinkTopics",
+    "description": "Already using an ad blocker on LinkedIn? Learn how to switch to LinkTopics in minutes and get cleaner, more precise filtering without breaking your feed.",
+    "author": { "@type": "Person", "name": "Miguel Duque" },
+    "publisher": {
+      "@type": "Organization",
+      "name": "LinkTopics",
+      "logo": { "@type": "ImageObject", "url": "https://linktopics.me/images/logo-linktopics.png" }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://linktopics.me/blog/switching-from-a-generic-ad-blocker-to-linktopics"
+    }
+  }
+  </script>
 
-<h2>1. Understand what your current ad blocker does — and doesn’t do</h2>
-<p>Ad blockers are designed for banners, pop-ups and tracking scripts across the entire web. On LinkedIn, they may remove some ad assets, but they usually:</p>
+  <!-- JSON-LD: FAQ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Does my current ad blocker remove LinkedIn ads?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Generic ad blockers may remove some assets, but they do not reliably remove Sponsored posts, Suggested Posts or reaction-based content from LinkedIn."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I use LinkTopics together with my ad blocker?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. You can keep your generic blocker for the rest of the web while using LinkTopics specifically for LinkedIn's internal feed noise."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Will LinkTopics break my LinkedIn layout?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. LinkTopics is designed specifically for LinkedIn and adapts to changes without breaking the UI, unlike generic ad blockers."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
 
-<ul>
-  <li>Do not reliably remove native Sponsored posts</li>
-  <li>Do not touch Suggested Posts</li>
-  <li>Do not remove reaction-based “Liked by” content</li>
-  <li>Sometimes break parts of the UI when LinkedIn changes code</li>
-</ul>
+<body>
+  <main>
+    <article>
+      <header>
+        <h1>A smoother switch from ad blockers to LinkTopics</h1>
+        <p>If you’re using a generic ad blocker on LinkedIn and still seeing Sponsored posts, Suggested Posts or “Liked by” clutter, you're not alone — and you're not doing anything wrong.</p>
+        <p>This guide shows exactly how to switch to <strong>LinkTopics</strong> for cleaner, more precise filtering designed specifically for LinkedIn.</p>
+      </header>
 
-<p>LinkTopics is focused solely on LinkedIn, so it can be more precise and stable.</p>
+      <section>
+        <h2>1. Understand what your ad blocker does — and what it can’t</h2>
+        <p>Generic ad blockers like AdBlock, uBlock or AdGuard are fantastic for the general web. But LinkedIn’s feed does not use traditional ad formats. Instead, it uses:</p>
+        <ul>
+          <li><strong>native Sponsored posts</strong> embedded inside the feed</li>
+          <li><strong>Suggested Posts</strong> disguised as recommendations</li>
+          <li><strong>reaction-based “Liked by” posts</strong></li>
+          <li>dynamic components that change frequently</li>
+        </ul>
+        <p>These are not classic banners — so a generic “linkedin adblock” approach often fails.</p>
 
-<h2>2. Install LinkTopics alongside your existing ad blocker</h2>
-<p>You don’t need to uninstall your current blocker. Simply:</p>
+        <p>For a full breakdown of the types of noise inside LinkedIn, you can also read:  
+          <a href="/blog/hide-linkedin-ads">Remove ads and noise on LinkedIn</a>
+        </p>
+      </section>
 
-<ol>
-  <li>Install LinkTopics from the Chrome Web Store.</li>
-  <li>Open LinkedIn and refresh the page.</li>
-  <li>Check the feed and see which posts are still slipping through.</li>
-</ol>
+      <section>
+        <h2>2. Install LinkTopics alongside your current blocker</h2>
+        <p>You don’t need to uninstall anything. Just:</p>
+        <ol>
+          <li>Install LinkTopics from the Chrome Web Store</li>
+          <li>Open LinkedIn</li>
+          <li>Refresh the page so LinkTopics can start filtering</li>
+        </ol>
+        <p>Your existing blocker will continue handling banners and trackers on other sites. LinkTopics takes care of LinkedIn’s internal feed noise.</p>
+      </section>
 
-<h2>3. Configure LinkTopics to handle what your ad blocker misses</h2>
-<p>Inside the LinkTopics popup, enable:</p>
+      <section>
+        <h2>3. Enable the filters your ad blocker misses</h2>
+        <p>Inside the LinkTopics popup, toggle on:</p>
+        <ul>
+          <li><strong>Hide Sponsored / Promoted posts</strong></li>
+          <li><strong>Hide Suggested Posts</strong></li>
+          <li><strong>Hide “Liked by” / reaction-based posts</strong></li>
+        </ul>
+        <p>This removes the majority of distractions that generic blockers cannot detect.</p>
 
-<ul>
-  <li>Hide Sponsored / Promoted posts</li>
-  <li>Hide Suggested Posts</li>
-  <li>Hide “Liked by” and reaction-based posts</li>
-</ul>
+        <p>You can also explore how LinkTopics removes “Liked by” clutter:  
+          <a href="/blog/remove-liked-by-posts">Why “Liked by” posts clutter your feed</a>
+        </p>
+      </section>
 
-<p>Your generic blocker can keep handling banners and trackers on other websites, while LinkTopics handles the specific noise inside LinkedIn.</p>
+      <section>
+        <h2>4. Test for one week and adjust</h2>
+        <p>Use LinkedIn normally for a few days and notice:</p>
+        <ul>
+          <li>How much less scrolling you do</li>
+          <li>How much cleaner your feed feels</li>
+          <li>Whether you want to keep or disable certain toggles</li>
+        </ul>
+        <p>You can pause LinkTopics anytime from the popup without removing it.</p>
+      </section>
 
-<h2>4. Monitor for a week and adjust</h2>
-<p>Use LinkedIn normally for a week and observe your feed. If something useful is being hidden, you can always toggle options in LinkTopics or briefly pause it.</p>
+      <section>
+        <h2>5. Enjoy a cleaner, more predictable LinkedIn</h2>
+        <p>You now have a two-layer setup:</p>
+        <ul>
+          <li><strong>Your ad blocker</strong> for the rest of the web</li>
+          <li><strong>LinkTopics</strong> for LinkedIn's internal feed clutter</li>
+        </ul>
+        <p>This gives you the best of both worlds — without breaking the UI or missing important posts.</p>
 
-<h2>5. Enjoy a cleaner, more stable experience</h2>
-<p>Instead of relying on a one-size-fits-all blocker, you now have a LinkedIn-specific solution that knows exactly what to filter – making your daily workflow smoother and more predictable.</p>
+        <p>For team-wide consistency, you may also want to read:  
+          <a href="/blog/stay-focused-on-linkedin-with-linktopics">How teams can standardise LinkedIn with LinkTopics</a>
+        </p>
+      </section>
 
-<p><a href="https://chromewebstore.google.com/detail/linktopics/bdilfiejpkdfbildemdncbkblegpejfb" target="_blank" rel="noopener noreferrer">
-👉 Install LinkTopics and complete your LinkedIn ad-blocking setup in minutes
-</a></p>
+      <section>
+        <h2>Final step: complete your setup</h2>
+        <p>If LinkedIn is part of your daily work — sales, recruiting, learning, networking — switching to a purpose-built tool makes a noticeable difference in focus and productivity.</p>
+
+        <p><a href="https://chromewebstore.google.com/detail/linktopics/bdilfiejpkdfbildemdncbkblegpejfb" target="_blank" rel="noopener noreferrer">
+          👉 Install LinkTopics and complete your LinkedIn ad-blocking setup
+        </a></p>
+      </section>
+
+    </article>
+  </main>
+</body>
+</html>
