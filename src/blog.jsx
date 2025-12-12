@@ -7,7 +7,7 @@ import React, {
   isValidElement,
   cloneElement,
   useEffect,
-  useState,          
+  useState,
 } from "react";
 
 import "./blog.css";
@@ -51,9 +51,8 @@ function setJsonLd(id, data) {
   s.textContent = JSON.stringify(data);
 }
 function siteOrigin() {
-  if (typeof window === "undefined") return "https://www.linktopics.me";
-  const o = window.location.origin || "https://www.linktopics.me";
-  return o.replace("://linktopics.me", "://www.linktopics.me");
+  const SITE_URL = "https://www.linktopics.me";
+  return SITE_URL;
 }
 
 /* ----------------------------------------------------
@@ -64,7 +63,10 @@ function BlogListSeo() {
     "Blog – LinkedIn Feed Filter Tips (Chrome Extension) | LinkTopics";
   const description =
     "Guides to clean your LinkedIn feed: hide ads/sponsored, mute keywords, highlight topics, and boost productivity with LinkTopics (Chrome extension).";
+
+  // ✅ canonical should be stable, no query params (even if /blog?page=2)
   const url = siteOrigin() + "/blog";
+
   const image = siteOrigin() + "/1280x630_OG_image.png";
 
   useEffect(() => {
@@ -152,14 +154,10 @@ function BlogPostSeo({ post }) {
     setMeta("name", "twitter:site", "@miguelduquec");
 
     // Article meta
-    if (datePublished)
-      setMeta("property", "article:published_time", datePublished);
-    if (dateModified)
-      setMeta("property", "article:modified_time", dateModified);
+    if (datePublished) setMeta("property", "article:published_time", datePublished);
+    if (dateModified) setMeta("property", "article:modified_time", dateModified);
     setMeta("property", "article:section", section);
-    document
-      .querySelectorAll('meta[property="article:tag"]')
-      .forEach((m) => m.remove());
+    document.querySelectorAll('meta[property="article:tag"]').forEach((m) => m.remove());
     tags.forEach((t) => setMeta("property", "article:tag", t));
 
     // JSON-LD Article
@@ -193,18 +191,7 @@ function BlogPostSeo({ post }) {
         { "@type": "ListItem", position: 3, name: post.title, item: url },
       ],
     });
-  }, [
-    title,
-    description,
-    url,
-    image,
-    datePublished,
-    dateModified,
-    post.title,
-    origin,
-    section,
-    tags,
-  ]);
+  }, [title, description, url, image, datePublished, dateModified, post.title, section, tags, origin]);
 
   return null;
 }
@@ -338,34 +325,25 @@ const LEGACY_POSTS = {
 /* ----------------------------------------------------
    Loader dinâmico de posts em src/posts/*
 ---------------------------------------------------- */
-
-// HTML bruto (string) de todos os content*.html
 const htmlModules = import.meta.glob("./posts/*/content*.html", {
   eager: true,
   as: "raw",
 });
 
-// Thumbnails (URL de imagem)
 const coverModules = import.meta.glob("./posts/*/thumbnail.*", {
   eager: true,
 });
 
-/**
- * Constrói o array de posts a partir de src/posts/*
- * Respeita LEGACY_POSTS para os primeiros 4
- */
 function buildPosts() {
   const posts = [];
 
   Object.entries(htmlModules).forEach(([path, html]) => {
-    // path ex: "./posts/2025-11-24-remove-liked-by/content.html"
     const m = path.match(/\.\/posts\/([^/]+)\/content/i);
     if (!m) return;
-    const folder = m[1]; // "2025-11-24-remove-liked-by" ou "001-focus-mode"
+    const folder = m[1];
 
     const legacy = LEGACY_POSTS[folder];
 
-    // cover correspondente
     const coverKeyPrefix = `./posts/${folder}/thumbnail.`;
     const coverKey = Object.keys(coverModules).find((k) =>
       k.startsWith(coverKeyPrefix)
@@ -392,7 +370,6 @@ function buildPosts() {
     if (legacy) {
       ({ title, slug, excerpt, date, dateISO, tags } = legacy);
     } else {
-      // Ler <h1> e primeiro <p> do HTML
       const h1Match = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i);
       const pMatch = html.match(/<p[^>]*>([\s\S]*?)<\/p>/i);
       const stripTags = (str = "") => str.replace(/<[^>]+>/g, "").trim();
@@ -401,7 +378,6 @@ function buildPosts() {
       excerpt = pMatch ? stripTags(pMatch[1]) : "";
       slug = slugify(title);
 
-      // Derivar data da pasta: 2025-11-24-...
       const dMatch = folder.match(/^(\d{4}-\d{2}-\d{2})-/);
       if (dMatch) {
         dateISO = `${dMatch[1]}T00:00:00.000Z`;
@@ -427,7 +403,6 @@ function buildPosts() {
     });
   });
 
-  // Ordenar por data desc (posts mais recentes primeiro)
   posts.sort((a, b) => {
     const da = a.dateISO || "";
     const db = b.dateISO || "";
@@ -454,8 +429,7 @@ function Tag({ children }) {
   return <span className="blog-tag">{children}</span>;
 }
 function ShareBar({ title, slug }) {
-  const url =
-    typeof window !== "undefined" ? window.location.origin + "/blog/" + slug : "";
+  const url = `https://www.linktopics.me/blog/${slug}`;
   const text = encodeURIComponent(title);
   const shareUrl = encodeURIComponent(url);
   return (
@@ -485,6 +459,62 @@ function ShareBar({ title, slug }) {
     </div>
   );
 }
+
+function SiteFooter() {
+  return (
+    <footer className="site-footer">
+      <a href="/">Home</a>
+      <a href="/blog">Blog</a>
+      <a href="/privacy-policy">Privacy</a>
+      <a href="/tos">Terms</a>
+    </footer>
+  );
+}
+
+function RelatedPosts({ currentPost, posts, max = 6 }) {
+  const related = useMemo(() => {
+    const curTags = new Set(
+      (currentPost.tags || []).map((t) => String(t).toLowerCase())
+    );
+
+    const scored = posts
+      .filter((p) => p.slug !== currentPost.slug)
+      .map((p) => {
+        const tags = (p.tags || []).map((t) => String(t).toLowerCase());
+        const score = tags.reduce(
+          (acc, t) => acc + (curTags.has(t) ? 1 : 0),
+          0
+        );
+        return { post: p, score };
+      })
+      .sort((a, b) => b.score - a.score)
+      .map((x) => x.post);
+
+    const fallback = posts.filter((p) => p.slug !== currentPost.slug);
+    const merged = [];
+    for (const p of scored) if (!merged.find((x) => x.slug === p.slug)) merged.push(p);
+    for (const p of fallback) if (!merged.find((x) => x.slug === p.slug)) merged.push(p);
+
+    return merged.slice(0, max);
+  }, [currentPost, posts, max]);
+
+  if (!related.length) return null;
+
+  return (
+    <section className="related-posts">
+      <h3 className="related-title">Related posts</h3>
+      <div className="related-grid">
+        {related.map((p) => (
+          <a key={p.slug} className="related-card" href={`/blog/${p.slug}`}>
+            <div className="related-card-title">{p.title}</div>
+            <div className="related-card-meta">{p.date}</div>
+          </a>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function TableOfContents({ headings }) {
   if (!headings?.length) return null;
   return (
@@ -508,10 +538,16 @@ function TableOfContents({ headings }) {
 ---------------------------------------------------- */
 function BlogList() {
   const PAGE_SIZE = 6;
-  const [currentPage, setCurrentPage] = useState(1);
+
+  // ✅ init page from query param (SEO crawlable pagination)
+  const [currentPage, setCurrentPage] = useState(() => {
+    if (typeof window === "undefined") return 1;
+    const p = new URLSearchParams(window.location.search).get("page");
+    const n = Number(p);
+    return Number.isFinite(n) && n >= 1 ? n : 1;
+  });
 
   const totalPages = Math.max(1, Math.ceil(posts.length / PAGE_SIZE));
-
   const safePage = Math.min(Math.max(currentPage, 1), totalPages);
   const startIndex = (safePage - 1) * PAGE_SIZE;
   const pagePosts = posts.slice(startIndex, startIndex + PAGE_SIZE);
@@ -519,11 +555,16 @@ function BlogList() {
   const goToPage = (page) => {
     if (page < 1 || page > totalPages) return;
     setCurrentPage(page);
-    // opcional: scroll para o topo da lista
+
+    // ✅ push URL query param (page=2 etc)
+    const url = new URL(window.location.href);
+    if (page === 1) url.searchParams.delete("page");
+    else url.searchParams.set("page", String(page));
+    window.history.pushState({}, "", url.toString());
+
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // cria a lista [1, ..., N] com "..." no meio quando necessário
   const getPaginationItems = () => {
     if (totalPages <= 7) {
       return Array.from({ length: totalPages }, (_, i) => ({
@@ -592,10 +633,7 @@ function BlogList() {
         </div>
 
         {posts.length > PAGE_SIZE && (
-          <nav
-            className="blog-pagination"
-            aria-label="Blog pagination"
-          >
+          <nav className="blog-pagination" aria-label="Blog pagination">
             <button
               type="button"
               className="blog-page-nav"
@@ -635,11 +673,12 @@ function BlogList() {
             </button>
           </nav>
         )}
+
+        <SiteFooter />
       </div>
     </section>
   );
 }
-
 
 function BlogPost({ post }) {
   const { enhancedNode, enhancedHtml, headings, reading } = useMemo(() => {
@@ -669,11 +708,13 @@ function BlogPost({ post }) {
     <article className="blog-article">
       <BlogPostSeo post={post} />
       <div className="container blog-container">
+        {/* ✅ stronger breadcrumb internal links */}
         <nav className="blog-breadcrumbs">
-          <a href="/blog" aria-label="Back to blog">
-            ← Back
-          </a>
+          <a href="/">Home</a>
+          <span aria-hidden>›</span>
+          <a href="/blog">Blog</a>
         </nav>
+
         <header className="blog-article-header">
           <h1 className="blog-article-title">{post.title}</h1>
           <div className="blog-meta">
@@ -703,8 +744,14 @@ function BlogPost({ post }) {
             ) : (
               enhancedNode
             )}
+
+            {/* ✅ internal links to other posts */}
+            <RelatedPosts currentPost={post} posts={posts} max={6} />
+
             <ShareBar title={post.title} slug={post.slug} />
+            <SiteFooter />
           </div>
+
           <TableOfContents headings={headings} />
         </div>
       </div>
@@ -716,8 +763,8 @@ function BlogPost({ post }) {
    Top-level router
 ---------------------------------------------------- */
 export default function BlogPage() {
-  const path =
-    typeof window !== "undefined" ? window.location.pathname : "/blog";
+  const path = typeof window !== "undefined" ? window.location.pathname : "/blog";
+
   const slug = useMemo(() => {
     const m = path.match(/^\/blog\/?(.+)?$/i);
     return m && m[1] ? m[1].replace(/\/+$/, "") : "";
@@ -734,6 +781,7 @@ export default function BlogPage() {
           <p>
             We couldn’t find that post. <a href="/blog">Go back to the blog.</a>
           </p>
+          <SiteFooter />
         </div>
       </section>
     );

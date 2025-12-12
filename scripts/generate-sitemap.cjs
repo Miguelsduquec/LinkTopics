@@ -1,5 +1,7 @@
-// scripts/generate-sitemap.js
-// Gera public/sitemap.xml a partir dos posts em src/blog/posts
+// scripts/generate-sitemap.cjs
+// Gera public/sitemap.xml a partir dos posts em src/posts
+// ✅ Slugs geradas a partir do <h1> (mesma lógica do blog.jsx)
+// ✅ Corrige typo legacy "hide-linkedin-adds" -> "hide-linkedin-ads"
 
 const fs = require("fs");
 const path = require("path");
@@ -29,7 +31,7 @@ const LEGACY_POSTS = {
     dateISO: "2025-10-10T00:00:00.000Z",
   },
   "004-hide-linkedin-ads": {
-    slug: "hide-linkedin-adds",
+    slug: "hide-linkedin-ads", // ✅ FIXED (was hide-linkedin-adds)
     dateISO: "2025-11-21T00:00:00.000Z",
   },
 };
@@ -62,13 +64,17 @@ function deriveDateFromFolder(folder) {
   return isoBase;
 }
 
+// ✅ Match blog.jsx logic: slug from <h1> first
 function deriveSlugFromFolder(folder, html) {
-  const m = folder.match(/^\d{4}-\d{2}-\d{2}-(.+)$/);
-  if (m) return slugify(m[1]);
-
+  // Prefer H1 (same as blog.jsx)
   const h1 = extractFirstHeading(html);
   if (h1) return slugify(h1);
 
+  // Fallback: use folder suffix (strip leading YYYY-MM-DD-)
+  const m = folder.match(/^\d{4}-\d{2}-\d{2}-(.+)$/);
+  if (m) return slugify(m[1]);
+
+  // Final fallback: folder name
   return slugify(folder);
 }
 
@@ -114,10 +120,7 @@ function generate() {
         return;
       }
 
-      const html = fs.readFileSync(
-        path.join(folderPath, contentFile),
-        "utf8"
-      );
+      const html = fs.readFileSync(path.join(folderPath, contentFile), "utf8");
 
       const legacy = LEGACY_POSTS[folder];
       let slug;
@@ -144,7 +147,9 @@ function generate() {
   // Construir XML
   const xmlParts = [];
   xmlParts.push('<?xml version="1.0" encoding="UTF-8"?>');
-  xmlParts.push('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">');
+  xmlParts.push(
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+  );
 
   urls.forEach((u) => {
     xmlParts.push("  <url>");
@@ -152,8 +157,7 @@ function generate() {
     if (u.lastmod) xmlParts.push(`    <lastmod>${u.lastmod}</lastmod>`);
     if (u.changefreq)
       xmlParts.push(`    <changefreq>${u.changefreq}</changefreq>`);
-    if (u.priority)
-      xmlParts.push(`    <priority>${u.priority}</priority>`);
+    if (u.priority) xmlParts.push(`    <priority>${u.priority}</priority>`);
     xmlParts.push("  </url>");
   });
 

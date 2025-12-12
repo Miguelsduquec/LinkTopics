@@ -138,3 +138,12 @@
   padding: 0 0.4rem;
   color: #9ca3af;
 }
+.related-posts { margin-top: 2.5rem; }
+.related-title { font-size: 1.1rem; margin-bottom: 0.75rem; }
+.related-grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.related-card { display:block; padding: 14px; border: 1px solid rgba(0,0,0,0.08); border-radius: 12px; text-decoration:none; }
+.related-card-title { font-weight: 600; margin-bottom: 6px; }
+.related-card-meta { opacity: 0.7; font-size: 0.9rem; }
+
+.site-footer { margin-top: 3rem; padding-top: 1.25rem; border-top: 1px solid rgba(0,0,0,0.08); display:flex; gap: 16px; flex-wrap: wrap; }
+.site-footer a { text-decoration:none; }
