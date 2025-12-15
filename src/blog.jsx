@@ -54,11 +54,14 @@ function siteOrigin() {
   const SITE_URL = "https://www.linktopics.me";
   return SITE_URL;
 }
+
+/* ----------------------------------------------------
+   Outgoing links (para resolver Ahrefs "no outgoing links")
+---------------------------------------------------- */
 const OUT_CHROME_URL =
   "https://chromewebstore.google.com/detail/bdilfiejpkdfbildemdncbkblegpejfb?utm_source=linktopics_blog";
 const OUT_YOUTUBE_URL = "https://www.youtube.com/watch?v=L28hvycCQqc";
 const OUT_X_URL = "https://x.com/miguelduquec";
-
 
 /* ----------------------------------------------------
    BLOG SEO
@@ -69,15 +72,24 @@ function BlogListSeo() {
   const description =
     "Guides to clean your LinkedIn feed: hide ads/sponsored, mute keywords, highlight topics, and boost productivity with LinkTopics (Chrome extension).";
 
-  // ✅ canonical should be stable, no query params (even if /blog?page=2)
+  // canonical estável, sem query params
   const url = siteOrigin() + "/blog";
-
   const image = siteOrigin() + "/1280x630_OG_image.png";
+
+  // ✅ paginação: /blog?page=2+ => noindex,follow
+  const isPaginated = useMemo(() => {
+    if (typeof window === "undefined") return false;
+    const p = new URLSearchParams(window.location.search).get("page");
+    const n = Number(p);
+    return Number.isFinite(n) && n >= 2;
+  }, []);
 
   useEffect(() => {
     setTitle(title);
     setMeta("name", "description", description);
     setLink("canonical", url);
+
+    setMeta("name", "robots", isPaginated ? "noindex,follow" : "index,follow");
 
     // Open Graph
     setMeta("property", "og:title", title);
@@ -105,7 +117,7 @@ function BlogListSeo() {
         { "@type": "ListItem", position: 2, name: "Blog", item: url },
       ],
     });
-  }, [title, description, url, image]);
+  }, [title, description, url, image, isPaginated]);
 
   return null;
 }
@@ -140,6 +152,9 @@ function BlogPostSeo({ post }) {
     setTitle(title);
     setMeta("name", "description", description);
     setLink("canonical", url);
+
+    // ✅ posts: index,follow
+    setMeta("name", "robots", "index,follow");
 
     // Open Graph (article)
     setMeta("property", "og:title", title);
@@ -196,7 +211,18 @@ function BlogPostSeo({ post }) {
         { "@type": "ListItem", position: 3, name: post.title, item: url },
       ],
     });
-  }, [title, description, url, image, datePublished, dateModified, post.title, section, tags, origin]);
+  }, [
+    title,
+    description,
+    url,
+    image,
+    datePublished,
+    dateModified,
+    post.title,
+    section,
+    tags,
+    origin,
+  ]);
 
   return null;
 }
@@ -280,9 +306,6 @@ function enhanceHtml(html = "") {
 function readingTimeFromText(text = "") {
   const words = text.trim().split(/\s+/).filter(Boolean).length;
   return Math.max(1, Math.round(words / 200));
-}
-function estimateReadingTime(content) {
-  return readingTimeFromText(collectText(content));
 }
 
 /* ----------------------------------------------------
@@ -430,9 +453,11 @@ function SectionHeader({ title, subtitle }) {
     </div>
   );
 }
+
 function Tag({ children }) {
   return <span className="blog-tag">{children}</span>;
 }
+
 function ShareBar({ title, slug }) {
   const url = `https://www.linktopics.me/blog/${slug}`;
   const text = encodeURIComponent(title);
@@ -443,7 +468,7 @@ function ShareBar({ title, slug }) {
         className="sharebtn"
         href={`https://twitter.com/intent/tweet?text=${text}&url=${shareUrl}`}
         target="_blank"
-        rel="noreferrer"
+        rel="noopener noreferrer"
       >
         Share on X
       </a>
@@ -451,7 +476,7 @@ function ShareBar({ title, slug }) {
         className="sharebtn"
         href={`https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`}
         target="_blank"
-        rel="noreferrer"
+        rel="noopener noreferrer"
       >
         Share on LinkedIn
       </a>
@@ -465,6 +490,42 @@ function ShareBar({ title, slug }) {
   );
 }
 
+/* ✅ bloco explícito de outgoing links (para Ahrefs) */
+function OutgoingLinksBlock({ compact = false }) {
+  return (
+    <section
+      className="outgoing-links"
+      style={{
+        marginTop: compact ? 16 : 28,
+        padding: "14px 16px",
+        border: "1px solid #e6e8ee",
+        borderRadius: 14,
+        background: "#f7f8fb",
+      }}
+    >
+      <div style={{ fontWeight: 800, marginBottom: 8 }}>
+        Try LinkTopics (external links)
+      </div>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
+        <a href={OUT_CHROME_URL} target="_blank" rel="noopener noreferrer">
+          Chrome Web Store
+        </a>
+        <a href={OUT_YOUTUBE_URL} target="_blank" rel="noopener noreferrer">
+          Watch demo
+        </a>
+        <a href={OUT_X_URL} target="_blank" rel="noopener noreferrer">
+          X
+        </a>
+      </div>
+
+      <div style={{ marginTop: 10, opacity: 0.9 }}>
+        Internal: <a href="/">Home</a> · <a href="/blog">Blog</a> ·{" "}
+        <a href="/privacy-policy">Privacy</a> · <a href="/tos">Terms</a>
+      </div>
+    </section>
+  );
+}
+
 function SiteFooter() {
   return (
     <footer className="site-footer">
@@ -475,35 +536,22 @@ function SiteFooter() {
       <a href="/tos">Terms</a>
 
       {/* outgoing */}
-      <span className="site-footer-sep" aria-hidden="true">•</span>
+      <span className="site-footer-sep" aria-hidden="true">
+        •
+      </span>
 
-      <a
-        href={OUT_CHROME_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <a href={OUT_CHROME_URL} target="_blank" rel="noopener noreferrer">
         Chrome Web Store
       </a>
-
-      <a
-        href={OUT_YOUTUBE_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <a href={OUT_YOUTUBE_URL} target="_blank" rel="noopener noreferrer">
         Watch demo
       </a>
-
-      <a
-        href={OUT_X_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <a href={OUT_X_URL} target="_blank" rel="noopener noreferrer">
         X
       </a>
     </footer>
   );
 }
-
 
 function RelatedPosts({ currentPost, posts, max = 6 }) {
   const related = useMemo(() => {
@@ -525,11 +573,10 @@ function RelatedPosts({ currentPost, posts, max = 6 }) {
       .map((x) => x.post);
 
     const fallback = posts.filter((p) => p.slug !== currentPost.slug);
+
     const merged = [];
-    for (const p of scored)
-      if (!merged.find((x) => x.slug === p.slug)) merged.push(p);
-    for (const p of fallback)
-      if (!merged.find((x) => x.slug === p.slug)) merged.push(p);
+    for (const p of scored) if (!merged.find((x) => x.slug === p.slug)) merged.push(p);
+    for (const p of fallback) if (!merged.find((x) => x.slug === p.slug)) merged.push(p);
 
     return merged.slice(0, max);
   }, [currentPost, posts, max]);
@@ -575,7 +622,6 @@ function TableOfContents({ headings }) {
 function BlogList() {
   const PAGE_SIZE = 6;
 
-  // ✅ init page from query param (SEO crawlable pagination)
   const [currentPage, setCurrentPage] = useState(() => {
     if (typeof window === "undefined") return 1;
     const p = new URLSearchParams(window.location.search).get("page");
@@ -592,7 +638,6 @@ function BlogList() {
     if (page < 1 || page > totalPages) return;
     setCurrentPage(page);
 
-    // ✅ push URL query param (page=2 etc)
     const url = new URL(window.location.href);
     if (page === 1) url.searchParams.delete("page");
     else url.searchParams.set("page", String(page));
@@ -710,6 +755,9 @@ function BlogList() {
           </nav>
         )}
 
+        {/* ✅ garante outgoing links também na lista */}
+        <OutgoingLinksBlock compact />
+
         <SiteFooter />
       </div>
     </section>
@@ -736,7 +784,7 @@ function BlogPost({ post }) {
       enhancedNode: enhanced,
       enhancedHtml: null,
       headings,
-      reading: estimateReadingTime(post.content),
+      reading: readingTimeFromText(collectText(post.content)),
     };
   }, [post]);
 
@@ -744,7 +792,6 @@ function BlogPost({ post }) {
     <article className="blog-article">
       <BlogPostSeo post={post} />
       <div className="container blog-container">
-        {/* ✅ stronger breadcrumb internal links */}
         <nav className="blog-breadcrumbs">
           <a href="/">Home</a>
           <span aria-hidden>›</span>
@@ -781,8 +828,11 @@ function BlogPost({ post }) {
               enhancedNode
             )}
 
-            {/* ✅ internal links to other posts (anti-orphan) */}
+            {/* ✅ internal links */}
             <RelatedPosts currentPost={post} posts={posts} max={6} />
+
+            {/* ✅ outgoing links (para Ahrefs) */}
+            <OutgoingLinksBlock />
 
             <ShareBar title={post.title} slug={post.slug} />
             <SiteFooter />
@@ -822,5 +872,6 @@ export default function BlogPage() {
       </section>
     );
   }
+
   return <BlogPost post={post} />;
 }
