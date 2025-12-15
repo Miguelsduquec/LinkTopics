@@ -550,10 +550,9 @@ function Hero() {
       <div className="container">
         <div className="grid-2" style={{ alignItems: "center" }}>
           <div>
-            <h1>Focus mode for LinkedIn</h1>
+            <h1>A Smarter LinkedIn Feed</h1>
             <p className="sub">
-              Tell LinkedIn what to show: hide irrelevant posts, highlight what
-              you care about, and reorder your feed around your interests.
+            Filter ads, reactions, and distractions — automatically.
             </p>
             <div className="hero-ctas">
               <PrimaryCTA />

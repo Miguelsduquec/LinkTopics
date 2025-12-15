@@ -504,7 +504,7 @@ function OutgoingLinksBlock({ compact = false }) {
       }}
     >
       <div style={{ fontWeight: 800, marginBottom: 8 }}>
-        Try LinkTopics (external links)
+        Try LinkTopics
       </div>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
         <a href={OUT_CHROME_URL} target="_blank" rel="noopener noreferrer">
@@ -519,7 +519,7 @@ function OutgoingLinksBlock({ compact = false }) {
       </div>
 
       <div style={{ marginTop: 10, opacity: 0.9 }}>
-        Internal: <a href="/">Home</a> · <a href="/blog">Blog</a> ·{" "}
+         <a href="/">Home</a> · <a href="/blog">Blog</a> ·{" "}
         <a href="/privacy-policy">Privacy</a> · <a href="/tos">Terms</a>
       </div>
     </section>

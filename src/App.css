@@ -218,3 +218,16 @@
   text-decoration: none;
   font-weight: 600;
 }
+
+.seo-links{
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-size: 12px;
+  opacity: .75;
+  padding: 8px 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+.seo-links .sep{ opacity: .6; }
+.seo-links a{ color: inherit; text-decoration: underline; }
