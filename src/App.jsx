@@ -4,13 +4,14 @@ import BlogPage from "./blog.jsx";
 import "./App.css";
 
 const APP_NAME = "LinkTopics";
-const CHROME_URL = "https://chromewebstore.google.com/detail/bdilfiejpkdfbildemdncbkblegpejfb?utm_source=item-share-cb";
+const CHROME_URL =
+  "https://chromewebstore.google.com/detail/bdilfiejpkdfbildemdncbkblegpejfb?utm_source=item-share-cb";
 const VIDEO_URL = "https://www.youtube.com/watch?v=L28hvycCQqc";
 const CONTACT_MAILTO = "mailto:miguel.duquec@gmail.com?subject=Support%20request";
 
 /* >>> LINKS DO STRIPE */
 const STRIPE_MONTHLY_URL = "https://buy.stripe.com/dRm8wPceS5C57RddcAbsc04";
-const STRIPE_YEARLY_URL  = "https://buy.stripe.com/3cI6oHfr4c0t5J51tSbsc05";
+const STRIPE_YEARLY_URL = "https://buy.stripe.com/3cI6oHfr4c0t5J51tSbsc05";
 
 // --- LICENÇA / PRO ---
 const API_VERIFY_URL = "/api/stripe-verify";
@@ -25,26 +26,37 @@ function setLicense(token) {
     if (token) localStorage.setItem(LICENSE_STORAGE_KEY, token);
     // Notifica a extensão (content/options escutam esta msg)
     window.postMessage({ type: "LTP_LICENSE_UPDATE", token }, "*");
-  } catch (e) { /* no-op */ }
+  } catch (e) {
+    /* no-op */
+  }
 }
 
 function getLicense() {
-  try { return localStorage.getItem(LICENSE_STORAGE_KEY) || ""; } catch { return ""; }
+  try {
+    return localStorage.getItem(LICENSE_STORAGE_KEY) || "";
+  } catch {
+    return "";
+  }
 }
 
 export default function AppRouter() {
-  const path = typeof window !== 'undefined' ? window.location.pathname : '/';
-  if (path === '/privacy-policy') return <LegalPage kind="privacy" />;
-  if (path === '/tos' || path === '/terms' || path === '/terms-of-service') return <LegalPage kind="tos" />;
-  if (path.startsWith('/blog')) return (
-    <main className="ltp-root" data-page="blog">
-      <Seo />
-      <StyleTag />
-      <Header />
-      <BlogPage />
-      <Footer />
-    </main>
-  );
+  const path = typeof window !== "undefined" ? window.location.pathname : "/";
+
+  if (path === "/privacy-policy") return <LegalPage kind="privacy" />;
+  if (path === "/tos" || path === "/terms" || path === "/terms-of-service")
+    return <LegalPage kind="tos" />;
+
+  if (path.startsWith("/blog"))
+    return (
+      <main className="ltp-root" data-page="blog">
+        {/* ✅ Sem FAQ/Software aqui (blog tem SEO próprio em blog.jsx) */}
+        <Seo canonical="https://www.linktopics.me/blog" />
+        <StyleTag />
+        <Header />
+        <BlogPage />
+        <Footer />
+      </main>
+    );
 
   return <LandingPage />;
 }
@@ -79,10 +91,13 @@ function LandingPage() {
       try {
         setVerifying(true);
         setErrorMsg("");
-        const res = await fetch(`${API_VERIFY_URL}?session_id=${encodeURIComponent(sid)}`, {
-          method: "GET",
-          headers: { "Accept": "application/json" }
-        });
+        const res = await fetch(
+          `${API_VERIFY_URL}?session_id=${encodeURIComponent(sid)}`,
+          {
+            method: "GET",
+            headers: { Accept: "application/json" },
+          }
+        );
         if (!res.ok) throw new Error("Verification failed");
         const data = await res.json(); // { ok:true, token:"<jwt>", plan:"monthly|yearly" }
         if (data?.ok && data?.token) {
@@ -96,7 +111,9 @@ function LandingPage() {
           throw new Error(data?.error || "Invalid response");
         }
       } catch (e) {
-        setErrorMsg("We couldn't activate Pro automatically. Please contact support.");
+        setErrorMsg(
+          "We couldn't activate Pro automatically. Please contact support."
+        );
       } finally {
         setVerifying(false);
       }
@@ -107,23 +124,30 @@ function LandingPage() {
 
   return (
     <main className="ltp-root">
-      <Seo />
+      {/* ✅ Home: pode ter FAQ + SoftwareApplication */}
+      <Seo
+        canonical="https://www.linktopics.me/"
+        includeFAQ
+        includeSoftware
+      />
       <StyleTag />
       <Header />
 
       {/* Banner de estado Pro */}
       {verifying && (
-        <div style={{background:"#fef3c7", color:"#78350f", padding:"10px 0"}}>
+        <div style={{ background: "#fef3c7", color: "#78350f", padding: "10px 0" }}>
           <div className="container">Activating Pro… one moment.</div>
         </div>
       )}
       {!verifying && proActive && (
-        <div style={{background:"#ecfeff", color:"#064e3b", padding:"10px 0"}}>
-          <div className="container">✅ Pro is active on this browser. Open LinkedIn with LinkTopics to enjoy all features.</div>
+        <div style={{ background: "#ecfeff", color: "#064e3b", padding: "10px 0" }}>
+          <div className="container">
+            ✅ Pro is active on this browser. Open LinkedIn with LinkTopics to enjoy all features.
+          </div>
         </div>
       )}
       {errorMsg && (
-        <div style={{background:"#fee2e2", color:"#7f1d1d", padding:"10px 0"}}>
+        <div style={{ background: "#fee2e2", color: "#7f1d1d", padding: "10px 0" }}>
           <div className="container">⚠️ {errorMsg}</div>
         </div>
       )}
@@ -138,13 +162,24 @@ function LandingPage() {
   );
 }
 
-
-export function Seo() {
-  const title = "LinkTopics – LinkedIn Feed Filter (Chrome Extension)";
-  const description =
+/* =====================================================
+   SEO (agora parametrizável)
+===================================================== */
+export function Seo({
+  canonical,
+  title,
+  description,
+  includeFAQ = false,
+  includeSoftware = false,
+}) {
+  const _title =
+    title || "LinkTopics – LinkedIn Feed Filter (Chrome Extension)";
+  const _description =
+    description ||
     "A LinkedIn feed cleaner: hide ads and promoted posts, reacted posts, liked post and more. The simplest Chrome extension to focus on what matters and keep a clean, focused LinkedIn";
-  const url = "https://www.linktopics.me/";
-  const ogImage = `${url}1280x630_OG_image.png`;
+
+  const url = canonical || "https://www.linktopics.me/";
+  const ogImage = "https://www.linktopics.me/1280x630_OG_image.png";
   const siteName = "LinkTopics";
 
   const jsonLdSoftware = {
@@ -153,37 +188,76 @@ export function Seo() {
     name: siteName,
     applicationCategory: "BrowserExtension",
     operatingSystem: "Chrome, Edge",
+    url,
+    installUrl: CHROME_URL,
     offers: [
       { "@type": "Offer", price: "0", priceCurrency: "USD", name: "Free" },
       { "@type": "Offer", price: "4.99", priceCurrency: "USD", name: "Pro (monthly)" },
-      { "@type": "Offer", price: "48", priceCurrency: "USD", priceValidUntil: "2026-12-31", name: "Pro (yearly)" }
+      { "@type": "Offer", price: "48", priceCurrency: "USD", name: "Pro (yearly)" },
     ],
-    description
+    description: _description,
   };
 
   const jsonLdFAQ = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
     mainEntity: [
-      { "@type": "Question", name: "Is my data safe?", acceptedAnswer: { "@type": "Answer", text: "Everything runs locally in your browser. No risky automations." } },
-      { "@type": "Question", name: "Which browsers are supported?", acceptedAnswer: { "@type": "Answer", text: "Chrome, Brave and Edge (Chromium). Firefox on the roadmap." } }
-    ]
+      {
+        "@type": "Question",
+        name: "Is my data safe?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Everything runs locally in your browser. No risky automations.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Which browsers are supported?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Chrome, Brave and Edge (Chromium). Firefox on the roadmap.",
+        },
+      },
+    ],
   };
 
   useEffect(() => {
     const ensureCharset = () => {
       let c = document.head.querySelector("meta[charset]");
-      if (!c) { c = document.createElement("meta"); c.setAttribute("charset", "utf-8"); document.head.prepend(c); }
+      if (!c) {
+        c = document.createElement("meta");
+        c.setAttribute("charset", "utf-8");
+        document.head.prepend(c);
+      }
     };
 
     const setMeta = (attr, key, value) => {
       let el = document.head.querySelector(`meta[${attr}="${key}"]`);
-      if (!el) { el = document.createElement("meta"); el.setAttribute(attr, key); document.head.appendChild(el); }
+      if (!el) {
+        el = document.createElement("meta");
+        el.setAttribute(attr, key);
+        document.head.appendChild(el);
+      }
       el.setAttribute("content", value);
     };
 
     const linkRel = (rel, href, extra = {}) => {
-      let l = Array.from(document.head.querySelectorAll(`link[rel="${rel}"]`)).find(x => x.getAttribute("href") === href);
+      // canonical deve ser único (substitui sempre o existente)
+      if (rel === "canonical") {
+        let existing = document.head.querySelector('link[rel="canonical"]');
+        if (!existing) {
+          existing = document.createElement("link");
+          existing.setAttribute("rel", "canonical");
+          document.head.appendChild(existing);
+        }
+        existing.setAttribute("href", href);
+        for (const k in extra) existing.setAttribute(k, extra[k]);
+        return;
+      }
+
+      let l = Array.from(document.head.querySelectorAll(`link[rel="${rel}"]`)).find(
+        (x) => x.getAttribute("href") === href
+      );
       if (!l) {
         l = document.createElement("link");
         l.setAttribute("rel", rel);
@@ -195,26 +269,53 @@ export function Seo() {
 
     const scriptJson = (id, data) => {
       let s = document.getElementById(id);
-      if (!s) { s = document.createElement("script"); s.type = "application/ld+json"; s.id = id; document.head.appendChild(s); }
+      if (!data) {
+        if (s) s.remove();
+        return;
+      }
+      if (!s) {
+        s = document.createElement("script");
+        s.type = "application/ld+json";
+        s.id = id;
+        document.head.appendChild(s);
+      }
       s.textContent = JSON.stringify(data);
     };
 
     document.documentElement.lang = "en";
-    document.title = title;
+    document.title = _title;
     ensureCharset();
 
     // Essentials
-    setMeta("name", "description", description);
+    setMeta("name", "description", _description);
     setMeta("name", "viewport", "width=device-width, initial-scale=1, viewport-fit=cover");
     setMeta("name", "theme-color", "#ffffff");
     setMeta("name", "robots", "index,follow,max-image-preview:large");
     setMeta("name", "referrer", "origin-when-cross-origin");
 
+    // Open Graph
+    setMeta("property", "og:title", _title);
+    setMeta("property", "og:description", _description);
+    setMeta("property", "og:type", "website");
+    setMeta("property", "og:url", url);
+    setMeta("property", "og:image", ogImage);
+    setMeta("property", "og:site_name", siteName);
+
+    // Twitter
+    setMeta("name", "twitter:card", "summary_large_image");
+    setMeta("name", "twitter:title", _title);
+    setMeta("name", "twitter:description", _description);
+    setMeta("name", "twitter:image", ogImage);
+    setMeta("name", "twitter:site", "@miguelduquec");
+
     // Links
     linkRel("canonical", url);
     linkRel("preconnect", "https://fonts.gstatic.com", { crossorigin: "" });
     linkRel("preconnect", "https://fonts.googleapis.com");
-    linkRel("stylesheet", "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap");
+    linkRel(
+      "stylesheet",
+      "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
+    );
     linkRel("preconnect", "https://www.youtube.com");
     linkRel("preconnect", "https://i.ytimg.com");
     linkRel("icon", "/favicon-32x32.png", { sizes: "32x32", type: "image/png" });
@@ -223,14 +324,17 @@ export function Seo() {
     linkRel("manifest", "/site.webmanifest");
     linkRel("sitemap", "/sitemap.xml", { type: "application/xml" });
 
-    // Structured Data
-    scriptJson("ld-software", jsonLdSoftware);
-    scriptJson("ld-faq", jsonLdFAQ);
-  }, []);
+    // ✅ Structured Data: só quando faz sentido
+    scriptJson("ld-software", includeSoftware ? jsonLdSoftware : null);
+    scriptJson("ld-faq", includeFAQ ? jsonLdFAQ : null);
+  }, [url, _title, _description, includeFAQ, includeSoftware]);
 
   return null;
 }
 
+/* =====================================================
+   StyleTag e UI (igual ao teu)
+===================================================== */
 export function StyleTag() {
   return (
     <style>{`
@@ -364,7 +468,11 @@ export function Header() {
     <header className="nav">
       <div className="container nav-inner">
         <a href="/" className="brand">
-          <img src="/../favicon-bg-180x180.png" alt="LinkTopics" className="brand-logo" />
+          <img
+            src="/../favicon-bg-180x180.png"
+            alt="LinkTopics"
+            className="brand-logo"
+          />
           <span>{APP_NAME}</span>
         </a>
         <nav className="nav-center">
@@ -383,7 +491,12 @@ export function Header() {
 function PrimaryCTA() {
   const href = CHROME_URL && CHROME_URL.trim() ? CHROME_URL : CONTACT_MAILTO;
   return (
-    <a className="btn btn-primary btn-chrome" href={href} target="_blank" rel="noopener noreferrer">
+    <a
+      className="btn btn-primary btn-chrome"
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       <SiGooglechrome size={28} color="currentColor" aria-hidden="true" />
       <span>Add to Chrome</span>
     </a>
@@ -391,7 +504,11 @@ function PrimaryCTA() {
 }
 
 function SecondaryCTA({ label = "See Pro features" }) {
-  return <a className="btn btn-secondary" href="#pricing">{label}</a>;
+  return (
+    <a className="btn btn-secondary" href="#pricing">
+      {label}
+    </a>
+  );
 }
 
 function getEmbedUrl(url) {
@@ -400,10 +517,13 @@ function getEmbedUrl(url) {
     let out = url;
     if (out.includes("/embed/")) return out;
     if (out.includes("watch?v=")) out = out.replace("watch?v=", "embed/");
-    if (out.includes("youtu.be/")) out = out.replace("youtu.be/", "www.youtube.com/embed/");
+    if (out.includes("youtu.be/"))
+      out = out.replace("youtu.be/", "www.youtube.com/embed/");
     if (!/^https?:\/\//i.test(out)) out = "https://" + out;
     return out;
-  } catch { return url; }
+  } catch {
+    return url;
+  }
 }
 
 function VideoEmbed({ url, title = "Video" }) {
@@ -428,10 +548,13 @@ function Hero() {
   return (
     <section id="home" className="hero">
       <div className="container">
-        <div className="grid-2" style={{alignItems:'center'}}>
+        <div className="grid-2" style={{ alignItems: "center" }}>
           <div>
             <h1>Focus mode for LinkedIn</h1>
-            <p className="sub">Tell LinkedIn what to show: hide irrelevant posts, highlight what you care about, and reorder your feed around your interests.</p>
+            <p className="sub">
+              Tell LinkedIn what to show: hide irrelevant posts, highlight what
+              you care about, and reorder your feed around your interests.
+            </p>
             <div className="hero-ctas">
               <PrimaryCTA />
               <SecondaryCTA />
@@ -452,30 +575,41 @@ function Hero() {
 
 function SocialProof() {
   const reviews = [
-    { q: "I liked this first version, Miguel told me next version will have things I asked for ;)", a: "— Rachel, HR Lead" },
+    {
+      q: "I liked this first version, Miguel told me next version will have things I asked for ;)",
+      a: "— Rachel, HR Lead",
+    },
     { q: "Instaled and approved!", a: "— Tommy, Business Analyst" },
     { q: "Saved me 10–15 minutes every morning.", a: "— Pedro, DevOps Engineer" },
     { q: "Topics > keywords. My LinkedIn is useful again.", a: "— Joana, Product Manager" },
     { q: "Exactly what I needed to stay focused while hiring.", a: "— Rui, Tech Recruiter" },
     { q: "My feed finally surfaces the posts I care about.", a: "— Sofia, Data Scientist" },
     { q: "Great for filtering noise while prospecting.", a: "— Marco, SDR" },
-    { q: "Simple setup and it just works.", a: "— Laura, Software Engineer" }
+    { q: "Simple setup and it just works.", a: "— Laura, Software Engineer" },
   ];
 
   const Stars = () => (
-    <div className="stars">{[...Array(5)].map((_,i)=> (<svg key={i} viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.1 5.6.8-4 3.9.9 5.6L10 14.7 4.9 17.2 5.8 11.6 1.8 7.7l5.6-.8L10 1.8z"/></svg>))}</div>
+    <div className="stars">
+      {[...Array(5)].map((_, i) => (
+        <svg key={i} viewBox="0 0 20 20">
+          <path d="M10 1.8l2.5 5.1 5.6.8-4 3.9.9 5.6L10 14.7 4.9 17.2 5.8 11.6 1.8 7.7l5.6-.8L10 1.8z" />
+        </svg>
+      ))}
+    </div>
   );
 
   return (
     <section className="section section--tight">
       <div className="container">
         <div className="social-top">
-          <div className="rating"><Stars /> 4.9/5 from early users</div>
+          <div className="rating">
+            <Stars /> 4.9/5 from early users
+          </div>
         </div>
         <div className="carousel" aria-label="User reviews">
           <div className="carousel-track">
-            {[...reviews, ...reviews].map((r,idx)=> (
-              <div key={idx+':'+r.q} className="slide">
+            {[...reviews, ...reviews].map((r, idx) => (
+              <div key={idx + ":" + r.q} className="slide">
                 <div className="review">
                   <blockquote>“{r.q}”</blockquote>
                   <div className="meta">{r.a}</div>
@@ -495,8 +629,20 @@ function Pricing({ annual, setAnnual }) {
       <div className="container">
         <SectionHeader eyebrow="Pricing" title="Clear, honest plans" />
         <div className="billing-toggle" role="tablist" aria-label="Billing period">
-          <button onClick={() => setAnnual(false)} className={!annual ? "active" : ""} aria-pressed={!annual}>Monthly</button>
-          <button onClick={() => setAnnual(true)} className={annual ? "active" : ""} aria-pressed={annual}>Yearly</button>
+          <button
+            onClick={() => setAnnual(false)}
+            className={!annual ? "active" : ""}
+            aria-pressed={!annual}
+          >
+            Monthly
+          </button>
+          <button
+            onClick={() => setAnnual(true)}
+            className={annual ? "active" : ""}
+            aria-pressed={annual}
+          >
+            Yearly
+          </button>
         </div>
         <div className="pricing-grid">
           <div className="price-card">
@@ -506,19 +652,31 @@ function Pricing({ annual, setAnnual }) {
               <li>Hide Promoted posts</li>
               <li>Counters (On Page/Total)</li>
             </ul>
-            <div className="price-cta"><PrimaryCTA /></div>
+            <div className="price-cta">
+              <PrimaryCTA />
+            </div>
           </div>
 
           <div className="price-card pop">
             <div className="price-title">Pro</div>
             <div className="price-amount">
-              {annual
-                ? (<><span>$3.99</span> <span className="price-sub">/month billed as $48 per year</span></>)
-                : (<>$4.99 <span className="price-sub">/month</span></>)
-              }
+              {annual ? (
+                <>
+                  <span>$3.99</span>{" "}
+                  <span className="price-sub">/month billed as $48 per year</span>
+                </>
+              ) : (
+                <>
+                  $4.99 <span className="price-sub">/month</span>
+                </>
+              )}
             </div>
             <ul className="price-list">
-              {annual && (<li className="em"><span className="price-em">Save $12</span></li>)}
+              {annual && (
+                <li className="em">
+                  <span className="price-em">Save $12</span>
+                </li>
+              )}
               <li>Hide Promoted posts</li>
               <li>Hide Liked/Reacted Posts</li>
               <li>Hide Shared/Reshared posts</li>
@@ -526,16 +684,15 @@ function Pricing({ annual, setAnnual }) {
               <li>Counters (On Page/Total)</li>
               <li>Priority support</li>
             </ul>
-            <div className="price-cta" style={{display:'flex', gap:10}}>
-            <a
-            className="btn btn-gold"
-            href={annual ? STRIPE_YEARLY_URL : STRIPE_MONTHLY_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            >
-            Start Now
-            </a>
-
+            <div className="price-cta" style={{ display: "flex", gap: 10 }}>
+              <a
+                className="btn btn-gold"
+                href={annual ? STRIPE_YEARLY_URL : STRIPE_MONTHLY_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Start Now
+              </a>
             </div>
           </div>
         </div>
@@ -547,7 +704,11 @@ function Pricing({ annual, setAnnual }) {
 export function SectionHeader({ eyebrow, title, subtitle }) {
   return (
     <div className="section-header">
-      {eyebrow && <div className="eyebrow" style={{marginBottom:6}}>{eyebrow}</div>}
+      {eyebrow && (
+        <div className="eyebrow" style={{ marginBottom: 6 }}>
+          {eyebrow}
+        </div>
+      )}
       <h2>{title}</h2>
       {subtitle && <p>{subtitle}</p>}
     </div>
@@ -556,8 +717,14 @@ export function SectionHeader({ eyebrow, title, subtitle }) {
 
 function FAQ() {
   const items = [
-    { q: "Does it violate LinkedIn’s ToS?", a: "We’re read-only on the page (hide/highlight/reorder UI). No mass actions or automations. Use responsibly; not affiliated with LinkedIn." },
-    { q: "Is my data safe?", a: "We process everything locally in your browser. No third-party trackers by default. You can delete your data anytime." },
+    {
+      q: "Does it violate LinkedIn’s ToS?",
+      a: "We’re read-only on the page (hide/highlight/reorder UI). No mass actions or automations. Use responsibly; not affiliated with LinkedIn.",
+    },
+    {
+      q: "Is my data safe?",
+      a: "We process everything locally in your browser. No third-party trackers by default. You can delete your data anytime.",
+    },
     { q: "Will it slow down my LinkedIn?", a: "It’s lightweight and you can pause per-site or per-session anytime." },
     { q: "Which browsers are supported?", a: "Chrome, Brave, Edge (Chromium). Firefox on the roadmap." },
     { q: "What’s the difference vs. generic filters?", a: "Topics (semantic), measurable ROI (time saved), Focus scheduling, and safe-by-design." },
@@ -568,7 +735,9 @@ function FAQ() {
       <div className="container">
         <SectionHeader eyebrow="FAQ" title="Answers to common questions" />
         <div className="faq-grid">
-          {items.map(({q,a}) => (<FaqItem key={q} q={q} a={a} />))}
+          {items.map(({ q, a }) => (
+            <FaqItem key={q} q={q} a={a} />
+          ))}
         </div>
       </div>
     </section>
@@ -581,7 +750,7 @@ function FaqItem({ q, a }) {
     <div className="faq-item">
       <button className="faq-q" onClick={() => setOpen(!open)} aria-expanded={open}>
         <span>{q}</span>
-        <span aria-hidden="true">{open ? '−' : '+'}</span>
+        <span aria-hidden="true">{open ? "−" : "+"}</span>
       </button>
       {open && <div className="faq-a">{a}</div>}
     </div>
@@ -593,53 +762,51 @@ function FinalCTA() {
     <section className="final">
       <div className="container">
         <div className="final-card">
-          <h2 style={{fontSize:'clamp(28px,3.4vw,42px)', margin:'0 0 8px'}}>Turn LinkedIn into a focused feed in 30 seconds.</h2>
-          <p style={{color:'var(--muted)'}}>{APP_NAME} filters by topics, highlights relevance, and tracks time saved.</p>
-          <div style={{display:'flex', gap:12, justifyContent:'center', marginTop:16}}>
+          <h2 style={{ fontSize: "clamp(28px,3.4vw,42px)", margin: "0 0 8px" }}>
+            Turn LinkedIn into a focused feed in 30 seconds.
+          </h2>
+          <p style={{ color: "var(--muted)" }}>
+            {APP_NAME} filters by topics, highlights relevance, and tracks time saved.
+          </p>
+          <div style={{ display: "flex", gap: 12, justifyContent: "center", marginTop: 16 }}>
             <PrimaryCTA />
           </div>
-          <p style={{marginTop:12, fontSize:12, color:'var(--muted)'}}>Not affiliated with or endorsed by LinkedIn Corp.</p>
+          <p style={{ marginTop: 12, fontSize: 12, color: "var(--muted)" }}>
+            Not affiliated with or endorsed by LinkedIn Corp.
+          </p>
         </div>
       </div>
     </section>
   );
 }
 
-function BlogPageFallback() {
-  return (
-    <main className="ltp-root">
-      <Seo />
-      <StyleTag />
-      <Header />
-      <section className="section">
-        <div className="container prose">
-          <SectionHeader eyebrow="Blog" title="Latest posts" />
-          <div className="feed-col">
-            <article className="post">
-              <h3>Introducing LinkTopics</h3>
-              <p>Why topics beat keywords for keeping your LinkedIn signal high.</p>
-            </article>
-            <article className="post">
-              <h3>How we keep your data local</h3>
-              <p>Everything runs in your browser—here’s how the extension is built.</p>
-            </article>
-          </div>
-        </div>
-      </section>
-      <Footer />
-    </main>
-  );
-}
-
+/* =====================================================
+   Legal pages (com SEO correto e sem FAQ/Software)
+===================================================== */
 function LegalPage({ kind }) {
+  const canonical =
+    kind === "privacy"
+      ? "https://www.linktopics.me/privacy-policy"
+      : "https://www.linktopics.me/tos";
+
+  const pageTitle =
+    kind === "privacy"
+      ? "Privacy Policy | LinkTopics"
+      : "Terms of Service | LinkTopics";
+
+  const pageDescription =
+    kind === "privacy"
+      ? "Privacy policy for LinkTopics (Chrome extension)."
+      : "Terms of service for LinkTopics (Chrome extension).";
+
   return (
     <main className="ltp-root">
-      <Seo />
+      <Seo canonical={canonical} title={pageTitle} description={pageDescription} />
       <StyleTag />
       <Header />
       <section className="section">
         <div className="container prose">
-          {kind === 'privacy' ? (
+          {kind === "privacy" ? (
             <>
               <SectionHeader eyebrow="Legal" title="Privacy Policy" />
               <PrivacyContent />
@@ -657,10 +824,13 @@ function LegalPage({ kind }) {
   );
 }
 
-function PrivacyContent(){
+function PrivacyContent() {
   return (
     <>
-      <p>We respect your privacy. LinkTopics runs locally in your browser and does not automate actions on LinkedIn.</p>
+      <p>
+        We respect your privacy. LinkTopics runs locally in your browser and does not
+        automate actions on LinkedIn.
+      </p>
       <h2>Data we process</h2>
       <ul>
         <li>Your topic preferences (saved in your browser).</li>
@@ -670,12 +840,14 @@ function PrivacyContent(){
       <h2>Storage & deletion</h2>
       <p>Your settings live in your browser storage and can be deleted any time from the extension options.</p>
       <h2>Contact</h2>
-      <p>Questions? <a href="mailto:miguel.duquec@gmail.com">miguel.duquec@gmail.com</a></p>
+      <p>
+        Questions? <a href="mailto:miguel.duquec@gmail.com">miguel.duquec@gmail.com</a>
+      </p>
     </>
   );
 }
 
-function TermsContent(){
+function TermsContent() {
   return (
     <>
       <p>By installing and using LinkTopics you agree to these terms.</p>
@@ -693,24 +865,64 @@ export function Footer() {
   return (
     <footer>
       <div className="container footer-inner">
-        <div style={{display:'flex', alignItems:'center', gap:10}}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <div className="dot" aria-hidden="true" />
           <div>
-            <div style={{fontWeight:700}}>{APP_NAME}</div>
-            <div style={{fontSize:12, color:'var(--muted)'}}>© {new Date().getFullYear()} — Independent & privacy-friendly.</div>
+            <div style={{ fontWeight: 700 }}>{APP_NAME}</div>
+            <div style={{ fontSize: 12, color: "var(--muted)" }}>
+              © {new Date().getFullYear()} — Independent & privacy-friendly.
+            </div>
           </div>
         </div>
+
         <div className="footer-legal">
           <h5>LEGAL</h5>
-          <a href="https://www.linktopics.me/tos">Terms of service</a>
-          <a href="https://www.linktopics.me/privacy-policy">Privacy policy</a>
+          <a href="/tos">Terms of service</a>
+          <a href="/privacy-policy">Privacy policy</a>
         </div>
-        <div className="links" style={{marginLeft:'auto', display:'flex', gap:12, fontSize:14, alignItems:'center'}}>
-          <span>Made with ☕️ by <a href="https://x.com/miguelduquec" target="_blank" rel="noreferrer" style={{textDecoration:'underline'}}>Miguel</a></span>
+
+        {/* ✅ outgoing links (fix Ahrefs "no outgoing links") */}
+        <div
+          className="links"
+          style={{
+            marginLeft: "auto",
+            display: "flex",
+            gap: 14,
+            fontSize: 14,
+            alignItems: "center",
+            flexWrap: "wrap",
+          }}
+        >
+          <a
+            href={CHROME_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Chrome Web Store
+          </a>
+
+          <a
+            href={VIDEO_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Watch demo
+          </a>
+
+          <span>
+            Made with ☕️ by{" "}
+            <a
+              href="https://x.com/miguelduquec"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ textDecoration: "underline" }}
+            >
+              Miguel
+            </a>
+          </span>
         </div>
       </div>
     </footer>
   );
 }
 
-// Nota: Removi os componentes HowItWorks, Step, ExtGlyph, LinkedInFeed e ControlPanelMock.

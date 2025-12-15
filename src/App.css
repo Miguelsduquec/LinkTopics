@@ -194,3 +194,27 @@
   width: 22px;
   height: 22px;
 }
+
+.related-posts {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.related-posts h3 {
+  margin-bottom: 12px;
+}
+
+.related-posts ul {
+  list-style: none;
+  padding: 0;
+}
+
+.related-posts li {
+  margin-bottom: 8px;
+}
+
+.related-posts a {
+  text-decoration: none;
+  font-weight: 600;
+}

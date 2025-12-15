@@ -54,6 +54,11 @@ function siteOrigin() {
   const SITE_URL = "https://www.linktopics.me";
   return SITE_URL;
 }
+const OUT_CHROME_URL =
+  "https://chromewebstore.google.com/detail/bdilfiejpkdfbildemdncbkblegpejfb?utm_source=linktopics_blog";
+const OUT_YOUTUBE_URL = "https://www.youtube.com/watch?v=L28hvycCQqc";
+const OUT_X_URL = "https://x.com/miguelduquec";
+
 
 /* ----------------------------------------------------
    BLOG SEO
@@ -463,13 +468,42 @@ function ShareBar({ title, slug }) {
 function SiteFooter() {
   return (
     <footer className="site-footer">
+      {/* internal */}
       <a href="/">Home</a>
       <a href="/blog">Blog</a>
       <a href="/privacy-policy">Privacy</a>
       <a href="/tos">Terms</a>
+
+      {/* outgoing */}
+      <span className="site-footer-sep" aria-hidden="true">•</span>
+
+      <a
+        href={OUT_CHROME_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Chrome Web Store
+      </a>
+
+      <a
+        href={OUT_YOUTUBE_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Watch demo
+      </a>
+
+      <a
+        href={OUT_X_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        X
+      </a>
     </footer>
   );
 }
+
 
 function RelatedPosts({ currentPost, posts, max = 6 }) {
   const related = useMemo(() => {
@@ -492,8 +526,10 @@ function RelatedPosts({ currentPost, posts, max = 6 }) {
 
     const fallback = posts.filter((p) => p.slug !== currentPost.slug);
     const merged = [];
-    for (const p of scored) if (!merged.find((x) => x.slug === p.slug)) merged.push(p);
-    for (const p of fallback) if (!merged.find((x) => x.slug === p.slug)) merged.push(p);
+    for (const p of scored)
+      if (!merged.find((x) => x.slug === p.slug)) merged.push(p);
+    for (const p of fallback)
+      if (!merged.find((x) => x.slug === p.slug)) merged.push(p);
 
     return merged.slice(0, max);
   }, [currentPost, posts, max]);
@@ -745,7 +781,7 @@ function BlogPost({ post }) {
               enhancedNode
             )}
 
-            {/* ✅ internal links to other posts */}
+            {/* ✅ internal links to other posts (anti-orphan) */}
             <RelatedPosts currentPost={post} posts={posts} max={6} />
 
             <ShareBar title={post.title} slug={post.slug} />
