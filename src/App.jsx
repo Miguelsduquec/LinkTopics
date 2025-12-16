@@ -173,10 +173,12 @@ export function Seo({
   includeSoftware = false,
 }) {
   const _title =
-    title || "LinkTopics – LinkedIn Feed Filter (Chrome Extension)";
-  const _description =
-    description ||
-    "A LinkedIn feed cleaner: hide ads and promoted posts, reacted posts, liked post and more. The simplest Chrome extension to focus on what matters and keep a clean, focused LinkedIn";
+  title || "LinkTopics — LinkedIn Feed Cleaner (Hide Ads & “Liked by” Posts)";
+
+const _description =
+  description ||
+  "Clean your LinkedIn feed automatically: hide promoted posts, “Liked by/Reacted” posts, reshared content, and distractions. Runs locally.";
+
 
   const url = canonical || "https://www.linktopics.me/";
   const ogImage = "https://www.linktopics.me/1280x630_OG_image.png";
@@ -188,8 +190,9 @@ export function Seo({
     name: siteName,
     applicationCategory: "BrowserExtension",
     operatingSystem: "Chrome, Edge",
-    url,
+    "url": url,
     installUrl: CHROME_URL,
+    "image": ogImage,
     offers: [
       { "@type": "Offer", price: "0", priceCurrency: "USD", name: "Free" },
       { "@type": "Offer", price: "4.99", priceCurrency: "USD", name: "Pro (monthly)" },
@@ -795,8 +798,8 @@ function LegalPage({ kind }) {
 
   const pageDescription =
     kind === "privacy"
-      ? "Privacy policy for LinkTopics (Chrome extension)."
-      : "Terms of service for LinkTopics (Chrome extension).";
+      ? "Privacy policy for LinkTopics"
+      : "Terms of service for LinkTopics";
 
   return (
     <main className="ltp-root">

@@ -21,11 +21,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <!-- Robots -->
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+
     <!-- Primary Meta -->
-    <title>LinkTopics – Focus Mode for LinkedIn</title>
+    <title>LinkTopics — LinkedIn Feed Cleaner (Hide Ads & “Liked by” Posts)</title>
     <meta
       name="description"
-      content="A LinkedIn feed cleaner that hides ads, removes job posts, and highlights the topics you care about."
+      content="Clean your LinkedIn feed automatically: hide promoted posts, “Liked by/Reacted” posts, reshared content, and distractions. Runs locally."
     />
 
     <!-- Canonical -->
@@ -39,10 +42,10 @@
     <meta name="theme-color" content="#ffffff" />
 
     <!-- Open Graph -->
-    <meta property="og:title" content="LinkTopics – Focus Mode for LinkedIn" />
+    <meta property="og:title" content="LinkTopics — LinkedIn Feed Cleaner" />
     <meta
       property="og:description"
-      content="A LinkedIn feed cleaner that hides ads, removes job posts, and highlights the topics you care about."
+      content="Clean your LinkedIn feed: hide promoted posts, liked/reacted posts, reshared content, and distractions. Runs locally."
     />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://www.linktopics.me/" />
@@ -50,21 +53,21 @@
     <meta property="og:image" content="https://www.linktopics.me/1280x630_OG_image.png" />
     <meta property="og:image:width" content="1280" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="LinkTopics – Focus Mode for Linkedin" />
+    <meta property="og:image:alt" content="LinkTopics — LinkedIn Feed Cleaner" />
     <meta property="og:locale" content="en_US" />
 
     <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="LinkTopics – Focus Mode for Linkedin" />
+    <meta name="twitter:title" content="LinkTopics — LinkedIn Feed Cleaner" />
     <meta
       name="twitter:description"
-      content="A LinkedIn feed cleaner that hides ads, removes job posts, and highlights the topics you care about."
+      content="Clean your LinkedIn feed automatically: hide promoted posts, liked/reacted posts, reshared content, and distractions. Runs locally."
     />
     <meta name="twitter:image" content="https://www.linktopics.me/1280x630_OG_image.png" />
-    <meta name="twitter:image:alt" content="LinkTopics – Focus Mode for Linkedin" />
+    <meta name="twitter:image:alt" content="LinkTopics — LinkedIn Feed Cleaner" />
     <meta name="twitter:site" content="@miguelduquec" />
 
-    <!-- Structured Data (JSON-LD) - base (o React pode complementar) -->
+    <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -72,12 +75,14 @@
       "name": "LinkTopics",
       "applicationCategory": "BrowserExtension",
       "operatingSystem": "Chrome, Edge, Brave",
-      "description": "Filter your LinkedIn feed by topic, hide ads and job posts, and focus on what matters.",
+      "description": "Clean your LinkedIn feed: hide promoted posts, liked/reacted posts, reshared content, and distractions.",
       "url": "https://www.linktopics.me/",
       "image": "https://www.linktopics.me/1280x630_OG_image.png",
+      "downloadUrl": "https://chromewebstore.google.com/detail/bdilfiejpkdfbildemdncbkblegpejfb",
       "author": { "@type": "Person", "name": "Miguel Duque" },
       "offers": [
-        { "@type": "Offer", "price": "0", "priceCurrency": "USD", "name": "Free" }
+        { "@type": "Offer", "name": "Free", "price": "0", "priceCurrency": "USD" },
+        { "@type": "Offer", "name": "Pro", "price": "3.99", "priceCurrency": "USD", "billingIncrement": "P1M" }
       ]
     }
     </script>
@@ -89,48 +94,9 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
       rel="stylesheet"
     />
-
-    <!-- ✅ Optional: small CSS helper for hidden crawlable links -->
-    <style>
-      .crawl-links {
-        position: absolute;
-        left: -9999px;
-        top: auto;
-        width: 1px;
-        height: 1px;
-        overflow: hidden;
-      }
-      .crawl-links a { display: inline-block; margin-right: 8px; }
-    </style>
   </head>
 
   <body>
-    <!-- ✅ Crawlable links for non-JS crawlers (Ahrefs/others) -->
-    <div class="crawl-links" aria-hidden="true">
-      <!-- internal -->
-      <a href="https://www.linktopics.me/">Home</a>
-      <a href="https://www.linktopics.me/blog">Blog</a>
-      <a href="https://www.linktopics.me/tos">Terms</a>
-      <a href="https://www.linktopics.me/privacy-policy">Privacy</a>
-
-      <!-- outgoing -->
-      <a
-        href="https://chromewebstore.google.com/detail/bdilfiejpkdfbildemdncbkblegpejfb?utm_source=linktopics_blog"
-        rel="noopener noreferrer"
-        target="_blank"
-      >Chrome Web Store</a>
-      <a
-        href="https://www.youtube.com/watch?v=L28hvycCQqc"
-        rel="noopener noreferrer"
-        target="_blank"
-      >Watch demo</a>
-      <a
-        href="https://x.com/miguelduquec"
-        rel="noopener noreferrer"
-        target="_blank"
-      >X</a>
-    </div>
-
     <!-- ✅ Fallback visible only if JS is disabled -->
     <noscript>
       <div style="padding:12px 16px; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial;">
@@ -148,5 +114,33 @@
 
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+
+    <!-- Simple visible footer links (better than hidden crawl links) -->
+    <footer style="padding: 24px 16px; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial; font-size: 14px;">
+      <div style="max-width: 1100px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between;">
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <a href="/blog">Blog</a>
+          <a href="/privacy-policy">Privacy</a>
+          <a href="/tos">Terms</a>
+        </div>
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <a
+            href="https://chromewebstore.google.com/detail/bdilfiejpkdfbildemdncbkblegpejfb?utm_source=linktopics_footer"
+            target="_blank"
+            rel="noopener noreferrer"
+          >Chrome Web Store</a>
+          <a
+            href="https://www.youtube.com/watch?v=L28hvycCQqc"
+            target="_blank"
+            rel="noopener noreferrer"
+          >Watch demo</a>
+          <a
+            href="https://x.com/miguelduquec"
+            target="_blank"
+            rel="noopener noreferrer"
+          >X</a>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
