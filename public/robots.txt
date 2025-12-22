@@ -1,15 +1,10 @@
 # robots.txt — LinkTopics
-# Indica aos motores de busca o que podem rastrear e onde encontrar o sitemap
-
 User-agent: *
-# Permitir todo o conteúdo público
 Allow: /
 
-# Bloquear ficheiros técnicos que não são páginas
 Disallow: /src/
 Disallow: /node_modules/
 Disallow: /*.map$
 Disallow: /vite.svg
 
-# Sitemap principal (gerado automaticamente)
 Sitemap: https://www.linktopics.me/sitemap.xml

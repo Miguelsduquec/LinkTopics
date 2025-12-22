@@ -49,8 +49,7 @@ export default function AppRouter() {
   if (path.startsWith("/blog"))
     return (
       <main className="ltp-root" data-page="blog">
-        {/* ✅ Sem FAQ/Software aqui (blog tem SEO próprio em blog.jsx) */}
-        <Seo canonical="https://www.linktopics.me/blog" />
+        {/* ✅ blog.jsx gere SEO por lista e por post */}
         <StyleTag />
         <Header />
         <BlogPage />
@@ -60,6 +59,8 @@ export default function AppRouter() {
 
   return <LandingPage />;
 }
+
+
 
 function LandingPage() {
   const [annual, setAnnual] = useState(true);
@@ -163,7 +164,7 @@ function LandingPage() {
 }
 
 /* =====================================================
-   SEO (agora parametrizável)
+   SEO (agora parametrizável) — CORRIGIDO com cleanup
 ===================================================== */
 export function Seo({
   canonical,
@@ -173,12 +174,11 @@ export function Seo({
   includeSoftware = false,
 }) {
   const _title =
-  title || "LinkTopics — LinkedIn Feed Cleaner (Hide Ads & “Liked by” Posts)";
+    title || "LinkTopics — LinkedIn Feed Cleaner (Hide Ads & “Liked by” Posts)";
 
-const _description =
-  description ||
-  "Clean your LinkedIn feed automatically: hide promoted posts, “Liked by/Reacted” posts, reshared content, and distractions. Runs locally.";
-
+  const _description =
+    description ||
+    "Clean your LinkedIn feed automatically: hide promoted posts, “Liked by/Reacted” posts, reshared content, and distractions. Runs locally.";
 
   const url = canonical || "https://www.linktopics.me/";
   const ogImage = "https://www.linktopics.me/1280x630_OG_image.png";
@@ -190,9 +190,9 @@ const _description =
     name: siteName,
     applicationCategory: "BrowserExtension",
     operatingSystem: "Chrome, Edge",
-    "url": url,
+    url,
     installUrl: CHROME_URL,
-    "image": ogImage,
+    image: ogImage,
     offers: [
       { "@type": "Offer", price: "0", priceCurrency: "USD", name: "Free" },
       { "@type": "Offer", price: "4.99", priceCurrency: "USD", name: "Pro (monthly)" },
@@ -245,7 +245,7 @@ const _description =
     };
 
     const linkRel = (rel, href, extra = {}) => {
-      // canonical deve ser único (substitui sempre o existente)
+      // ✅ canonical deve ser único (substitui sempre o existente)
       if (rel === "canonical") {
         let existing = document.head.querySelector('link[rel="canonical"]');
         if (!existing) {
@@ -327,13 +327,23 @@ const _description =
     linkRel("manifest", "/site.webmanifest");
     linkRel("sitemap", "/sitemap.xml", { type: "application/xml" });
 
-    // ✅ Structured Data: só quando faz sentido
+    // ✅ Structured Data
     scriptJson("ld-software", includeSoftware ? jsonLdSoftware : null);
     scriptJson("ld-faq", includeFAQ ? jsonLdFAQ : null);
+
+    // ✅ Cleanup (IMPORTANTE em SPA):
+    // remove JSON-LD ao sair desta página para não contaminar /blog ou /legal
+    return () => {
+      const s1 = document.getElementById("ld-software");
+      if (s1) s1.remove();
+      const s2 = document.getElementById("ld-faq");
+      if (s2) s2.remove();
+    };
   }, [url, _title, _description, includeFAQ, includeSoftware]);
 
   return null;
 }
+
 
 /* =====================================================
    StyleTag e UI (igual ao teu)

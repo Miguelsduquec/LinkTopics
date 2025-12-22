@@ -67,8 +67,7 @@ const OUT_X_URL = "https://x.com/miguelduquec";
    BLOG SEO
 ---------------------------------------------------- */
 function BlogListSeo() {
-  const title =
-    "Blog – LinkedIn Feed Filter Tips (Chrome Extension) | LinkTopics";
+  const title = "Blog – LinkedIn Feed Filter Tips (Chrome Extension) | LinkTopics";
   const description =
     "Guides to clean your LinkedIn feed: hide ads/sponsored, mute keywords, highlight topics, and boost productivity with LinkTopics (Chrome extension).";
 
@@ -503,9 +502,7 @@ function OutgoingLinksBlock({ compact = false }) {
         background: "#f7f8fb",
       }}
     >
-      <div style={{ fontWeight: 800, marginBottom: 8 }}>
-        Try LinkTopics
-      </div>
+      <div style={{ fontWeight: 800, marginBottom: 8 }}>Try LinkTopics</div>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
         <a href={OUT_CHROME_URL} target="_blank" rel="noopener noreferrer">
           Chrome Web Store
@@ -519,37 +516,10 @@ function OutgoingLinksBlock({ compact = false }) {
       </div>
 
       <div style={{ marginTop: 10, opacity: 0.9 }}>
-         <a href="/">Home</a> · <a href="/blog">Blog</a> ·{" "}
+        <a href="/">Home</a> · <a href="/blog">Blog</a> ·{" "}
         <a href="/privacy-policy">Privacy</a> · <a href="/tos">Terms</a>
       </div>
     </section>
-  );
-}
-
-function SiteFooter() {
-  return (
-    <footer className="site-footer">
-      {/* internal */}
-      <a href="/">Home</a>
-      <a href="/blog">Blog</a>
-      <a href="/privacy-policy">Privacy</a>
-      <a href="/tos">Terms</a>
-
-      {/* outgoing */}
-      <span className="site-footer-sep" aria-hidden="true">
-        •
-      </span>
-
-      <a href={OUT_CHROME_URL} target="_blank" rel="noopener noreferrer">
-        Chrome Web Store
-      </a>
-      <a href={OUT_YOUTUBE_URL} target="_blank" rel="noopener noreferrer">
-        Watch demo
-      </a>
-      <a href={OUT_X_URL} target="_blank" rel="noopener noreferrer">
-        X
-      </a>
-    </footer>
   );
 }
 
@@ -563,10 +533,7 @@ function RelatedPosts({ currentPost, posts, max = 6 }) {
       .filter((p) => p.slug !== currentPost.slug)
       .map((p) => {
         const tags = (p.tags || []).map((t) => String(t).toLowerCase());
-        const score = tags.reduce(
-          (acc, t) => acc + (curTags.has(t) ? 1 : 0),
-          0
-        );
+        const score = tags.reduce((acc, t) => acc + (curTags.has(t) ? 1 : 0), 0);
         return { post: p, score };
       })
       .sort((a, b) => b.score - a.score)
@@ -757,8 +724,6 @@ function BlogList() {
 
         {/* ✅ garante outgoing links também na lista */}
         <OutgoingLinksBlock compact />
-
-        <SiteFooter />
       </div>
     </section>
   );
@@ -835,7 +800,6 @@ function BlogPost({ post }) {
             <OutgoingLinksBlock />
 
             <ShareBar title={post.title} slug={post.slug} />
-            <SiteFooter />
           </div>
 
           <TableOfContents headings={headings} />
@@ -867,7 +831,9 @@ export default function BlogPage() {
           <p>
             We couldn’t find that post. <a href="/blog">Go back to the blog.</a>
           </p>
-          <SiteFooter />
+
+          {/* ✅ outgoing links mesmo no 404 */}
+          <OutgoingLinksBlock compact />
         </div>
       </section>
     );

@@ -21,6 +21,12 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
       - name: Config git user
         run: |
           git config user.name "github-actions[bot]"
@@ -33,7 +39,6 @@ jobs:
 
           SCHEDULED_DIR="src/scheduled"
           PUBLISHED_DIR="src/posts"
-
 
           MATCHES=$(ls -d "$SCHEDULED_DIR"/"$TODAY"-* 2>/dev/null || true)
 
@@ -54,6 +59,27 @@ jobs:
       - name: Generate sitemap.xml
         run: node scripts/generate-sitemap.cjs
 
+      - name: Validate sitemap uses canonical www domain
+        run: |
+          if [ ! -f "public/sitemap.xml" ]; then
+            echo "❌ public/sitemap.xml não existe."
+            exit 1
+          fi
+
+          echo "🔎 A verificar domínio no sitemap..."
+          if grep -q "<loc>https://linktopics.me" public/sitemap.xml; then
+            echo "❌ Encontrado URL sem www no sitemap. Isto vai causar 'Non-canonical page in sitemap'."
+            echo "➡️ Corrige BASE_URL no scripts/generate-sitemap.cjs para https://www.linktopics.me"
+            exit 1
+          fi
+
+          if ! grep -q "<loc>https://www.linktopics.me" public/sitemap.xml; then
+            echo "❌ Não encontrei URLs com www no sitemap. Algo está errado."
+            exit 1
+          fi
+
+          echo "✅ Sitemap OK: usa www."
+
       - name: Commit and push changes
         run: |
           git status
@@ -63,6 +89,11 @@ jobs:
             exit 0
           fi
 
-          git add .
+          # Só commitar o que interessa: posts publicados + sitemap
+          git add src/posts public/sitemap.xml
+
+          # (Opcional) também podes adicionar robots.txt se ele for gerado/alterado:
+          # git add public/robots.txt
+
           git commit -m "Publish blog posts and update sitemap"
           git push

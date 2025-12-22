@@ -2,11 +2,14 @@
 // Gera public/sitemap.xml a partir dos posts em src/posts
 // ✅ Slugs geradas a partir do <h1> (mesma lógica do blog.jsx)
 // ✅ Corrige typo legacy "hide-linkedin-adds" -> "hide-linkedin-ads"
+// ✅ Mantém domínio canónico consistente (www)
+// ✅ Ordena URLs para builds estáveis
 
 const fs = require("fs");
 const path = require("path");
 
-const BASE_URL = "https://www.linktopics.me";
+const CANONICAL_HOST = "www.linktopics.me";
+const BASE_URL = `https://${CANONICAL_HOST}`;
 
 // Páginas estáticas principais
 const staticUrls = [
@@ -143,6 +146,9 @@ function generate() {
       });
     });
   }
+
+  // ✅ ordenar para builds estáveis
+  urls.sort((a, b) => a.loc.localeCompare(b.loc));
 
   // Construir XML
   const xmlParts = [];
