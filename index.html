@@ -24,15 +24,12 @@
     <!-- Robots -->
     <meta name="robots" content="index,follow,max-image-preview:large" />
 
-    <!-- Primary Meta -->
+    <!-- Primary Meta (base; React will override per route) -->
     <title>LinkTopics — LinkedIn Feed Cleaner (Hide Ads & “Liked by” Posts)</title>
     <meta
       name="description"
       content="Clean your LinkedIn feed automatically: hide promoted posts, “Liked by/Reacted” posts, reshared content, and distractions. Runs locally."
     />
-
-    <!-- ✅ Canonical MUST be set dynamically per route in React (SPA). -->
-    <!-- (removed static canonical that incorrectly canonicalized every route to "/") -->
 
     <!-- Favicons -->
     <link rel="icon" href="/favicon-bg.ico" sizes="any" />
@@ -41,7 +38,7 @@
     <link rel="apple-touch-icon" href="/favicon-bg-180x180.png" />
     <meta name="theme-color" content="#ffffff" />
 
-    <!-- Open Graph -->
+    <!-- Open Graph (base; React will override per route) -->
     <meta property="og:title" content="LinkTopics — LinkedIn Feed Cleaner" />
     <meta
       property="og:description"
@@ -56,7 +53,7 @@
     <meta property="og:image:alt" content="LinkTopics — LinkedIn Feed Cleaner" />
     <meta property="og:locale" content="en_US" />
 
-    <!-- Twitter / X -->
+    <!-- Twitter / X (base; React will override per route) -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="LinkTopics — LinkedIn Feed Cleaner" />
     <meta
@@ -67,25 +64,7 @@
     <meta name="twitter:image:alt" content="LinkTopics — LinkedIn Feed Cleaner" />
     <meta name="twitter:site" content="@miguelduquec" />
 
-    <!-- Structured Data (JSON-LD) -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "LinkTopics",
-      "applicationCategory": "BrowserExtension",
-      "operatingSystem": "Chrome, Edge, Brave",
-      "description": "Clean your LinkedIn feed: hide promoted posts, liked/reacted posts, reshared content, and distractions.",
-      "url": "https://www.linktopics.me/",
-      "image": "https://www.linktopics.me/1280x630_OG_image.png",
-      "downloadUrl": "https://chromewebstore.google.com/detail/bdilfiejpkdfbildemdncbkblegpejfb",
-      "author": { "@type": "Person", "name": "Miguel Duque" },
-      "offers": [
-        { "@type": "Offer", "name": "Free", "price": "0", "priceCurrency": "USD" },
-        { "@type": "Offer", "name": "Pro", "price": "3.99", "priceCurrency": "USD", "billingIncrement": "P1M" }
-      ]
-    }
-    </script>
+    <!-- ✅ Removed static JSON-LD (React/Seo component injects per route) -->
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -97,48 +76,14 @@
   </head>
 
   <body>
+    <!-- ✅ keep noscript message, but remove links -->
     <noscript>
       <div style="padding:12px 16px; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial;">
         <strong>LinkTopics</strong> requires JavaScript to run.
-        <div style="margin-top:8px">
-          <a href="https://www.linktopics.me/blog">Blog</a> ·
-          <a href="https://www.linktopics.me/privacy-policy">Privacy</a> ·
-          <a href="https://www.linktopics.me/tos">Terms</a> ·
-          <a href="https://chromewebstore.google.com/detail/bdilfiejpkdfbildemdncbkblegpejfb?utm_source=linktopics_blog">Chrome Web Store</a> ·
-          <a href="https://www.youtube.com/watch?v=L28hvycCQqc">Watch demo</a> ·
-          <a href="https://x.com/miguelduquec">X</a>
-        </div>
       </div>
     </noscript>
 
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
-
-    <footer style="padding: 24px 16px; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial; font-size: 14px;">
-      <div style="max-width: 1100px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between;">
-        <div style="display:flex; gap:12px; flex-wrap:wrap;">
-          <a href="/blog">Blog</a>
-          <a href="/privacy-policy">Privacy</a>
-          <a href="/tos">Terms</a>
-        </div>
-        <div style="display:flex; gap:12px; flex-wrap:wrap;">
-          <a
-            href="https://chromewebstore.google.com/detail/bdilfiejpkdfbildemdncbkblegpejfb?utm_source=linktopics_footer"
-            target="_blank"
-            rel="noopener noreferrer"
-          >Chrome Web Store</a>
-          <a
-            href="https://www.youtube.com/watch?v=L28hvycCQqc"
-            target="_blank"
-            rel="noopener noreferrer"
-          >Watch demo</a>
-          <a
-            href="https://x.com/miguelduquec"
-            target="_blank"
-            rel="noopener noreferrer"
-          >X</a>
-        </div>
-      </div>
-    </footer>
   </body>
 </html>

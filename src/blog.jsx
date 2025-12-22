@@ -67,7 +67,8 @@ const OUT_X_URL = "https://x.com/miguelduquec";
    BLOG SEO
 ---------------------------------------------------- */
 function BlogListSeo() {
-  const title = "Blog – LinkedIn Feed Filter Tips (Chrome Extension) | LinkTopics";
+  const title =
+    "Blog – LinkedIn Feed Filter Tips (Chrome Extension) | LinkTopics";
   const description =
     "Guides to clean your LinkedIn feed: hide ads/sponsored, mute keywords, highlight topics, and boost productivity with LinkTopics (Chrome extension).";
 
@@ -533,7 +534,10 @@ function RelatedPosts({ currentPost, posts, max = 6 }) {
       .filter((p) => p.slug !== currentPost.slug)
       .map((p) => {
         const tags = (p.tags || []).map((t) => String(t).toLowerCase());
-        const score = tags.reduce((acc, t) => acc + (curTags.has(t) ? 1 : 0), 0);
+        const score = tags.reduce(
+          (acc, t) => acc + (curTags.has(t) ? 1 : 0),
+          0
+        );
         return { post: p, score };
       })
       .sort((a, b) => b.score - a.score)
@@ -831,9 +835,6 @@ export default function BlogPage() {
           <p>
             We couldn’t find that post. <a href="/blog">Go back to the blog.</a>
           </p>
-
-          {/* ✅ outgoing links mesmo no 404 */}
-          <OutgoingLinksBlock compact />
         </div>
       </section>
     );
