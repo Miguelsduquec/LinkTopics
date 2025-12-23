@@ -2,58 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.linktopics.me/</loc>
-    <lastmod>2025-12-22</lastmod>
+    <lastmod>2025-12-23</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.linktopics.me/blog</loc>
-    <lastmod>2025-12-22</lastmod>
+    <lastmod>2025-12-23</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.linktopics.me/privacy-policy</loc>
-    <lastmod>2025-12-22</lastmod>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://www.linktopics.me/tos</loc>
-    <lastmod>2025-12-22</lastmod>
-    <priority>0.5</priority>
-  </url>
-
-  <url>
-    <loc>https://www.linktopics.me/blog/stay-focused-on-linkedin-with-linktopics</loc>
-    <lastmod>2025-10-12</lastmod>
+    <loc>https://www.linktopics.me/blog/5-ways-linktopics-helps-busy-professionals-stay-focused</loc>
+    <lastmod>2025-12-01</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.linktopics.me/blog/is-linkedin-turning-into-facebook-not-anymore</loc>
-    <lastmod>2025-10-11</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.linktopics.me/blog/remove-ads-and-noise-on-linkedin</loc>
-    <lastmod>2025-10-10</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.linktopics.me/blog/hide-linkedin-ads</loc>
-    <lastmod>2025-11-21</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.linktopics.me/blog/remove-liked-by-posts</loc>
-    <lastmod>2025-11-24</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.linktopics.me/blog/why-linkedin-shows-suggested-posts</loc>
-    <lastmod>2025-11-25</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.linktopics.me/blog/why-your-linkedin-feed-feels-messy</loc>
-    <lastmod>2025-11-26</lastmod>
+    <loc>https://www.linktopics.me/blog/a-smoother-switch-from-ad-blockers-to-linktopics</loc>
+    <lastmod>2025-12-05</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -62,43 +26,13 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.linktopics.me/blog/why-linkedin-feels-like-facebook-now</loc>
-    <lastmod>2025-11-28</lastmod>
+    <loc>https://www.linktopics.me/blog/grow-influence-on-linkedin-without-posting</loc>
+    <lastmod>2025-12-22</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.linktopics.me/blog/why-linkedin-is-a-productivity-goldmine-if-used-right</loc>
-    <lastmod>2025-11-29</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.linktopics.me/blog/how-to-use-linkedin-without-burning-out</loc>
-    <lastmod>2025-11-30</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.linktopics.me/blog/5-ways-linktopics-helps-busy-professionals-stay-focused</loc>
-    <lastmod>2025-12-01</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.linktopics.me/blog/is-linktopics-worth-it</loc>
-    <lastmod>2025-12-02</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.linktopics.me/blog/look-more-professional-on-linkedin</loc>
-    <lastmod>2025-12-03</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.linktopics.me/blog/standardise-your-teams-linkedin</loc>
-    <lastmod>2025-12-04</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.linktopics.me/blog/a-smoother-switch-from-ad-blockers-to-linktopics</loc>
-    <lastmod>2025-12-05</lastmod>
+    <loc>https://www.linktopics.me/blog/hide-linkedin-ads</loc>
+    <lastmod>2025-11-21</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -112,18 +46,73 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/how-to-use-linkedin-without-burning-out</loc>
+    <lastmod>2025-11-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/is-linkedin-turning-into-facebook-not-anymore</loc>
+    <lastmod>2025-10-11</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/is-linktopics-worth-it</loc>
+    <lastmod>2025-12-02</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/look-more-professional-on-linkedin</loc>
+    <lastmod>2025-12-03</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/posting-once-a-month-on-linkedin-wont-change-anything</loc>
     <lastmod>2025-12-10</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.linktopics.me/blog/your-linkedin-feed-doesnt-need-to-stay-messy</loc>
-    <lastmod>2025-12-12</lastmod>
+    <loc>https://www.linktopics.me/blog/remove-ads-and-noise-on-linkedin</loc>
+    <lastmod>2025-10-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/remove-liked-by-posts</loc>
+    <lastmod>2025-11-24</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/standardise-your-teams-linkedin</loc>
+    <lastmod>2025-12-04</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/stay-focused-on-linkedin-with-linktopics</loc>
+    <lastmod>2025-10-12</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.linktopics.me/blog/use-linkedin-better-without-wasting-time</loc>
     <lastmod>2025-12-15</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/why-linkedin-feels-like-facebook-now</loc>
+    <lastmod>2025-11-28</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/why-linkedin-is-a-productivity-goldmine-if-used-right</loc>
+    <lastmod>2025-11-29</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/why-linkedin-shows-suggested-posts</loc>
+    <lastmod>2025-11-25</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/why-your-linkedin-feed-feels-messy</loc>
+    <lastmod>2025-11-26</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -137,8 +126,18 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.linktopics.me/blog/grow-influence-on-linkedin-without-posting</loc>
-    <lastmod>2025-12-22</lastmod>
+    <loc>https://www.linktopics.me/blog/your-linkedin-feed-doesnt-need-to-stay-messy</loc>
+    <lastmod>2025-12-12</lastmod>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/privacy-policy</loc>
+    <lastmod>2025-12-23</lastmod>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/tos</loc>
+    <lastmod>2025-12-23</lastmod>
+    <priority>0.5</priority>
   </url>
 </urlset>
