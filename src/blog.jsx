@@ -783,31 +783,30 @@ function BlogPost({ post }) {
           ) : null}
         </header>
 
-        {post.cover && (
-          <div className="blog-hero">
-            <img src={post.cover} alt="" />
-          </div>
-        )}
-
         <div className="blog-layout">
-          <div className="blog-article-content prose">
-            {post.html ? (
-              <div dangerouslySetInnerHTML={{ __html: enhancedHtml }} />
-            ) : (
-              enhancedNode
-            )}
+  <div>
+    {post.cover && (
+      <div className="blog-hero">
+        <img src={post.cover} alt="" />
+      </div>
+    )}
 
-            {/* ✅ internal links */}
-            <RelatedPosts currentPost={post} posts={posts} max={6} />
+    <div className="blog-article-content prose">
+      {post.html ? (
+        <div dangerouslySetInnerHTML={{ __html: enhancedHtml }} />
+      ) : (
+        enhancedNode
+      )}
 
-            {/* ✅ outgoing links (para Ahrefs) */}
-            <OutgoingLinksBlock />
+      <RelatedPosts currentPost={post} posts={posts} max={6} />
+      <OutgoingLinksBlock />
+      <ShareBar title={post.title} slug={post.slug} />
+    </div>
+  </div>
 
-            <ShareBar title={post.title} slug={post.slug} />
-          </div>
+  <TableOfContents headings={headings} />
+</div>
 
-          <TableOfContents headings={headings} />
-        </div>
       </div>
     </article>
   );

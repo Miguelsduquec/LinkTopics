@@ -55,8 +55,23 @@
 .blog-article-title{ font-size:clamp(28px,3.2vw,40px); margin:0 0 6px; }
 .blog-meta{ color:var(--blog-muted); display:flex; gap:8px; justify-content:center; align-items:center; }
 
-.blog-hero{ margin:14px auto 18px; border-radius:16px; overflow:hidden; border:1px solid var(--blog-border); }
-.blog-hero img{ width:100%; height:auto; display:block; }
+.blog-hero{
+  max-width: 720px;   /* controla a largura do bloco */
+  margin:14px auto 18px;
+  border-radius:16px;
+  overflow:hidden;
+  border:1px solid var(--blog-border);
+  background: #fff;
+}
+
+.blog-hero img{
+  width: 100%;
+  height: auto;       /* ✅ mantém proporção e não corta */
+  display:block;
+  object-fit: contain; /* opcional (com height:auto quase não é necessário) */
+}
+
+
 
 /* Layout com TOC fixo no desktop */
 .blog-layout{ display:grid; grid-template-columns: 1fr; gap:28px; }
@@ -178,3 +193,5 @@
 }
 
 .site-footer-sep { opacity: .5; margin: 0 6px; }
+
+
