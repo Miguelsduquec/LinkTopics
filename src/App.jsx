@@ -1,6 +1,6 @@
+// src/App.jsx
 import React, { useState, useEffect } from "react";
 import { SiGooglechrome } from "react-icons/si";
-import BlogPage from "./blog.jsx";
 import "./App.css";
 
 const APP_NAME = "LinkTopics";
@@ -17,15 +17,20 @@ const STRIPE_YEARLY_URL = "https://buy.stripe.com/3cI6oHfr4c0t5J51tSbsc05";
 const API_VERIFY_URL = "/api/stripe-verify";
 const LICENSE_STORAGE_KEY = "ltp_license";
 
-// util: ler querystring
-const getQuery = (key) => new URLSearchParams(window.location.search).get(key);
+// util: ler querystring (SSR-safe)
+const getQuery = (key) => {
+  if (typeof window === "undefined") return null;
+  return new URLSearchParams(window.location.search).get(key);
+};
 
 // guardar licença local + avisar extensão
 function setLicense(token) {
   try {
     if (token) localStorage.setItem(LICENSE_STORAGE_KEY, token);
     // Notifica a extensão (content/options escutam esta msg)
-    window.postMessage({ type: "LTP_LICENSE_UPDATE", token }, "*");
+    if (typeof window !== "undefined") {
+      window.postMessage({ type: "LTP_LICENSE_UPDATE", token }, "*");
+    }
   } catch (e) {
     /* no-op */
   }
@@ -33,44 +38,32 @@ function setLicense(token) {
 
 function getLicense() {
   try {
+    if (typeof window === "undefined") return "";
     return localStorage.getItem(LICENSE_STORAGE_KEY) || "";
   } catch {
     return "";
   }
 }
 
-export default function AppRouter() {
-  const path = typeof window !== "undefined" ? window.location.pathname : "/";
-
-  if (path === "/privacy-policy") return <LegalPage kind="privacy" />;
-  if (path === "/tos" || path === "/terms" || path === "/terms-of-service")
-    return <LegalPage kind="tos" />;
-
-  if (path.startsWith("/blog"))
-    return (
-      <main className="ltp-root" data-page="blog">
-        {/* ✅ blog.jsx gere SEO por lista e por post */}
-        <StyleTag />
-        <Header />
-        <BlogPage />
-        <Footer />
-      </main>
-    );
-
+/**
+ * ✅ Vike entry component:
+ * - NÃO usar React Router aqui
+ * - As rotas são /pages/** do Vike
+ */
+export default function App() {
   return <LandingPage />;
 }
 
-
-
-function LandingPage() {
+export function LandingPage() {
   const [annual, setAnnual] = useState(true);
   const [proActive, setProActive] = useState(!!getLicense());
   const [verifying, setVerifying] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
-  // Scroll suave para #hash
+  // Scroll suave para #hash (useEffect não corre no SSR)
   useEffect(() => {
     const scrollToHash = () => {
+      if (typeof window === "undefined") return;
       const h = decodeURIComponent(window.location.hash || "").replace("#", "");
       if (!h) return;
       requestAnimationFrame(() => {
@@ -85,7 +78,7 @@ function LandingPage() {
 
   // Quando voltamos do Stripe: ?session_id=cs_test_...
   useEffect(() => {
-    const sid = typeof window !== "undefined" ? getQuery("session_id") : null;
+    const sid = getQuery("session_id");
     if (!sid) return;
 
     const verify = async () => {
@@ -104,6 +97,7 @@ function LandingPage() {
         if (data?.ok && data?.token) {
           setLicense(data.token);
           setProActive(true);
+
           // limpa o session_id da barra (para não repetir chamadas ao recarregar)
           const url = new URL(window.location.href);
           url.searchParams.delete("session_id");
@@ -126,11 +120,7 @@ function LandingPage() {
   return (
     <main className="ltp-root">
       {/* ✅ Home: pode ter FAQ + SoftwareApplication */}
-      <Seo
-        canonical="https://www.linktopics.me/"
-        includeFAQ
-        includeSoftware
-      />
+      <Seo canonical="https://www.linktopics.me/" includeFAQ includeSoftware />
       <StyleTag />
       <Header />
 
@@ -164,7 +154,7 @@ function LandingPage() {
 }
 
 /* =====================================================
-   SEO (agora parametrizável) — CORRIGIDO com cleanup
+   SEO (parametrizável) — SSR-safe (useEffect só no client)
 ===================================================== */
 export function Seo({
   canonical,
@@ -225,6 +215,9 @@ export function Seo({
   };
 
   useEffect(() => {
+    // SSR-safe guard
+    if (typeof document === "undefined") return;
+
     const ensureCharset = () => {
       let c = document.head.querySelector("meta[charset]");
       if (!c) {
@@ -245,7 +238,7 @@ export function Seo({
     };
 
     const linkRel = (rel, href, extra = {}) => {
-      // ✅ canonical deve ser único (substitui sempre o existente)
+      // ✅ canonical único
       if (rel === "canonical") {
         let existing = document.head.querySelector('link[rel="canonical"]');
         if (!existing) {
@@ -331,8 +324,7 @@ export function Seo({
     scriptJson("ld-software", includeSoftware ? jsonLdSoftware : null);
     scriptJson("ld-faq", includeFAQ ? jsonLdFAQ : null);
 
-    // ✅ Cleanup (IMPORTANTE em SPA):
-    // remove JSON-LD ao sair desta página para não contaminar /blog ou /legal
+    // ✅ Cleanup (IMPORTANTE em SPA)
     return () => {
       const s1 = document.getElementById("ld-software");
       if (s1) s1.remove();
@@ -344,9 +336,8 @@ export function Seo({
   return null;
 }
 
-
 /* =====================================================
-   StyleTag e UI (igual ao teu)
+   StyleTag e UI
 ===================================================== */
 export function StyleTag() {
   return (
@@ -367,7 +358,6 @@ export function StyleTag() {
       .nav-inner { height:56px; display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:10px; }
       @media (min-width:900px){ .nav-inner { height:64px; } }
       .brand { display:flex; align-items:center; gap:12px; font-weight:700; text-decoration:none; color:inherit; }
-      .brand .dot { width:28px; height:28px; border-radius:10px; background:linear-gradient(135deg,var(--primary),#3b82f6); box-shadow:var(--shadow); }
       .nav-center { display:none; justify-content:center; gap:22px; align-items:center; font-size:14px; }
       @media (min-width:900px){ .nav-center{ display:flex; } }
       .nav a { color: inherit; text-decoration: none; }
@@ -376,7 +366,6 @@ export function StyleTag() {
       .btn:active { transform:translateY(1px); }
       .btn-primary { background:var(--primary); color:#fff; box-shadow:0 10px 22px rgba(37,99,235,.25); }
       .btn-primary, .btn-primary * { color:#fff !important; }
-      .btn-primary svg { fill: currentColor; }
       .btn-primary:hover { box-shadow:0 14px 28px rgba(37,99,235,.33); transform:translateY(-1px); }
       .btn[disabled]{background:#e5e7eb;color:#6b7280;box-shadow:none;cursor:not-allowed;transform:none;}
       .btn-chrome{ display:inline-flex; align-items:center; gap:10px; color:#fff; }
@@ -431,7 +420,6 @@ export function StyleTag() {
       footer { border-top:1px solid var(--border); }
       .footer-inner { padding:26px 0; display:flex; flex-wrap:wrap; align-items:center; gap:16px; }
       @media (max-width:640px){ .footer-inner{ gap:12px; } }
-      .footer-center{ flex:1; text-align:center; }
       .links a { color:inherit; text-decoration:none; opacity:.8; }
       .links a:hover { opacity:1; }
       .footer-legal{ flex:1; text-align:center; }
@@ -445,9 +433,8 @@ export function StyleTag() {
       .stars svg { width:18px; height:18px; fill:#f59e0b; }
       .carousel { position:relative; overflow:hidden; padding:8px 0 12px; }
       .carousel-track { display:flex; gap:16px; padding-bottom:10px; width:max-content; animation:carousel-marquee 40s linear infinite; will-change: transform; align-items:stretch; }
-      .slide{ scroll-snap-align:start; display:flex; }
       .carousel:hover .carousel-track{ animation-play-state:paused; }
-      @keyframes carousel-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } } 
+      @keyframes carousel-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
       .slide { flex:0 0 260px; }
       @media (min-width:640px){ .slide{ flex-basis:300px; } }
       @media (min-width:900px){ .slide{ flex-basis:340px; } }
@@ -458,10 +445,8 @@ export function StyleTag() {
       .prose h1, .prose h2, .prose h3 { margin: 16px 0 8px; }
       .prose p, .prose li { color: var(--fg); line-height:1.6; }
       .prose ul { padding-left: 18px; }
-      .section--tight{ padding-bottom:18px; }
-      @media (min-width:900px){ .section--tight{ padding-bottom:24px; } }
 
-      /* --- Botão CTA amarelo (mesmo estilo do Add to Chrome) --- */
+      /* CTA amarelo */
       .btn-gold {
         background:#fde047; color:#111; box-shadow:0 10px 22px rgba(253,224,71,.35);
         display:inline-flex; align-items:center; justify-content:center; gap:10px;
@@ -489,8 +474,8 @@ export function Header() {
           <span>{APP_NAME}</span>
         </a>
         <nav className="nav-center">
-          <a href="#pricing">Pricing</a>
-          <a href="#faq">FAQ</a>
+          <a href="/#pricing">Pricing</a>
+          <a href="/#faq">FAQ</a>
           <a href="/blog">Blog</a>
         </nav>
         <div className="nav-cta">
@@ -518,7 +503,7 @@ function PrimaryCTA() {
 
 function SecondaryCTA({ label = "See Pro features" }) {
   return (
-    <a className="btn btn-secondary" href="#pricing">
+    <a className="btn btn-secondary" href="/#pricing">
       {label}
     </a>
   );
@@ -564,9 +549,7 @@ function Hero() {
         <div className="grid-2" style={{ alignItems: "center" }}>
           <div>
             <h1>A Smarter LinkedIn Feed</h1>
-            <p className="sub">
-            Filter ads, reactions, and distractions — automatically.
-            </p>
+            <p className="sub">Filter ads, reactions, and distractions — automatically.</p>
             <div className="hero-ctas">
               <PrimaryCTA />
               <SecondaryCTA />
@@ -611,7 +594,7 @@ function SocialProof() {
   );
 
   return (
-    <section className="section section--tight">
+    <section className="section">
       <div className="container">
         <div className="social-top">
           <div className="rating">
@@ -656,6 +639,7 @@ function Pricing({ annual, setAnnual }) {
             Yearly
           </button>
         </div>
+
         <div className="pricing-grid">
           <div className="price-card">
             <div className="price-title">Free</div>
@@ -793,9 +777,9 @@ function FinalCTA() {
 }
 
 /* =====================================================
-   Legal pages (com SEO correto e sem FAQ/Software)
+   Legal pages (Vike pages vão renderizar isto)
 ===================================================== */
-function LegalPage({ kind }) {
+export function LegalPage({ kind }) {
   const canonical =
     kind === "privacy"
       ? "https://www.linktopics.me/privacy-policy"
@@ -893,7 +877,6 @@ export function Footer() {
           <a href="/privacy-policy">Privacy policy</a>
         </div>
 
-        {/* ✅ outgoing links (fix Ahrefs "no outgoing links") */}
         <div
           className="links"
           style={{
@@ -905,19 +888,11 @@ export function Footer() {
             flexWrap: "wrap",
           }}
         >
-          <a
-            href={CHROME_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href={CHROME_URL} target="_blank" rel="noopener noreferrer">
             Chrome Web Store
           </a>
 
-          <a
-            href={VIDEO_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href={VIDEO_URL} target="_blank" rel="noopener noreferrer">
             Watch demo
           </a>
 
@@ -937,4 +912,3 @@ export function Footer() {
     </footer>
   );
 }
-

@@ -4,19 +4,24 @@
   --blog-border:#e6e8ee;
   --blog-link:#2563eb;
   --blog-bg:#fff;
+  --blog-text:#0f172a;
 }
 
+/* ----------------------------------------------------
+   Base wrappers
+---------------------------------------------------- */
 .blog-section{ padding:56px 0; }
 @media (min-width:900px){ .blog-section{ padding:72px 0; } }
 
 .blog-container{ max-width:1160px; margin:0 auto; padding:0 20px; }
 @media (max-width:480px){ .blog-container{ padding:0 16px; } }
 
-.blog-sec-header{ text-align:center; margin-bottom:28px; }
-.blog-eyebrow{ color:var(--blog-link); font-weight:800; letter-spacing:.01em; }
-.blog-h1{ font-size:clamp(28px,3.2vw,40px); margin:.25rem 0 .25rem; }
-.blog-sub{ color:var(--blog-muted); }
+.blog-h1{ font-size:clamp(28px,3.2vw,40px); margin:.25rem 0 1rem; color:var(--blog-text); }
 
+/* ----------------------------------------------------
+   Grid + cards (LIST PAGE)
+   JSX: <article class="blog-card"><a> <img/> <h3/> <p/> </a></article>
+---------------------------------------------------- */
 .blog-grid{
   display:grid;
   gap:18px;
@@ -33,63 +38,183 @@
   overflow:hidden;
   transition:transform .12s ease, box-shadow .12s ease;
 }
-.blog-card:hover{ transform:translateY(-2px); box-shadow:0 10px 25px rgba(0,0,0,.08); }
-.blog-card-link{ color:inherit; text-decoration:none; display:block; height:100%; }
+.blog-card:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
 
-.blog-card-cover{ aspect-ratio:16/9; background:#000; }
-.blog-card-cover img{ width:100%; height:100%; object-fit:cover; display:block; }
+/* anchor should behave like a full card */
+.blog-card > a{
+  color:inherit;
+  text-decoration:none;
+  display:block;
+  height:100%;
+}
 
-.blog-card-body{ padding:12px 14px 16px; }
-.blog-date{ color:var(--blog-muted); font-size:12px; }
-.blog-card-title{ margin:.25rem 0 .35rem; font-size:18px; }
-.blog-excerpt{ color:var(--blog-muted); font-size:14px; }
+/* cover image on list cards */
+.blog-card > a > img{
+  width:100%;
+  display:block;
+  aspect-ratio:16/9;
+  object-fit:cover;
+  background:#000;
+}
 
-.blog-tags{ margin-top:8px; display:flex; gap:6px; flex-wrap:wrap; }
-.blog-tag{ font-size:12px; background:#eef2ff; color:#3b82f6; padding:4px 8px; border-radius:999px; border:1px solid #dbe3ff; }
+/* spacing for text inside card */
+.blog-card > a > h3{
+  margin:12px 14px 6px;
+  font-size:18px;
+  line-height:1.25;
+  color:var(--blog-text);
+}
 
-.blog-breadcrumbs{ margin:8px 0 12px; font-size:14px; }
-.blog-breadcrumbs a{ color:inherit; opacity:.8; text-decoration:none; }
-.blog-breadcrumbs a:hover{ opacity:1; text-decoration:underline; }
+.blog-card > a > p{
+  margin:0 14px 16px;
+  color:var(--blog-muted);
+  font-size:14px;
+  line-height:1.45;
+}
 
-.blog-article-header{ text-align:center; margin-bottom:14px; }
-.blog-article-title{ font-size:clamp(28px,3.2vw,40px); margin:0 0 6px; }
-.blog-meta{ color:var(--blog-muted); display:flex; gap:8px; justify-content:center; align-items:center; }
+/* subtle hover affordance */
+.blog-card > a:hover h3{
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
 
-.blog-hero{
-  max-width: 720px;   /* controla a largura do bloco */
+/* ----------------------------------------------------
+   Pagination (LIST PAGE)
+   JSX: <nav class="blog-pagination"><button/><span/><button/></nav>
+---------------------------------------------------- */
+.blog-pagination{
+  margin-top:3rem;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:.75rem;
+  font-size:.9rem;
+  color:var(--blog-muted);
+}
+
+.blog-pagination button{
+  border:1px solid var(--blog-border);
+  background:#fff;
+  border-radius:999px;
+  padding:.45rem .95rem;
+  cursor:pointer;
+  min-width:2.2rem;
+  transition:background .15s ease, border-color .15s ease, transform .05s ease;
+}
+
+.blog-pagination button:hover:not(:disabled){
+  background:#f3f4f6;
+  border-color:#d1d5db;
+}
+
+.blog-pagination button:active:not(:disabled){
+  transform:translateY(1px);
+}
+
+.blog-pagination button:disabled{
+  opacity:.45;
+  cursor:default;
+}
+
+.blog-pagination span{
+  min-width:88px;
+  text-align:center;
+}
+
+/* ----------------------------------------------------
+   Post page
+   JSX: <article class="blog-article"> ... <div class="blog-content" />
+---------------------------------------------------- */
+.blog-article{ padding:0; }
+
+.blog-breadcrumbs{
+  margin:8px 0 12px;
+  font-size:14px;
+}
+.blog-breadcrumbs a{
+  color:inherit;
+  opacity:.8;
+  text-decoration:none;
+}
+.blog-breadcrumbs a:hover{
+  opacity:1;
+  text-decoration:underline;
+}
+
+.blog-article h1{
+  font-size:clamp(28px,3.2vw,40px);
+  margin:0 0 10px;
+  color:var(--blog-text);
+}
+
+.blog-meta{
+  color:var(--blog-muted);
+  display:flex;
+  gap:8px;
+  align-items:center;
+  flex-wrap:wrap;
+  margin-bottom:14px;
+}
+
+/* cover image on post page (targets the first direct img in container) */
+.blog-article .blog-container > img{
+  width:100%;
+  max-width:720px;
+  height:auto;
+  display:block;
   margin:14px auto 18px;
   border-radius:16px;
-  overflow:hidden;
   border:1px solid var(--blog-border);
-  background: #fff;
+  background:#fff;
 }
 
-.blog-hero img{
-  width: 100%;
-  height: auto;       /* ✅ mantém proporção e não corta */
-  display:block;
-  object-fit: contain; /* opcional (com height:auto quase não é necessário) */
+/* Prose / content */
+.blog-content{
+  font-size:16px;
+  line-height:1.75;
+  color:var(--blog-text);
 }
 
-
-
-/* Layout com TOC fixo no desktop */
-.blog-layout{ display:grid; grid-template-columns: 1fr; gap:28px; }
-@media (min-width: 1024px){
-  .blog-layout{ grid-template-columns: minmax(0,1fr) 280px; align-items:start; }
+.blog-content h2,
+.blog-content h3{
+  margin:18px 0 8px;
 }
 
-/* Prosa */
-.blog-article-content{ font-size:16px; line-height:1.75; }
-.blog-article-content h2, .blog-article-content h3{ margin:18px 0 8px; }
-.blog-article-content h2{ scroll-margin-top: 80px; }
-.blog-article-content p{ margin:10px 0; }
-.blog-article-content ul{ padding-left:18px; }
-.blog-article-content a{ color: var(--blog-link); }
-.blog-article-content img{ max-width:100%; height:auto; border-radius:10px; border:1px solid var(--blog-border); }
+.blog-content h2{ scroll-margin-top:80px; }
 
-/* TOC */
-.toc{ position: sticky; top: 100px; border:1px solid var(--blog-border); border-radius:12px; padding:12px; background: var(--blog-bg); }
+.blog-content p{ margin:10px 0; }
+
+.blog-content ul{ padding-left:18px; }
+
+.blog-content a{ color:var(--blog-link); }
+
+.blog-content img{
+  max-width:100%;
+  height:auto;
+  border-radius:10px;
+  border:1px solid var(--blog-border);
+}
+
+/* ----------------------------------------------------
+   Optional/legacy blocks (kept if you use them later)
+---------------------------------------------------- */
+/* Layout with TOC (if you add it later) */
+.blog-layout{ display:grid; grid-template-columns:1fr; gap:28px; }
+@media (min-width:1024px){
+  .blog-layout{ grid-template-columns:minmax(0,1fr) 280px; align-items:start; }
+}
+
+.toc{
+  position:sticky;
+  top:100px;
+  border:1px solid var(--blog-border);
+  border-radius:12px;
+  padding:12px;
+  background:var(--blog-bg);
+}
 .toc-title{ font-weight:700; margin-bottom:8px; font-size:14px; }
 .toc ul{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:6px; }
 .toc li a{ text-decoration:none; font-size:14px; color:#334155; }
@@ -104,94 +229,15 @@
 .tipbox{ border:1px solid #dbeafe; background:#eff6ff; border-radius:12px; padding:12px; margin:14px 0; }
 .tipbox-title{ font-weight:700; font-size:14px; margin-bottom:4px; }
 
-/* Share bar */
-.sharebar{ display:flex; gap:8px; flex-wrap:wrap; margin-top:22px; padding-top:12px; border-top:1px solid var(--blog-border); }
-.sharebtn{ font-size:14px; padding:8px 10px; border-radius:10px; border:1px solid var(--blog-border); background:#fff; cursor:pointer; text-decoration:none; color:#0f172a; }
-.sharebtn:hover{ background:#f8fafc; }
+/* Related + footer (if you use them later) */
+.related-posts{ margin-top:48px; padding-top:24px; border-top:1px solid #e5e7eb; }
+.related-posts h3{ margin-bottom:12px; }
+.related-posts ul{ list-style:none; padding:0; margin:0; }
+.related-posts li{ margin-bottom:8px; }
+.related-posts a{ font-weight:600; text-decoration:none; }
+.related-posts a:hover{ text-decoration:underline; }
 
+.site-footer{ margin-top:3rem; padding-top:1.25rem; border-top:1px solid rgba(0,0,0,0.08); display:flex; gap:16px; flex-wrap:wrap; }
+.site-footer a{ text-decoration:none; }
 
-.blog-pagination {
-  margin-top: 3rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.9rem;
-}
-
-.blog-page-nav,
-.blog-page-btn {
-  border: 1px solid #e0e0e0;
-  background: #fff;
-  border-radius: 999px;
-  padding: 0.4rem 0.9rem;
-  cursor: pointer;
-  min-width: 2.2rem;
-  text-align: center;
-  transition: background 0.15s ease, border-color 0.15s ease,
-    color 0.15s ease, transform 0.05s ease;
-}
-
-.blog-page-nav:disabled {
-  opacity: 0.4;
-  cursor: default;
-}
-
-.blog-page-btn-active {
-  background: #111827;
-  border-color: #111827;
-  color: #fff;
-}
-
-.blog-page-btn:not(.blog-page-btn-active):hover,
-.blog-page-nav:not(:disabled):hover {
-  background: #f3f4f6;
-  border-color: #d1d5db;
-}
-
-.blog-page-dots {
-  padding: 0 0.4rem;
-  color: #9ca3af;
-}
-.related-posts { margin-top: 2.5rem; }
-.related-title { font-size: 1.1rem; margin-bottom: 0.75rem; }
-.related-grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
-.related-card { display:block; padding: 14px; border: 1px solid rgba(0,0,0,0.08); border-radius: 12px; text-decoration:none; }
-.related-card-title { font-weight: 600; margin-bottom: 6px; }
-.related-card-meta { opacity: 0.7; font-size: 0.9rem; }
-
-.site-footer { margin-top: 3rem; padding-top: 1.25rem; border-top: 1px solid rgba(0,0,0,0.08); display:flex; gap: 16px; flex-wrap: wrap; }
-.site-footer a { text-decoration:none; }
-
-
-.related-posts {
-  margin-top: 48px;
-  padding-top: 24px;
-  border-top: 1px solid #e5e7eb;
-}
-
-.related-posts h3 {
-  margin-bottom: 12px;
-}
-
-.related-posts ul {
-  list-style: none;
-  padding: 0;
-}
-
-.related-posts li {
-  margin-bottom: 8px;
-}
-
-.related-posts a {
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.related-posts a:hover {
-  text-decoration: underline;
-}
-
-.site-footer-sep { opacity: .5; margin: 0 6px; }
-
-
+.site-footer-sep{ opacity:.5; margin:0 6px; }
