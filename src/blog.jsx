@@ -1,19 +1,18 @@
 // =============================
 // blog.jsx — Blog dinâmico (Vike)
 // =============================
-import React, {
-  useMemo,
-  Children,
-  isValidElement,
-  cloneElement,
-  useEffect,
-  useState,
-} from "react";
+import React, { useMemo, useEffect, useState } from "react";
+import { SiGooglechrome } from "react-icons/si";
 
 import "./blog.css";
 import { posts } from "./blog.data.js";
 
 export const allPostSlugs = posts.map((p) => p.slug);
+
+const SITE_URL = "https://www.linktopics.me";
+const APP_NAME = "LinkTopics";
+const CHROME_URL =
+  "https://chromewebstore.google.com/detail/bdilfiejpkdfbildemdncbkblegpejfb?utm_source=item-share-cb";
 
 /* ----------------------------------------------------
    Helpers SEO
@@ -53,14 +52,48 @@ function setJsonLd(id, data) {
   s.textContent = JSON.stringify(data);
 }
 
-const SITE_URL = "https://www.linktopics.me";
+/* ----------------------------------------------------
+   Header (reutiliza classes exatas da landing)
+---------------------------------------------------- */
+function BlogHeader() {
+  return (
+    <header className="nav">
+      <div className="container blog-container nav-inner">
+        <a href="/" className="brand">
+          <img
+            src="/../favicon-bg-180x180.png"
+            alt="LinkTopics"
+            className="brand-logo"
+          />
+          <span>{APP_NAME}</span>
+        </a>
+
+        {/* ✅ igual landing, mas sem Pricing/FAQ */}
+        <nav className="nav-center">
+          <a href="/blog">Blog</a>
+        </nav>
+
+        <div className="nav-cta">
+          <a
+            className="btn btn-primary btn-chrome"
+            href={CHROME_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <SiGooglechrome size={28} color="currentColor" aria-hidden="true" />
+            <span>Add to Chrome</span>
+          </a>
+        </div>
+      </div>
+    </header>
+  );
+}
 
 /* ----------------------------------------------------
    BLOG SEO
 ---------------------------------------------------- */
 function BlogListSeo() {
-  const title =
-    "Blog – LinkedIn Feed Filter Tips | LinkTopics";
+  const title = "Blog – LinkedIn Feed Filter Tips | LinkTopics";
   const description =
     "Guides to clean your LinkedIn feed, hide ads, reduce noise and stay productive with LinkTopics.";
 
@@ -95,8 +128,7 @@ function BlogPostSeo({ post }) {
   const url = `${SITE_URL}/blog/${post.slug}`;
   const title = `${post.title} | LinkTopics`;
   const description =
-    post.excerpt ||
-    "Clean your LinkedIn feed and stay productive with LinkTopics.";
+    post.excerpt || "Clean your LinkedIn feed and stay productive with LinkTopics.";
 
   const image = post.cover
     ? post.cover.startsWith("http")
@@ -140,13 +172,6 @@ function BlogPostSeo({ post }) {
 /* ----------------------------------------------------
    Utils
 ---------------------------------------------------- */
-const slugify = (str = "") =>
-  str
-    .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, "")
-    .trim()
-    .replace(/\s+/g, "-");
-
 function readingTimeFromHtml(html = "") {
   const text = html.replace(/<[^>]+>/g, "");
   const words = text.split(/\s+/).filter(Boolean).length;
@@ -201,7 +226,9 @@ function BlogList() {
             <button disabled={page === 1} onClick={() => go(page - 1)}>
               ← Prev
             </button>
-            <span>{page} / {totalPages}</span>
+            <span>
+              {page} / {totalPages}
+            </span>
             <button disabled={page === totalPages} onClick={() => go(page + 1)}>
               Next →
             </button>
@@ -216,10 +243,7 @@ function BlogList() {
    POST PAGE
 ---------------------------------------------------- */
 function BlogPost({ post }) {
-  const reading = useMemo(
-    () => readingTimeFromHtml(post.html || ""),
-    [post.html]
-  );
+  const reading = useMemo(() => readingTimeFromHtml(post.html || ""), [post.html]);
 
   return (
     <article className="blog-article">
@@ -250,24 +274,39 @@ function BlogPost({ post }) {
    ENTRY (Vike)
 ---------------------------------------------------- */
 export default function BlogPage({ slug }) {
-  if (!slug) return <BlogList />;
+  if (!slug) {
+    return (
+      <>
+        <BlogHeader />
+        <BlogList />
+      </>
+    );
+  }
 
   const post = posts.find((p) => p.slug === slug);
 
   if (!post) {
     return (
-      <section className="blog-section">
-        <div className="container">
-          <h1>Post not found</h1>
-          <p>
-            <a href="/blog">← Back to blog</a>
-          </p>
-        </div>
-      </section>
+      <>
+        <BlogHeader />
+        <section className="blog-section">
+          <div className="container">
+            <h1>Post not found</h1>
+            <p>
+              <a href="/blog">← Back to blog</a>
+            </p>
+          </div>
+        </section>
+      </>
     );
   }
 
-  return <BlogPost post={post} />;
+  return (
+    <>
+      <BlogHeader />
+      <BlogPost post={post} />
+    </>
+  );
 }
 
 export { BlogList, BlogPost, posts };
