@@ -1,8 +1,7 @@
-// pages/blog/+Page.jsx
-import React from "react";
-import BlogPage from "../../src/blog.jsx";
-
 export default function Page() {
-  // sem slug => lista
-  return <BlogPage />;
+  return (
+    <main style={{ maxWidth: 900, margin: "0 auto", padding: "32px 16px" }}>
+      <h1>Blog</h1>
+    </main>
+  );
 }
