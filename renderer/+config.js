@@ -1,4 +1,1 @@
-export default {
-    extends: "vike-react/config",
-  };
-  
+export default {};
