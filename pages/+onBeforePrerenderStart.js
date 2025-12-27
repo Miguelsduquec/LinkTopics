@@ -18,34 +18,32 @@ function extractTitleFromHtml(html = "") {
 
 function normalizeUrl(url) {
   if (!url) return null;
-  // garantir que começa com /
   let u = url.startsWith("/") ? url : `/${url}`;
-  // remover trailing slash (exceto na raiz)
+  // remove trailing slash (exceto "/")
   if (u.length > 1 && u.endsWith("/")) u = u.slice(0, -1);
   return u;
 }
 
 function makeUniqueUrl(url, used) {
-  // se já existir, acrescenta sufixo -2, -3, ...
   if (!used.has(url)) return url;
 
-  const m = url.match(/^(.*?)(?:-(\d+))?$/);
-  const base = m ? m[1] : url;
-
+  // /blog/slug -> /blog/slug-2, /blog/slug-3, ...
   let i = 2;
-  let candidate = `${base}-${i}`;
+  let candidate = `${url}-${i}`;
   while (used.has(candidate)) {
     i += 1;
-    candidate = `${base}-${i}`;
+    candidate = `${url}-${i}`;
   }
   return candidate;
 }
 
 export async function onBeforePrerenderStart() {
-  // ✅ páginas base
-  const baseRoutes = ["/", "/blog"];
+  // ⚠️ Não incluir "/" nem "/blog" aqui.
+  // O Vike já prerenderiza as páginas estáticas automaticamente.
+  // Este hook serve para listar rotas dinâmicas, ex: /blog/:slug
 
   const postsDir = path.resolve(process.cwd(), "src/posts");
+
   const folders = fs.existsSync(postsDir)
     ? fs
         .readdirSync(postsDir, { withFileTypes: true })
@@ -55,16 +53,6 @@ export async function onBeforePrerenderStart() {
 
   const used = new Set();
   const routes = [];
-
-  // adiciona as baseRoutes (normalizadas e únicas)
-  for (const r of baseRoutes) {
-    const url = normalizeUrl(r);
-    if (!url) continue;
-    if (!used.has(url)) {
-      used.add(url);
-      routes.push(url);
-    }
-  }
 
   for (const folder of folders) {
     const folderPath = path.join(postsDir, folder);
@@ -76,21 +64,20 @@ export async function onBeforePrerenderStart() {
     const html = fs.readFileSync(path.join(folderPath, contentFile), "utf8");
     const title = extractTitleFromHtml(html);
 
-    // slug a partir do title, ou do nome da pasta
     let slug = title ? slugify(title) : slugify(folder);
-
-    // se por algum motivo o slug ficar vazio, usa o folder
     if (!slug) slug = slugify(folder) || "post";
 
-    // construir URL do post
-    let postUrl = normalizeUrl(`/blog/${slug}`);
+    let url = normalizeUrl(`/blog/${slug}`);
 
-    // garantir que não colide com algo já gerado
-    postUrl = makeUniqueUrl(postUrl, used);
+    // segurança extra: nunca devolver "/" (mesmo que algo corra mal)
+    if (!url || url === "/") continue;
 
-    used.add(postUrl);
-    routes.push(postUrl);
+    url = makeUniqueUrl(url, used);
+
+    used.add(url);
+    routes.push(url);
   }
 
-  return routes;
+  // última segurança contra duplicados
+  return [...new Set(routes)];
 }
