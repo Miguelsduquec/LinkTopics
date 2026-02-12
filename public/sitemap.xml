@@ -2,12 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.linktopics.me/</loc>
-    <lastmod>2026-02-11</lastmod>
+    <lastmod>2026-02-12</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.linktopics.me/blog</loc>
-    <lastmod>2026-02-11</lastmod>
+    <lastmod>2026-02-12</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
@@ -53,6 +53,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/how-to-clean-your-linkedin-feed-manually-and-why-it-doesnt-scale</loc>
     <lastmod>2026-01-01</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/how-to-customize-your-linkedin-feed-settings-you-didnt-know</loc>
+    <lastmod>2026-02-12</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -242,12 +247,12 @@
   </url>
   <url>
     <loc>https://www.linktopics.me/privacy-policy</loc>
-    <lastmod>2026-02-11</lastmod>
+    <lastmod>2026-02-12</lastmod>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://www.linktopics.me/tos</loc>
-    <lastmod>2026-02-11</lastmod>
+    <lastmod>2026-02-12</lastmod>
     <priority>0.5</priority>
   </url>
 </urlset>
