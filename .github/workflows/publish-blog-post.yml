@@ -32,7 +32,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      - name: Move today's scheduled posts
+      - name: Move next due scheduled post
         run: |
           TODAY=$(date +'%Y-%m-%d')
           echo "Hoje é: $TODAY"
@@ -40,14 +40,25 @@ jobs:
           SCHEDULED_DIR="src/scheduled"
           PUBLISHED_DIR="src/posts"
 
-          MATCHES=$(ls -d "$SCHEDULED_DIR"/"$TODAY"-* 2>/dev/null || true)
+          MATCHES=$(
+            find "$SCHEDULED_DIR" -mindepth 1 -maxdepth 1 -type d | sort | while read -r DIR; do
+              BASENAME=$(basename "$DIR")
+              PREFIX=${BASENAME:0:10}
+
+              if [[ "$PREFIX" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]] && { [[ "$PREFIX" < "$TODAY" ]] || [[ "$PREFIX" == "$TODAY" ]]; }; then
+                echo "$DIR"
+                break
+              fi
+            done
+          )
 
           if [ -z "$MATCHES" ]; then
-            echo "Nenhum post agendado para hoje."
+            echo "Não há posts agendados com data inferior ou igual a hoje."
+            echo "Nada para publicar."
             exit 0
           fi
 
-          echo "Posts a publicar:"
+          echo "Publicação selecionada:"
           echo "$MATCHES"
 
           for DIR in $MATCHES; do

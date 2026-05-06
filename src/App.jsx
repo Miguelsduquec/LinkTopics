@@ -4,6 +4,7 @@ import BlogPage from "./blog.jsx";
 import "./App.css";
 
 const APP_NAME = "LinkTopics";
+const CHROME_EXTENSION_ID = "bdilfiejpkdfbildemdncbkblegpejfb";
 const CHROME_URL =
   "https://chromewebstore.google.com/detail/bdilfiejpkdfbildemdncbkblegpejfb?utm_source=item-share-cb";
 const VIDEO_URL = "https://www.youtube.com/watch?v=L28hvycCQqc";
@@ -29,6 +30,36 @@ function setLicense(token) {
   } catch (e) {
     /* no-op */
   }
+}
+
+async function notifyInstalledExtension(message) {
+  try {
+    const runtime = window.chrome?.runtime;
+    if (!runtime?.sendMessage) return { ok: false, error: "runtime_unavailable" };
+
+    return await new Promise((resolve) => {
+      try {
+        runtime.sendMessage(CHROME_EXTENSION_ID, message, (resp) => {
+          const err = window.chrome?.runtime?.lastError;
+          if (err) {
+            resolve({ ok: false, error: err.message || "runtime_error" });
+            return;
+          }
+          resolve(resp || { ok: false, error: "no_response" });
+        });
+      } catch {
+        resolve({ ok: false, error: "send_failed" });
+      }
+    });
+  } catch {
+    return { ok: false, error: "unexpected_error" };
+  }
+}
+
+async function syncPaidAccessToExtension(token) {
+  if (!token) return false;
+  const resp = await notifyInstalledExtension({ type: "activatePaid", token });
+  return !!resp?.ok;
 }
 
 function getLicense() {
@@ -103,6 +134,10 @@ function LandingPage() {
         const data = await res.json(); // { ok:true, token:"<jwt>", plan:"monthly|yearly" }
         if (data?.ok && data?.token) {
           setLicense(data.token);
+          const synced = await syncPaidAccessToExtension(data.token);
+          if (!synced) {
+            console.warn("LinkTopics: paid access was verified, but the extension could not be updated automatically.");
+          }
           setProActive(true);
           // limpa o session_id da barra (para não repetir chamadas ao recarregar)
           const url = new URL(window.location.href);
@@ -937,4 +972,3 @@ export function Footer() {
     </footer>
   );
 }
-
