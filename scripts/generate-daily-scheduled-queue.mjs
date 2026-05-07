@@ -3,6 +3,7 @@ import path from "node:path";
 
 const ROOT = process.cwd();
 const SCHEDULED_DIR = path.join(ROOT, "src", "scheduled");
+const POSTS_DIR = path.join(ROOT, "src", "posts");
 const MANIFEST_PATH = path.join(ROOT, "docs", "linktopics-daily-queue-2026-2027.csv");
 
 const END_DATE = "2027-12-31";
@@ -622,8 +623,30 @@ function listScheduledDatePrefixes() {
     .sort();
 }
 
-function countDueScheduledPosts(todayISO) {
-  return listScheduledDatePrefixes().filter((prefix) => prefix <= todayISO).length;
+function listPostFolderNames() {
+  if (!fs.existsSync(POSTS_DIR)) return [];
+
+  return fs.readdirSync(POSTS_DIR, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name)
+    .sort();
+}
+
+function removeScheduledDuplicates() {
+  if (!fs.existsSync(SCHEDULED_DIR)) return [];
+
+  const published = new Set(listPostFolderNames());
+  const removed = [];
+
+  for (const entry of fs.readdirSync(SCHEDULED_DIR, { withFileTypes: true })) {
+    if (!entry.isDirectory()) continue;
+    if (!published.has(entry.name)) continue;
+
+    fs.rmSync(path.join(SCHEDULED_DIR, entry.name), { recursive: true, force: true });
+    removed.push(entry.name);
+  }
+
+  return removed.sort();
 }
 
 function resolveModifier(modifier, dateISO) {
@@ -1371,8 +1394,8 @@ function buildQueue() {
   const items = [];
   let dayIndex = 0;
   const todayISO = todayInLisbon();
-  const dueScheduledCount = countDueScheduledPosts(todayISO);
-  const startDate = addDaysIso(todayISO, dueScheduledCount);
+  const removedScheduledDuplicates = removeScheduledDuplicates();
+  const startDate = addDaysIso(todayISO, 1);
   const categoryCounts = {};
   const usedTitles = new Set();
 
@@ -1396,7 +1419,7 @@ function buildQueue() {
     dayIndex += 1;
   }
 
-  return { items, startDate, dueScheduledCount, todayISO };
+  return { items, startDate, removedScheduledDuplicates, todayISO };
 }
 
 function writeManifest(items) {
@@ -1477,7 +1500,7 @@ console.log(
   JSON.stringify(
     {
       today: queue.todayISO,
-      existingDueScheduledPosts: queue.dueScheduledCount,
+      removedScheduledDuplicates: queue.removedScheduledDuplicates.length,
       range: { start: queue.startDate, end: END_DATE },
       totalPlanned: queue.items.length,
       created: result.created,

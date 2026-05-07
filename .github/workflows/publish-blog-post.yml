@@ -32,40 +32,8 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      - name: Move next due scheduled post
-        run: |
-          TODAY=$(date +'%Y-%m-%d')
-          echo "Hoje é: $TODAY"
-
-          SCHEDULED_DIR="src/scheduled"
-          PUBLISHED_DIR="src/posts"
-
-          MATCHES=$(
-            find "$SCHEDULED_DIR" -mindepth 1 -maxdepth 1 -type d | sort | while read -r DIR; do
-              BASENAME=$(basename "$DIR")
-              PREFIX=${BASENAME:0:10}
-
-              if [[ "$PREFIX" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]] && { [[ "$PREFIX" < "$TODAY" ]] || [[ "$PREFIX" == "$TODAY" ]]; }; then
-                echo "$DIR"
-                break
-              fi
-            done
-          )
-
-          if [ -z "$MATCHES" ]; then
-            echo "Não há posts agendados com data inferior ou igual a hoje."
-            echo "Nada para publicar."
-            exit 0
-          fi
-
-          echo "Publicação selecionada:"
-          echo "$MATCHES"
-
-          for DIR in $MATCHES; do
-            BASENAME=$(basename "$DIR")
-            echo "A mover $DIR -> $PUBLISHED_DIR/$BASENAME"
-            mv "$DIR" "$PUBLISHED_DIR/$BASENAME"
-          done
+      - name: Publish next due scheduled post
+        run: node scripts/publish-next-due-post.mjs
 
       - name: Generate sitemap.xml
         run: node scripts/generate-sitemap.cjs
@@ -100,8 +68,8 @@ jobs:
             exit 0
           fi
 
-          # Só commitar o que interessa: posts publicados + sitemap
-          git add src/posts public/sitemap.xml
+          # Só commitar o que interessa: posts publicados + scheduled limpo + sitemap
+          git add src/posts src/scheduled public/sitemap.xml
 
           # (Opcional) também podes adicionar robots.txt se ele for gerado/alterado:
           # git add public/robots.txt

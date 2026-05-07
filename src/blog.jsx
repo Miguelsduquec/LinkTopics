@@ -362,6 +362,24 @@ const coverModules = import.meta.glob("./posts/*/thumbnail.*", {
   eager: true,
 });
 
+function extractRemoteCoverFromHtml(html) {
+  const metaTags = Array.from(String(html || "").matchAll(/<meta\b[^>]*>/gi)).map(
+    (match) => match[0]
+  );
+
+  for (const tag of metaTags) {
+    const isOgImage = /property=["']og:image["']/i.test(tag);
+    const isTwitterImage = /name=["']twitter:image["']/i.test(tag);
+    if (!isOgImage && !isTwitterImage) continue;
+
+    const contentMatch = tag.match(/content=["']([^"']+)["']/i);
+    if (contentMatch?.[1]) return contentMatch[1].trim();
+  }
+
+  const firstImageMatch = String(html || "").match(/<img[^>]+src=["']([^"']+)["']/i);
+  return firstImageMatch?.[1]?.trim() || null;
+}
+
 function buildPosts() {
   const posts = [];
 
@@ -386,6 +404,10 @@ function buildPosts() {
           : typeof modCover?.default === "string"
           ? modCover.default
           : null;
+    }
+
+    if (!cover) {
+      cover = extractRemoteCoverFromHtml(html);
     }
 
     let title = "";
