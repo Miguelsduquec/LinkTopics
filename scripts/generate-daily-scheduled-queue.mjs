@@ -7,6 +7,9 @@ const POSTS_DIR = path.join(ROOT, "src", "posts");
 const MANIFEST_PATH = path.join(ROOT, "docs", "linktopics-daily-queue-2026-2027.csv");
 
 const END_DATE = "2027-12-31";
+const MAX_TITLE_LENGTH = 50;
+const IDEAL_TITLE_MIN = 30;
+const IDEAL_TITLE_MAX = 40;
 
 const CATEGORY_ORDER = [
   "ads",
@@ -94,44 +97,44 @@ const COMPARISONS = [
 
 const REACTION_VARIANTS = [
   {
-    keyword: "how to remove liked posts on LinkedIn",
-    title: "How to Remove Liked Posts on LinkedIn",
+    keyword: "hide liked posts on LinkedIn",
+    title: "Hide Liked Posts on LinkedIn",
     angle: "reaction-driven posts",
     pattern: "liked posts",
   },
   {
     keyword: "hide reacted posts on LinkedIn",
-    title: "How to Hide Reacted Posts on LinkedIn",
+    title: "Hide Reacted Posts on LinkedIn",
     angle: "reaction-driven posts",
     pattern: "reacted posts",
   },
   {
-    keyword: "why you keep seeing loves this posts on LinkedIn",
-    title: "Why You Keep Seeing “Loves This” Posts on LinkedIn",
+    keyword: "why LinkedIn shows loves this posts",
+    title: "Why LinkedIn Shows Loves This",
     angle: "reaction-driven posts",
     pattern: "“loves this” posts",
   },
   {
-    keyword: "how to remove celebrates this posts on LinkedIn",
-    title: "How to Remove “Celebrates This” Posts on LinkedIn",
+    keyword: "hide celebrates this on LinkedIn",
+    title: "Hide Celebrates This on LinkedIn",
     angle: "reaction-driven posts",
     pattern: "“celebrates this” posts",
   },
   {
-    keyword: "how to hide finds this insightful posts on LinkedIn",
-    title: "How to Hide “Finds This Insightful” Posts on LinkedIn",
+    keyword: "hide insightful posts on LinkedIn",
+    title: "Hide Insightful Posts on LinkedIn",
     angle: "reaction-driven posts",
     pattern: "“finds this insightful” posts",
   },
   {
-    keyword: "how to stop seeing supports this posts on LinkedIn",
-    title: "How to Stop Seeing “Supports This” Posts on LinkedIn",
+    keyword: "hide supports this on LinkedIn",
+    title: "Hide Supports This on LinkedIn",
     angle: "reaction-driven posts",
     pattern: "“supports this” posts",
   },
   {
     keyword: "how to hide likes this posts on LinkedIn",
-    title: "How to Hide “Likes This” Posts on LinkedIn",
+    title: "Hide Likes This Posts on LinkedIn",
     angle: "reaction-driven posts",
     pattern: "“likes this” posts",
   },
@@ -139,32 +142,32 @@ const REACTION_VARIANTS = [
 
 const SHARE_VARIANTS = [
   {
-    keyword: "remove shared posts on LinkedIn",
-    title: "How to Remove Shared Posts on LinkedIn",
+    keyword: "hide shared posts on LinkedIn",
+    title: "Hide Shared Posts on LinkedIn",
     angle: "shared and reposted posts",
     pattern: "shared posts",
   },
   {
     keyword: "hide reshared posts on LinkedIn",
-    title: "How to Hide Reshared Posts on LinkedIn",
+    title: "Hide Reshared Posts on LinkedIn",
     angle: "shared and reposted posts",
     pattern: "reshared posts",
   },
   {
-    keyword: "remove reposted posts on LinkedIn",
-    title: "How to Remove Reposted Posts on LinkedIn",
+    keyword: "hide reposted posts on LinkedIn",
+    title: "Hide Reposted Posts on LinkedIn",
     angle: "shared and reposted posts",
     pattern: "reposted posts",
   },
   {
-    keyword: "why LinkedIn shows reposted posts",
-    title: "Why LinkedIn Keeps Showing Reposted Posts",
+    keyword: "why LinkedIn shows reposts",
+    title: "Why LinkedIn Shows Reposts",
     angle: "shared and reposted posts",
     pattern: "reposted posts",
   },
   {
-    keyword: "why you keep seeing shared and reshared posts",
-    title: "Why You Keep Seeing Shared and Reshared Posts on LinkedIn",
+    keyword: "why LinkedIn shows shared posts",
+    title: "Why LinkedIn Shows Shared Posts",
     angle: "shared and reposted posts",
     pattern: "shared and reshared posts",
   },
@@ -182,50 +185,50 @@ const ADS_VARIANTS = [
     angle: "promoted posts",
   },
   {
-    keyword: "remove sponsored posts on LinkedIn",
-    title: "How to Remove Sponsored Posts on LinkedIn",
+    keyword: "hide sponsored posts on LinkedIn",
+    title: "Hide Sponsored Posts on LinkedIn",
     angle: "sponsored posts",
   },
   {
     keyword: "best LinkedIn ad blocker",
-    title: "What Is the Best LinkedIn Ad Blocker?",
+    title: "Best LinkedIn Ad Blocker",
     angle: "LinkedIn ad blockers",
   },
   {
     keyword: "block promoted posts LinkedIn",
-    title: "How to Block Promoted Posts on LinkedIn",
+    title: "Block Promoted Posts on LinkedIn",
     angle: "promoted posts",
   },
 ];
 
 const SUGGESTED_VARIANTS = [
   {
-    keyword: "remove suggested posts on LinkedIn",
-    title: "How to Remove Suggested Posts on LinkedIn",
+    keyword: "hide suggested posts on LinkedIn",
+    title: "Hide Suggested Posts on LinkedIn",
     angle: "suggested and recommended posts",
     pattern: "suggested posts",
   },
   {
-    keyword: "remove recommended posts on LinkedIn",
-    title: "How to Remove Recommended Posts on LinkedIn",
+    keyword: "hide recommended posts on LinkedIn",
+    title: "Hide Recommended Posts on LinkedIn",
     angle: "suggested and recommended posts",
     pattern: "recommended posts",
   },
   {
-    keyword: "why LinkedIn shows suggested posts",
-    title: "Why LinkedIn Shows Suggested Posts in Your Feed",
+    keyword: "why LinkedIn suggests posts",
+    title: "Why LinkedIn Suggests Posts",
     angle: "suggested and recommended posts",
     pattern: "suggested posts",
   },
   {
-    keyword: "why LinkedIn shows recommended posts",
-    title: "Why LinkedIn Shows Recommended Posts in Your Feed",
+    keyword: "why LinkedIn recommends posts",
+    title: "Why LinkedIn Recommends Posts",
     angle: "suggested and recommended posts",
     pattern: "recommended posts",
   },
   {
-    keyword: "how to hide recommended content on LinkedIn",
-    title: "How to Hide Recommended Content on LinkedIn",
+    keyword: "hide recommended content on LinkedIn",
+    title: "Hide LinkedIn Recommended Content",
     angle: "suggested and recommended posts",
     pattern: "recommended content",
   },
@@ -234,37 +237,37 @@ const SUGGESTED_VARIANTS = [
 const PERSONA_VARIANTS = [
   {
     keyword: "LinkedIn feed for recruiters",
-    title: "How Recruiters Can Clean Up a Noisy LinkedIn Feed",
+    title: "LinkedIn Feed for Recruiters",
     angle: "a cleaner LinkedIn feed for recruiters",
   },
   {
     keyword: "LinkedIn feed for sales teams",
-    title: "How Sales Teams Can Use a Cleaner LinkedIn Feed",
+    title: "LinkedIn Feed for Sales Teams",
     angle: "a cleaner LinkedIn feed for sales teams",
   },
   {
     keyword: "LinkedIn feed for marketers",
-    title: "Why Marketers Need a Cleaner LinkedIn Feed",
+    title: "LinkedIn Feed for Marketers",
     angle: "a cleaner LinkedIn feed for marketers",
   },
   {
     keyword: "LinkedIn feed for founders",
-    title: "Why Founders Should Clean Up Their LinkedIn Feed",
+    title: "LinkedIn Feed for Founders",
     angle: "a cleaner LinkedIn feed for founders",
   },
   {
     keyword: "LinkedIn feed for consultants",
-    title: "How Consultants Can Reduce Feed Noise on LinkedIn",
+    title: "LinkedIn Feed for Consultants",
     angle: "a cleaner LinkedIn feed for consultants",
   },
   {
     keyword: "LinkedIn feed for job seekers",
-    title: "How Job Seekers Can Make LinkedIn Less Distracting",
+    title: "LinkedIn Feed for Job Seekers",
     angle: "a cleaner LinkedIn feed for job seekers",
   },
   {
     keyword: "LinkedIn feed for HR teams",
-    title: "How HR Teams Can Focus Better on LinkedIn",
+    title: "LinkedIn Feed for HR Teams",
     angle: "a cleaner LinkedIn feed for HR teams",
   },
 ];
@@ -272,32 +275,32 @@ const PERSONA_VARIANTS = [
 const COMPARISON_VARIANTS = [
   {
     keyword: "LinkTopics vs LinkedIn Premium",
-    title: "LinkTopics vs LinkedIn Premium: Which One Cleans Your Feed Best?",
+    title: "LinkTopics vs LinkedIn Premium",
     angle: "LinkTopics compared with LinkedIn Premium",
   },
   {
-    keyword: "LinkTopics vs generic ad blockers",
-    title: "LinkTopics vs Generic Ad Blockers for LinkedIn: What Actually Changes?",
+    keyword: "LinkTopics vs LinkedIn ad blockers",
+    title: "LinkTopics vs LinkedIn Ad Blockers",
     angle: "LinkTopics compared with generic ad blockers",
   },
   {
-    keyword: "LinkedIn feed cleaner vs manual cleanup",
-    title: "LinkedIn Feed Cleaner vs Manual Cleanup: Which One Scales Better?",
+    keyword: "feed cleaner vs manual cleanup",
+    title: "Feed Cleaner vs Manual Cleanup",
     angle: "manual feed cleanup versus filtering",
   },
   {
     keyword: "uBlock Origin for LinkedIn",
-    title: "uBlock Origin for LinkedIn: Does It Reduce Feed Noise?",
+    title: "uBlock Origin for LinkedIn",
     angle: "uBlock Origin on LinkedIn",
   },
   {
     keyword: "AdBlock for LinkedIn",
-    title: "AdBlock for LinkedIn: Does It Clean the Feed?",
+    title: "AdBlock on LinkedIn Feed",
     angle: "AdBlock on LinkedIn",
   },
   {
     keyword: "native LinkedIn settings vs feed cleaner",
-    title: "Native LinkedIn Settings vs a Feed Cleaner: What Is Missing?",
+    title: "LinkedIn Settings vs Feed Cleaner",
     angle: "native settings compared with a feed cleaner",
   },
 ];
@@ -305,32 +308,32 @@ const COMPARISON_VARIANTS = [
 const STRATEGY_VARIANTS = [
   {
     keyword: "clean LinkedIn feed",
-    title: "Why a Clean LinkedIn Feed Is a Competitive Advantage",
+    title: "Clean LinkedIn Feed for Focus",
     angle: "a clean LinkedIn feed",
   },
   {
-    keyword: "LinkedIn productivity",
-    title: "How a Cleaner LinkedIn Feed Improves Productivity",
+    keyword: "LinkedIn feed productivity",
+    title: "LinkedIn Feed for Productivity",
     angle: "LinkedIn productivity",
   },
   {
     keyword: "LinkedIn focus mode",
-    title: "Why LinkedIn Focus Mode Matters",
+    title: "LinkedIn Focus Mode Guide",
     angle: "LinkedIn focus mode",
   },
   {
     keyword: "stop LinkedIn distractions",
-    title: "How to Stop LinkedIn Distractions Without Leaving the Platform",
+    title: "Stop LinkedIn Distractions",
     angle: "reducing LinkedIn distractions",
   },
   {
     keyword: "LinkedIn feed cleaner",
-    title: "What a LinkedIn Feed Cleaner Actually Changes",
+    title: "What a LinkedIn Feed Cleaner Does",
     angle: "using a LinkedIn feed cleaner",
   },
   {
     keyword: "LinkedIn chrome extension",
-    title: "Why a LinkedIn Chrome Extension Beats Manual Cleanup",
+    title: "LinkedIn Chrome Extension Guide",
     angle: "using a LinkedIn Chrome extension",
   },
 ];
@@ -338,185 +341,221 @@ const STRATEGY_VARIANTS = [
 const TITLE_SUFFIXES_BY_CATEGORY = {
   ads: [
     "",
-    "in {year}",
-    "Without Paying for Premium",
+    "Fast",
+    "Today",
+    "Now",
+    "{year}",
     "on Chrome",
-    "Step by Step",
-    "That Actually Works",
-    "Without Manual Hiding",
-    "for a Cleaner Feed",
-    "for Desktop Chrome",
-    "Without Premium",
-    "and What to Do Instead",
-    "Without Changing Who You Follow",
-    "for Better Focus",
-    "That Takes Less Than a Minute",
-    "Without Hiding Useful Updates",
-    "in {month} {year}",
+    "for Work",
+    "Guide",
+    "Tips",
+    "Explained",
+    "Quick Guide",
+    "Setup",
+    "Quick Fix",
+    "Chrome Guide",
+    "at Work",
+    "Work Tips",
+    "Feed Tips",
+    "Less Noise",
+    "Quick Tips",
+    "Ad Guide",
+    "Work Guide",
+    "{month} {year}",
   ],
   reactions: [
     "",
-    "Without Muting People",
-    "Without Unfollowing People",
-    "for a Cleaner Feed",
-    "Step by Step",
-    "That Actually Works",
-    "Without Manual Hiding",
+    "Fast",
+    "Today",
+    "Now",
+    "{year}",
     "on Chrome",
-    "for Better Focus",
-    "for Desktop Chrome",
-    "Without Losing Relevant Updates",
-    "in Under a Minute",
-    "in {year}",
-    "in {month} {year}",
+    "for Work",
+    "Guide",
+    "Tips",
+    "Explained",
+    "Quick Guide",
+    "Setup",
+    "Quick Fix",
+    "Chrome Guide",
+    "at Work",
+    "{month} {year}",
   ],
   shares: [
     "",
-    "Without Muting People",
-    "Without Losing Relevant Updates",
-    "for a Cleaner Feed",
-    "Step by Step",
-    "That Actually Works",
-    "Without Manual Hiding",
-    "for Better Focus",
-    "for Desktop Chrome",
-    "for Recruiters and Sales Teams",
-    "Without Hiding Useful Updates",
+    "Fast",
+    "Today",
+    "Now",
+    "{year}",
     "on Chrome",
-    "in {year}",
-    "in Under a Minute",
-    "in {month} {year}",
+    "for Work",
+    "Guide",
+    "Tips",
+    "Explained",
+    "Quick Guide",
+    "Setup",
+    "Quick Fix",
+    "Chrome Guide",
+    "at Work",
+    "{month} {year}",
   ],
   suggested: [
     "",
-    "for a Cleaner Feed",
-    "Without Disabling Useful Updates",
-    "Step by Step",
-    "That Actually Works",
-    "Without Manual Hiding",
-    "for Better Focus",
-    "for Desktop Chrome",
+    "Fast",
+    "Today",
+    "Now",
+    "{year}",
     "on Chrome",
-    "in {year}",
-    "Without Hiding Useful Updates",
-    "in Under a Minute",
-    "in {month} {year}",
+    "for Work",
+    "Guide",
+    "Tips",
+    "Explained",
+    "Quick Guide",
+    "Setup",
+    "Quick Fix",
+    "Chrome Guide",
+    "at Work",
+    "{month} {year}",
   ],
   persona: [
     "",
-    "in {year}",
-    "Without Losing Relevant Signals",
-    "for Better Daily Focus",
-    "When the Feed Gets Too Noisy",
-    "for a Cleaner Workday",
-    "Without Hiding Useful Updates",
-    "on Desktop Chrome",
-    "for Daily LinkedIn Use",
-    "With Fewer Distractions",
-    "in {month} {year}",
+    "{year}",
+    "for Work",
+    "at Work",
+    "Guide",
+    "Tips",
+    "Quick Guide",
+    "Checklist",
+    "Playbook",
+    "Focus Guide",
+    "Daily Tips",
+    "Chrome Guide",
+    "Today",
+    "Now",
+    "{month} {year}",
   ],
   comparison: [
     "",
-    "in {year}",
-    "on Desktop Chrome",
-    "If Native Cleanup Is Not Enough",
-    "After Manual Cleanup Stops Working",
-    "If You Use LinkedIn Every Day",
-    "When Feed Noise Keeps Returning",
-    "and What Each Option Misses",
-    "and Which One Saves More Time",
-    "Without Paying for Premium",
-    "in {month} {year}",
+    "Compared",
+    "Guide",
+    "Review",
+    "{year}",
+    "on Chrome",
+    "Quick Guide",
+    "Explained",
+    "Side by Side",
+    "Checklist",
+    "Today",
+    "Now",
+    "at Work",
+    "Chrome Guide",
+    "{month} {year}",
   ],
   strategy: [
     "",
-    "in {year}",
-    "for Better Focus",
-    "for a More Intentional Workflow",
-    "When Feed Noise Starts Costing You Time",
-    "for a Cleaner Workday",
-    "for Busy Professionals",
-    "for Everyday LinkedIn Use",
-    "for People Who Use LinkedIn With Intent",
-    "With Fewer Distractions",
-    "in {month} {year}",
+    "{year}",
+    "for Work",
+    "at Work",
+    "Guide",
+    "Tips",
+    "Quick Guide",
+    "Focus Guide",
+    "Daily Tips",
+    "Explained",
+    "Today",
+    "Now",
+    "Chrome Guide",
+    "Checklist",
+    "{month} {year}",
   ],
 };
 
 const WHY_TITLE_SUFFIXES_BY_CATEGORY = {
   reactions: [
     "",
-    "in {year}",
-    "and How to Reduce Them",
-    "and Why They Keep Coming Back",
-    "Without Manual Hiding",
-    "and What to Do Instead",
-    "for a Cleaner Feed",
-    "for Better Focus",
+    "Today",
+    "Now",
+    "{year}",
+    "Explained",
+    "Guide",
+    "Quick Guide",
+    "for Work",
     "on Chrome",
-    "for Desktop Chrome",
-    "and How to Hide Them",
-    "That Actually Matters",
-    "in {month} {year}",
+    "at Work",
+    "Quick Fix",
+    "{month} {year}",
   ],
   shares: [
     "",
-    "in {year}",
-    "and How to Reduce Them",
-    "and Why They Keep Coming Back",
-    "and What to Do Instead",
-    "for a Cleaner Feed",
-    "for Better Focus",
+    "Today",
+    "Now",
+    "{year}",
+    "Explained",
+    "Guide",
+    "Quick Guide",
+    "for Work",
     "on Chrome",
-    "for Desktop Chrome",
-    "for Recruiters and Sales Teams",
-    "Without Manual Hiding",
-    "That Actually Matters",
-    "Without Hiding Useful Updates",
-    "in {month} {year}",
+    "at Work",
+    "Quick Fix",
+    "{month} {year}",
   ],
   suggested: [
     "",
-    "in {year}",
-    "and How to Reduce Them",
-    "and Why They Keep Coming Back",
-    "Without Manual Hiding",
-    "for a Cleaner Feed",
-    "for Better Focus",
-    "and What to Do Instead",
-    "for Desktop Chrome",
+    "Today",
+    "Now",
+    "{year}",
+    "Explained",
+    "Guide",
+    "Quick Guide",
+    "for Work",
     "on Chrome",
-    "Without Disabling Useful Updates",
-    "Without Hiding Useful Updates",
-    "That Actually Matters",
-    "in {month} {year}",
+    "at Work",
+    "Quick Fix",
+    "{month} {year}",
   ],
   persona: [
     "",
-    "in {year}",
-    "Without Losing Relevant Signals",
-    "for Better Daily Focus",
-    "When the Feed Gets Too Noisy",
-    "for a Cleaner Workday",
-    "With Fewer Distractions",
-    "Without Hiding Useful Updates",
-    "for Daily LinkedIn Use",
-    "That Actually Matters",
-    "in {month} {year}",
+    "{year}",
+    "Guide",
+    "Tips",
+    "for Work",
+    "at Work",
+    "Quick Guide",
+    "Checklist",
+    "Focus Guide",
+    "Today",
+    "Now",
+    "{month} {year}",
   ],
   strategy: [
     "",
-    "in {year}",
-    "for Better Focus",
-    "for a More Intentional Workflow",
-    "When Feed Noise Starts Costing You Time",
-    "for a Cleaner Workday",
-    "With Fewer Distractions",
-    "for Busy Professionals",
-    "for People Who Use LinkedIn With Intent",
-    "in {month} {year}",
+    "{year}",
+    "Guide",
+    "Tips",
+    "for Work",
+    "at Work",
+    "Quick Guide",
+    "Focus Guide",
+    "Today",
+    "Now",
+    "{month} {year}",
   ],
 };
+
+const COLON_SUFFIXES = new Set([
+  "Guide",
+  "Tips",
+  "Review",
+  "Setup",
+  "Checklist",
+  "Explained",
+  "Quick Guide",
+  "Chrome Guide",
+  "Focus Guide",
+  "Playbook",
+  "Daily Tips",
+  "Side by Side",
+]);
 
 function slugify(input) {
   return String(input)
@@ -532,6 +571,14 @@ function monthNameFor(dateStr) {
   const date = new Date(`${dateStr}T00:00:00.000Z`);
   return date.toLocaleDateString("en-US", {
     month: "long",
+    timeZone: "UTC",
+  });
+}
+
+function shortMonthNameFor(dateStr) {
+  const date = new Date(`${dateStr}T00:00:00.000Z`);
+  return date.toLocaleDateString("en-US", {
+    month: "short",
     timeZone: "UTC",
   });
 }
@@ -594,7 +641,9 @@ function composeUniqueTitle(baseTitle, primarySuffix, secondarySuffix) {
   let title = baseTitle;
 
   if (primarySuffix) {
-    if (title.endsWith("?")) {
+    if (COLON_SUFFIXES.has(primarySuffix)) {
+      title = `${title}: ${primarySuffix}`;
+    } else if (title.endsWith("?")) {
       title = `${title.slice(0, -1)} ${primarySuffix}?`;
     } else {
       title = `${title} ${primarySuffix}`;
@@ -603,7 +652,9 @@ function composeUniqueTitle(baseTitle, primarySuffix, secondarySuffix) {
 
   if (secondarySuffix) {
     if (title.toLowerCase().includes(secondarySuffix.toLowerCase())) return title;
-    if (title.endsWith("?")) {
+    if (COLON_SUFFIXES.has(secondarySuffix)) {
+      title = `${title}: ${secondarySuffix}`;
+    } else if (title.endsWith("?")) {
       title = `${title.slice(0, -1)} ${secondarySuffix}?`;
     } else {
       title = `${title} ${secondarySuffix}`;
@@ -664,30 +715,65 @@ function suffixesForTitle(category, baseTitle) {
   return TITLE_SUFFIXES_BY_CATEGORY[category] || [""];
 }
 
+function titleScore(title) {
+  const length = title.length;
+
+  if (length > MAX_TITLE_LENGTH) return 10_000 + length;
+  if (length >= IDEAL_TITLE_MIN && length <= IDEAL_TITLE_MAX) return Math.abs(35 - length);
+  if (length < IDEAL_TITLE_MIN) return 500 + (IDEAL_TITLE_MIN - length);
+  return 1_000 + (length - IDEAL_TITLE_MAX);
+}
+
 function buildTitleCandidates(category, baseTitle, dateISO) {
-  return suffixesForTitle(category, baseTitle).map((suffix) =>
+  const candidates = suffixesForTitle(category, baseTitle).map((suffix) =>
     composeUniqueTitle(baseTitle, resolveModifier(suffix, dateISO), "")
   );
+
+  return Array.from(new Set(candidates))
+    .map((title, index) => ({ title, index }))
+    .sort((a, b) => {
+      const scoreDiff = titleScore(a.title) - titleScore(b.title);
+      return scoreDiff !== 0 ? scoreDiff : a.index - b.index;
+    })
+    .map((entry) => entry.title);
 }
 
 function chooseUniqueTitle({ category, baseTitle, dateISO, repeatIndex, usedTitles }) {
   const candidates = buildTitleCandidates(category, baseTitle, dateISO);
-  const startIndex = repeatIndex % candidates.length;
-
-  for (let offset = 0; offset < candidates.length; offset += 1) {
-    const candidate = candidates[(startIndex + offset) % candidates.length];
-    if (!usedTitles.has(candidate) && candidate.length <= 110) {
+  for (const candidate of candidates) {
+    if (!usedTitles.has(candidate) && candidate.length <= MAX_TITLE_LENGTH) {
       return candidate;
     }
   }
 
-  for (const candidate of candidates) {
-    if (!usedTitles.has(candidate)) return candidate;
+  const year = String(dateISO).slice(0, 4);
+  const monthShort = shortMonthNameFor(dateISO);
+  const day = String(Number(dateISO.slice(8, 10)));
+  const datedFallbacks = [
+    `${monthShort} ${year}`,
+    `${monthShort} ${day}`,
+    `${day} ${monthShort}`,
+    `${monthShort} Guide`,
+    `${monthShort} Tips`,
+    `${monthShort} Update`,
+    `${day} ${monthShort} ${year}`,
+  ];
+
+  for (const suffix of datedFallbacks) {
+    const fallback = composeUniqueTitle(baseTitle, suffix, "");
+    if (fallback.length <= MAX_TITLE_LENGTH && !usedTitles.has(fallback)) {
+      return fallback;
+    }
   }
 
-  const month = monthNameFor(dateISO);
-  const year = String(dateISO).slice(0, 4);
-  return composeUniqueTitle(baseTitle, `in ${month} ${year} (${repeatIndex + 1})`, "");
+  for (let attempt = repeatIndex + 2; attempt < 100; attempt += 1) {
+    const fallback = composeUniqueTitle(baseTitle, `${monthShort} ${attempt}`, "");
+    if (fallback.length <= MAX_TITLE_LENGTH && !usedTitles.has(fallback)) {
+      return fallback;
+    }
+  }
+
+  throw new Error(`Unable to generate a unique compact title for "${baseTitle}"`);
 }
 
 function pickVariant(category, dayIndex, dateISO, usedTitles) {
@@ -1496,6 +1582,19 @@ const queue = buildQueue();
 const result = writeScheduledPosts(queue.items);
 writeManifest(queue.items);
 
+const titleStats = queue.items.reduce(
+  (stats, item) => {
+    const length = item.title.length;
+    stats.max = Math.max(stats.max, length);
+    if (length < IDEAL_TITLE_MIN) stats.under30 += 1;
+    else if (length <= IDEAL_TITLE_MAX) stats.between30and40 += 1;
+    else if (length <= MAX_TITLE_LENGTH) stats.between41and50 += 1;
+    else stats.over50 += 1;
+    return stats;
+  },
+  { max: 0, under30: 0, between30and40: 0, between41and50: 0, over50: 0 }
+);
+
 console.log(
   JSON.stringify(
     {
@@ -1506,6 +1605,7 @@ console.log(
       created: result.created,
       updated: result.updated,
       manifest: path.relative(ROOT, MANIFEST_PATH),
+      titleStats,
     },
     null,
     2

@@ -380,6 +380,23 @@ function extractRemoteCoverFromHtml(html) {
   return firstImageMatch?.[1]?.trim() || null;
 }
 
+function extractSlugFromHtml(html, folder) {
+  const sources = [
+    html.match(/<link[^>]+rel=["']canonical["'][^>]+href=["'][^"']*\/blog\/([^"'/?#]+)["']/i),
+    html.match(/<meta[^>]+property=["']og:url["'][^>]+content=["'][^"']*\/blog\/([^"'/?#]+)["']/i),
+    html.match(/"mainEntityOfPage"\s*:\s*\{[\s\S]*?"@id"\s*:\s*"[^"]*\/blog\/([^"\/?#]+)"/i),
+  ];
+
+  for (const match of sources) {
+    if (match?.[1]) return match[1].trim();
+  }
+
+  const datedFolderMatch = folder.match(/^\d{4}-\d{2}-\d{2}-(.+)$/);
+  if (datedFolderMatch?.[1]) return datedFolderMatch[1].trim();
+
+  return "";
+}
+
 function buildPosts() {
   const posts = [];
 
@@ -426,7 +443,7 @@ function buildPosts() {
 
       title = h1Match ? stripTags(h1Match[1]) : folder;
       excerpt = pMatch ? stripTags(pMatch[1]) : "";
-      slug = slugify(title);
+      slug = extractSlugFromHtml(html, folder) || slugify(title);
 
       const dMatch = folder.match(/^(\d{4}-\d{2}-\d{2})-/);
       if (dMatch) {
