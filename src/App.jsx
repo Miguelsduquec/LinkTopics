@@ -600,7 +600,7 @@ function Hero() {
           <div>
             <h1>A Smarter LinkedIn Feed</h1>
             <p className="sub">
-            Filter ads, reactions, and distractions — automatically.
+            Filter ads, liked posts, reactions, and more — automatically.
             </p>
             <div className="hero-ctas">
               <PrimaryCTA />
