@@ -623,16 +623,37 @@ function Hero() {
 function SocialProof() {
   const reviews = [
     {
-      q: "I liked this first version, Miguel told me next version will have things I asked for ;)",
-      a: "— Rachel, HR Lead",
+      q: "Very cool and useful extension! No unnecessary content :)",
+      a: "— Sofiya Akhmedova, Chrome Web Store",
     },
-    { q: "Instaled and approved!", a: "— Tommy, Business Analyst" },
-    { q: "Saved me 10–15 minutes every morning.", a: "— Pedro, DevOps Engineer" },
-    { q: "Topics > keywords. My LinkedIn is useful again.", a: "— Joana, Product Manager" },
-    { q: "Exactly what I needed to stay focused while hiring.", a: "— Rui, Tech Recruiter" },
-    { q: "My feed finally surfaces the posts I care about.", a: "— Sofia, Data Scientist" },
-    { q: "Great for filtering noise while prospecting.", a: "— Marco, SDR" },
-    { q: "Simple setup and it just works.", a: "— Laura, Software Engineer" },
+    {
+      q: "Easy to install and works straight away. Cool.",
+      a: "— Iulia Oancea, Chrome Web Store",
+    },
+    {
+      q: "LinkTopics instantly cleans up my LinkedIn feed. No ads, no promoted posts — just meaningful content.",
+      a: "— Dhirendra Singh, Chrome Web Store",
+    },
+    {
+      q: "Amazing! No more Ads on Linkedin",
+      a: "— Inês Carreira, Chrome Web Store",
+    },
+    {
+      q: "Does exactly as described :) great extension",
+      a: "— Eduardo Coreixo, Chrome Web Store",
+    },
+    {
+      q: "I use LinkedIn daily, and with this extension, I don't have more ads! It's great!",
+      a: "— Carlota Ambrioso, Chrome Web Store",
+    },
+    {
+      q: "I've been using the free version, and it works as advertised!",
+      a: "— João Graça, Chrome Web Store",
+    },
+    {
+      q: "Being able to filter the content I'm exposed to and focus on what matters is very useful.",
+      a: "— Bárbara Varela, Chrome Web Store",
+    },
   ];
 
   const Stars = () => (
@@ -649,8 +670,8 @@ function SocialProof() {
     <section className="section section--tight">
       <div className="container">
         <div className="social-top">
-          <div className="rating">
-            <Stars /> 4.9/5 from early users
+          <div className="rating" aria-label="4.8 out of 5 from 16 Chrome Web Store ratings">
+            <Stars /> 4.8/5 from 16 Chrome Web Store ratings
           </div>
         </div>
         <div className="carousel" aria-label="User reviews">
