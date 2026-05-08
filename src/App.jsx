@@ -834,8 +834,8 @@ function Pricing() {
           </div>
 
           <div className="price-card pop">
-            <div className="price-corner-badge">Early-Bird Deal</div>
-            <div className="price-title">Lifetime Pro</div>
+            <div className="price-corner-badge">Lifetime Deal</div>
+            <div className="price-title">Pro</div>
             <div className="price-amount">
               $29 <span className="price-sub">one-time payment</span>
             </div>
