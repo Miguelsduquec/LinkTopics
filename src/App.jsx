@@ -834,7 +834,7 @@ function Pricing() {
           </div>
 
           <div className="price-card pop">
-            <div className="price-corner-badge">Early-bird lifetime deal</div>
+            <div className="price-corner-badge">Early-Bird Deal</div>
             <div className="price-title">Lifetime Pro</div>
             <div className="price-amount">
               $29 <span className="price-sub">one-time payment</span>
@@ -857,7 +857,7 @@ function Pricing() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Unlock Lifetime Pro
+                Unlock Pro for $29
               </a>
             </div>
           </div>
