@@ -709,7 +709,7 @@ function Hero() {
           <div className="hero-copy">
             <h1>Clean Your LinkedIn Feed in 30 Seconds</h1>
             <p className="sub">
-            Filter ads, liked posts, reactions, and more automatically. Install once, open LinkedIn, and start seeing a cleaner feed.
+            Filter ads, liked posts, reactions, and more automatically.
             </p>
             <div className="hero-ctas">
               <PrimaryCTA label="Add to Chrome - Free" />
