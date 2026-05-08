@@ -670,8 +670,8 @@ function SocialProof() {
     <section className="section section--tight">
       <div className="container">
         <div className="social-top">
-          <div className="rating" aria-label="4.8 out of 5 from 16 Chrome Web Store ratings">
-            <Stars /> 4.8/5 from 16 Chrome Web Store ratings
+          <div className="rating" aria-label="4.8 out of 5 from Chrome Web Store ratings">
+            <Stars /> 4.8/5 from Chrome Web Store ratings
           </div>
         </div>
         <div className="carousel" aria-label="User reviews">
