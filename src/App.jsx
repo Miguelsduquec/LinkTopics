@@ -15,7 +15,9 @@ const STRIPE_LIFETIME_URL = "https://buy.stripe.com/3cI28rbaO5C54F1c8wbsc0a";
 
 // --- LICENÇA / PRO ---
 const API_VERIFY_URL = "/api/stripe-verify";
+const API_RESTORE_URL = "/api/stripe-restore";
 const LICENSE_STORAGE_KEY = "ltp_license";
+const RESTORE_PRO_QUERY_KEY = "restore_pro";
 const CWS_RATING_LABEL = "4.8/5 from Chrome Web Store";
 const CWS_REVIEWS = [
   {
@@ -128,9 +130,15 @@ export default function AppRouter() {
 
 
 function LandingPage() {
+  const restoreRequested =
+    typeof window !== "undefined" && getQuery(RESTORE_PRO_QUERY_KEY) === "1";
   const [proActive, setProActive] = useState(!!getLicense());
   const [verifying, setVerifying] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const [restoreEmail, setRestoreEmail] = useState("");
+  const [restoreBusy, setRestoreBusy] = useState(false);
+  const [restoreMsg, setRestoreMsg] = useState("");
+  const [restoreError, setRestoreError] = useState("");
 
   // Scroll suave para #hash
   useEffect(() => {
@@ -145,6 +153,58 @@ function LandingPage() {
     scrollToHash();
     window.addEventListener("hashchange", scrollToHash);
     return () => window.removeEventListener("hashchange", scrollToHash);
+  }, []);
+
+  useEffect(() => {
+    const token = getLicense();
+    if (!token) return;
+
+    let cancelled = false;
+
+    const finalizeRestoreUrl = () => {
+      if (typeof window === "undefined" || !restoreRequested) return;
+      const url = new URL(window.location.href);
+      url.searchParams.delete(RESTORE_PRO_QUERY_KEY);
+      window.history.replaceState({}, "", url.toString());
+    };
+
+    const restore = async () => {
+      try {
+        if (restoreRequested) {
+          setVerifying(true);
+          setErrorMsg("");
+        }
+
+        const synced = await syncPaidAccessToExtension(token);
+        if (cancelled) return;
+
+        if (synced) {
+          setProActive(true);
+          setErrorMsg("");
+        } else if (restoreRequested) {
+          setErrorMsg(
+            "We found your Pro purchase, but couldn't activate the extension automatically. Make sure LinkTopics is installed in this browser."
+          );
+        }
+      } catch {
+        if (!cancelled && restoreRequested) {
+          setErrorMsg(
+            "We found your Pro purchase, but couldn't activate the extension automatically. Make sure LinkTopics is installed in this browser."
+          );
+        }
+      } finally {
+        if (!cancelled && restoreRequested) {
+          setVerifying(false);
+          finalizeRestoreUrl();
+        }
+      }
+    };
+
+    restore();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   // Quando voltamos do Stripe: ?session_id=cs_test_...
@@ -191,6 +251,66 @@ function LandingPage() {
     verify();
   }, []);
 
+  const handleRestoreSubmit = async (event) => {
+    event.preventDefault();
+    const email = restoreEmail.trim().toLowerCase();
+
+    if (!email) {
+      setRestoreError("Enter the same email you used at checkout.");
+      setRestoreMsg("");
+      return;
+    }
+
+    try {
+      setRestoreBusy(true);
+      setRestoreError("");
+      setRestoreMsg("");
+
+      const res = await fetch(API_RESTORE_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data?.ok || !data?.token) {
+        throw new Error(data?.error || "restore_failed");
+      }
+
+      setLicense(data.token);
+      const synced = await syncPaidAccessToExtension(data.token);
+      if (!synced) {
+        throw new Error("extension_sync_failed");
+      }
+
+      setProActive(true);
+      setRestoreMsg("Pro restored successfully on this browser. Open LinkedIn and your Pro filters will be available.");
+      setRestoreError("");
+      setErrorMsg("");
+
+      if (typeof window !== "undefined" && restoreRequested) {
+        const url = new URL(window.location.href);
+        url.searchParams.delete(RESTORE_PRO_QUERY_KEY);
+        window.history.replaceState({}, "", url.toString());
+      }
+    } catch (error) {
+      const code = error?.message || "";
+      if (code === "purchase_not_found") {
+        setRestoreError("We couldn't find a paid LinkTopics purchase for that email.");
+      } else if (code === "extension_sync_failed") {
+        setRestoreError("We found your purchase, but couldn't activate the extension automatically. Make sure LinkTopics is installed in this browser.");
+      } else {
+        setRestoreError("We couldn't restore Pro automatically. Double-check the email used at checkout or contact support.");
+      }
+      setRestoreMsg("");
+    } finally {
+      setRestoreBusy(false);
+    }
+  };
+
   return (
     <main className="ltp-root">
       {/* ✅ Home: pode ter FAQ + SoftwareApplication */}
@@ -219,6 +339,40 @@ function LandingPage() {
         <div style={{ background: "#fee2e2", color: "#7f1d1d", padding: "10px 0" }}>
           <div className="container">⚠️ {errorMsg}</div>
         </div>
+      )}
+
+      {restoreRequested && !proActive && !verifying && (
+        <section className="section section--tight">
+          <div className="container">
+            <div className="restore-card">
+              <div className="restore-copy-block">
+                <div className="eyebrow" style={{ marginBottom: 6 }}>Restore Pro</div>
+                <h2 style={{ margin: "0 0 8px", fontSize: "clamp(24px,3vw,34px)" }}>
+                  Already paid for LinkTopics?
+                </h2>
+                <p style={{ margin: 0, color: "var(--muted)" }}>
+                  Enter the same email you used at checkout and we’ll restore Pro on this browser.
+                </p>
+              </div>
+              <form className="restore-form" onSubmit={handleRestoreSubmit}>
+                <input
+                  type="email"
+                  inputMode="email"
+                  autoComplete="email"
+                  className="restore-input"
+                  placeholder="you@example.com"
+                  value={restoreEmail}
+                  onChange={(e) => setRestoreEmail(e.target.value)}
+                />
+                <button className="btn btn-gold restore-btn" type="submit" disabled={restoreBusy}>
+                  {restoreBusy ? "Restoring…" : "Restore Pro access"}
+                </button>
+              </form>
+              {restoreMsg && <p className="restore-success">{restoreMsg}</p>}
+              {restoreError && <p className="restore-error">{restoreError}</p>}
+            </div>
+          </div>
+        </section>
       )}
 
       <Hero />
@@ -577,6 +731,14 @@ export function StyleTag() {
       .rating { display:flex; align-items:center; gap:10px; font-weight:700; }
       .stars { display:inline-flex; gap:4px; }
       .stars svg { width:18px; height:18px; fill:#f59e0b; }
+      .restore-card { border:1px solid var(--border); border-radius:20px; background:linear-gradient(135deg,#eff6ff,#ffffff); padding:22px; box-shadow:var(--shadow); display:grid; gap:16px; }
+      .restore-form { display:flex; flex-wrap:wrap; gap:12px; align-items:center; }
+      .restore-input { flex:1 1 280px; min-height:48px; border-radius:14px; border:1px solid var(--border); padding:0 14px; font-size:16px; color:var(--fg); background:#fff; }
+      .restore-input:focus { outline:none; border-color:#2563eb; box-shadow:0 0 0 4px rgba(37,99,235,.12); }
+      .restore-btn { min-width:220px; }
+      .restore-success, .restore-error { margin:0; font-size:14px; }
+      .restore-success { color:#065f46; }
+      .restore-error { color:#991b1b; }
       .carousel { position:relative; overflow:hidden; padding:8px 0 12px; }
       .carousel-track { display:flex; gap:16px; padding-bottom:10px; width:max-content; animation:carousel-marquee 40s linear infinite; will-change: transform; align-items:stretch; }
       .slide{ scroll-snap-align:start; display:flex; }
@@ -592,6 +754,11 @@ export function StyleTag() {
         .social-top { margin-bottom:10px; }
         .rating { gap:8px; font-size:14px; flex-wrap:wrap; justify-content:center; text-align:center; }
         .stars svg { width:16px; height:16px; }
+        .restore-card { padding:18px; border-radius:18px; }
+        .restore-form { flex-direction:column; align-items:stretch; }
+        .restore-input { width:100%; min-height:46px; font-size:15px; }
+        .restore-btn { width:100%; min-width:0; }
+        .restore-success, .restore-error { font-size:13px; }
         .carousel { padding:4px 0 8px; }
         .slide { flex-basis:min(82vw, 290px); }
         .review { padding:10px 11px; border-radius:14px; min-height:unset; }
