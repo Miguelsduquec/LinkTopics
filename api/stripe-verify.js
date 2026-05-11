@@ -1,6 +1,11 @@
 // api/stripe-verify.js
 import Stripe from "stripe";
-import jwt from "jsonwebtoken";
+import {
+  ensureCustomerForCheckoutSession,
+  getPlanFromSubscription,
+  issueLicenseToken,
+  updateCustomerEntitlement,
+} from "./_lib/stripe-entitlements.js";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -35,21 +40,25 @@ export default async function handler(req, res) {
       session.customer_email ||
       "unknown";
 
-    const period =
-      typeof sub === "object"
-        ? sub.items?.data?.[0]?.plan?.interval || "month"
-        : "oneoff";
+    const period = typeof sub === "object" ? getPlanFromSubscription(sub) : "oneoff";
+
+    const customer = await ensureCustomerForCheckoutSession(stripe, session);
+    if (customer?.id) {
+      await updateCustomerEntitlement(stripe, customer.id, {
+        status: "active",
+        grantsPro: true,
+        plan: period,
+        source: "verify",
+        checkoutSessionId: session.id,
+        subscriptionId: typeof session.subscription === "string" ? session.subscription : sub?.id || "",
+        paymentIntentId: typeof session.payment_intent === "string" ? session.payment_intent : "",
+        paidAt: new Date((session.created || Math.floor(Date.now() / 1000)) * 1000).toISOString(),
+        lastEvent: "verify",
+      });
+    }
 
     // 3) gerar token (JWT)
-    const token = jwt.sign(
-      {
-        sub: email,
-        plan: period,        // "month" | "year" | "oneoff"
-        iss: "linktopics",
-      },
-      process.env.LICENSE_JWT_SECRET,
-      { expiresIn: "400d" }
-    );
+    const token = issueLicenseToken(email, period);
 
     return res.status(200).json({ ok: true, token, plan: period });
   } catch (err) {

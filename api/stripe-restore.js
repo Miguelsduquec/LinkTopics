@@ -1,25 +1,13 @@
 import Stripe from "stripe";
-import jwt from "jsonwebtoken";
+import {
+  ACTIVE_SUBSCRIPTION_STATUSES,
+  findActiveEntitlementByEmail,
+  getPlanFromSubscription,
+  issueLicenseToken,
+  normalizeEmail,
+} from "./_lib/stripe-entitlements.js";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-
-const ACTIVE_SUBSCRIPTION_STATUSES = new Set(["active", "trialing"]);
-
-function normalizeEmail(value) {
-  return String(value || "").trim().toLowerCase();
-}
-
-function issueLicenseToken(email, plan) {
-  return jwt.sign(
-    {
-      sub: email,
-      plan,
-      iss: "linktopics",
-    },
-    process.env.LICENSE_JWT_SECRET,
-    { expiresIn: "400d" }
-  );
-}
 
 function isPaidOneTimeCheckout(session, targetEmail) {
   const knownEmails = [
@@ -51,7 +39,7 @@ async function findActiveSubscriptionPlan(email) {
     );
 
     if (match) {
-      const interval = match.items?.data?.[0]?.plan?.interval || "month";
+      const interval = getPlanFromSubscription(match);
       return interval;
     }
   }
@@ -91,6 +79,13 @@ export default async function handler(req, res) {
 
     if (!email || !email.includes("@")) {
       return res.status(400).json({ ok: false, error: "invalid_email" });
+    }
+
+    const activeEntitlementCustomer = await findActiveEntitlementByEmail(stripe, email);
+    if (activeEntitlementCustomer) {
+      const plan = activeEntitlementCustomer.metadata?.linktopics_plan || "oneoff";
+      const token = issueLicenseToken(email, plan);
+      return res.status(200).json({ ok: true, token, plan });
     }
 
     const subscriptionPlan = await findActiveSubscriptionPlan(email);
