@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { SiGooglechrome } from "react-icons/si";
 import BlogPage from "./blog.jsx";
+import { trackGoogleAdsPageView } from "./analytics.js";
 import "./App.css";
 
 const APP_NAME = "LinkTopics";
@@ -107,7 +108,48 @@ function getLicense() {
 }
 
 export default function AppRouter() {
+  const [routeKey, setRouteKey] = useState(() =>
+    typeof window !== "undefined"
+      ? `${window.location.pathname}${window.location.search}`
+      : "/"
+  );
+
+  useEffect(() => {
+    if (typeof window === "undefined") return undefined;
+
+    const notifyRouteChange = () => {
+      setRouteKey(`${window.location.pathname}${window.location.search}`);
+    };
+
+    const originalPushState = window.history.pushState;
+    const originalReplaceState = window.history.replaceState;
+
+    window.history.pushState = function pushState(...args) {
+      const result = originalPushState.apply(this, args);
+      notifyRouteChange();
+      return result;
+    };
+
+    window.history.replaceState = function replaceState(...args) {
+      const result = originalReplaceState.apply(this, args);
+      notifyRouteChange();
+      return result;
+    };
+
+    window.addEventListener("popstate", notifyRouteChange);
+
+    return () => {
+      window.history.pushState = originalPushState;
+      window.history.replaceState = originalReplaceState;
+      window.removeEventListener("popstate", notifyRouteChange);
+    };
+  }, []);
+
   const path = typeof window !== "undefined" ? window.location.pathname : "/";
+
+  useEffect(() => {
+    trackGoogleAdsPageView();
+  }, [routeKey]);
 
   if (path === "/privacy-policy") return <LegalPage kind="privacy" />;
   if (path === "/tos" || path === "/terms" || path === "/terms-of-service")

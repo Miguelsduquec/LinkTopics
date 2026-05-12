@@ -12,9 +12,10 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-TTRKN9L8RZ"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){ dataLayer.push(arguments); }
-      gtag('js', new Date());
-      gtag('config', 'G-TTRKN9L8RZ', { send_page_view: true });
+      window.gtag = window.gtag || function gtag(){ dataLayer.push(arguments); };
+      window.gtag('js', new Date());
+      window.gtag('config', 'G-TTRKN9L8RZ', { send_page_view: true });
+      window.gtag('config', 'AW-16479592181');
     </script>
 
     <!-- Charset & Viewport -->
