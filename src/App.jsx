@@ -677,8 +677,10 @@ export function StyleTag() {
         .hero { padding:4px 0 8px; }
         .hero h1 { font-size:clamp(30px,10vw,40px); margin-bottom:10px; }
         .hero p.sub { font-size:15px; margin-bottom:16px; }
-        .hero-ctas { display:grid; grid-template-columns:1fr; gap:10px; margin-top:14px; }
-        .hero-ctas .btn { width:100%; max-width:100%; padding:12px 14px; }
+        .hero-ctas { display:grid; grid-template-columns:1fr; justify-items:center; gap:10px; margin-top:14px; }
+        .hero-ctas .btn { justify-self:center; width:auto; min-width:0; max-width:min(100%, 300px); padding:12px 16px; }
+        .hero-ctas .btn-primary { min-width:min(100%, 286px); }
+        .hero-ctas .btn-secondary { min-width:min(100%, 232px); padding-inline:24px; }
         .hero-ctas .btn-chrome { gap:8px; }
         .hero-ctas .btn-chrome svg { width:22px; height:22px; }
         .hero-ctas .btn-chrome span { font-size:13px; }
@@ -687,7 +689,9 @@ export function StyleTag() {
         .badge { font-size:11px; padding:6px 9px; }
       }
       @media (max-width:380px){
-        .hero-ctas .btn { padding:11px 12px; border-radius:20px; }
+        .hero-ctas .btn { max-width:min(100%, 272px); padding:11px 12px; border-radius:20px; }
+        .hero-ctas .btn-primary { min-width:min(100%, 260px); }
+        .hero-ctas .btn-secondary { min-width:min(100%, 208px); }
         .hero-ctas .btn-chrome span { font-size:12px; }
         .hero-ctas .btn-chrome svg { width:20px; height:20px; }
       }
@@ -735,7 +739,7 @@ export function StyleTag() {
         .price-copy { font-size:13px; }
         .price-list { font-size:13px; }
         .price-cta .btn,
-        .price-cta .btn-gold { min-width:100%; }
+        .price-cta .btn-gold { width:auto; min-width:min(100%, 292px); max-width:100%; }
         .price-card.pop .btn-gold { min-height:50px; padding:14px 20px; font-size:15px; }
       }
 

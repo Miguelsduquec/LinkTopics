@@ -14,6 +14,16 @@ function todayInLisbon() {
   }).format(new Date());
 }
 
+function currentHourInLisbon() {
+  return Number(
+    new Intl.DateTimeFormat("en-GB", {
+      timeZone: "Europe/Lisbon",
+      hour: "2-digit",
+      hourCycle: "h23",
+    }).format(new Date())
+  );
+}
+
 function slugify(input) {
   return String(input)
     .normalize("NFKD")
@@ -35,6 +45,16 @@ function listDirNames(dir) {
 
 function getDatePrefix(folderName) {
   return String(folderName).slice(0, 10);
+}
+
+function getScheduledSlot(folderName) {
+  return String(folderName).startsWith(`${getDatePrefix(folderName)}-pm-`) ? "pm" : "am";
+}
+
+function resolvePublishSlot() {
+  const explicit = String(process.env.PUBLISH_SLOT || "").trim().toLowerCase();
+  if (explicit === "am" || explicit === "pm") return explicit;
+  return currentHourInLisbon() >= 12 ? "pm" : "am";
 }
 
 function getHtmlTitle(html, fallback) {
@@ -94,25 +114,33 @@ function removeScheduledDuplicates() {
   return removed;
 }
 
-function findNextDueScheduled(todayISO) {
+function findNextDueScheduled(todayISO, slot) {
   return listDirNames(SCHEDULED_DIR).find((folderName) => {
     const prefix = getDatePrefix(folderName);
-    return /^\d{4}-\d{2}-\d{2}$/.test(prefix) && prefix <= todayISO;
+    return /^\d{4}-\d{2}-\d{2}$/.test(prefix) && prefix <= todayISO && getScheduledSlot(folderName) === slot;
   });
+}
+
+function fallbackSlugFromFolder(folderName) {
+  const stem = String(folderName).slice(11);
+  const withoutSlotPrefix = stem.startsWith("pm-") ? stem.slice(3) : stem;
+  return slugify(withoutSlotPrefix);
 }
 
 function publishNextDuePost() {
   const todayISO = todayInLisbon();
+  const slot = resolvePublishSlot();
   ensureDir(POSTS_DIR);
   ensureDir(SCHEDULED_DIR);
 
   const cleanedNested = cleanupNestedPublishedFolders();
   const removedDuplicates = removeScheduledDuplicates();
-  const nextDueFolder = findNextDueScheduled(todayISO);
+  const nextDueFolder = findNextDueScheduled(todayISO, slot);
 
   if (!nextDueFolder) {
     return {
       todayISO,
+      slot,
       cleanedNested,
       removedDuplicates,
       published: false,
@@ -123,7 +151,7 @@ function publishNextDuePost() {
   const sourceDir = path.join(SCHEDULED_DIR, nextDueFolder);
   const sourceHtmlPath = path.join(sourceDir, "content.html");
   const html = fs.readFileSync(sourceHtmlPath, "utf8");
-  const fallbackSlug = slugify(nextDueFolder.slice(11));
+  const fallbackSlug = fallbackSlugFromFolder(nextDueFolder);
   const title = getHtmlTitle(html, fallbackSlug);
   const slug = slugify(title) || fallbackSlug;
 
@@ -142,6 +170,7 @@ function publishNextDuePost() {
 
   return {
     todayISO,
+    slot,
     cleanedNested,
     removedDuplicates,
     published: true,

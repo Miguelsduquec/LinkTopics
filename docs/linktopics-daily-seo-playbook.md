@@ -1,6 +1,6 @@
 # LinkTopics Daily SEO Playbook
 
-This playbook is for publishing one niche-relevant article every day on `www.linktopics.me`.
+This playbook is for publishing two niche-relevant articles every day on `www.linktopics.me`.
 
 It is built around search intent that matches what LinkTopics actually solves:
 
@@ -73,17 +73,26 @@ Keep the blog narrow but varied by rotating personas:
 - job seekers
 - HR teams
 
-## Weekly publishing mix
+## Daily publishing mix
 
-Use a simple 7-day loop:
+Use a simple 2-track daily loop:
 
-1. ads / promoted
-2. liked / reacted
-3. shared / reshared
-4. suggested / recommended
-5. persona article
-6. comparison article
-7. strategic / thought-leadership article
+1. Morning post:
+   ads / promoted
+   liked / reacted
+   shared / reshared
+   suggested / recommended
+   persona article
+   comparison article
+   strategic / thought-leadership article
+2. Evening post:
+   LinkedIn tips for professions
+   profile tips
+   networking tips
+   content tips
+   lead generation tips
+   job search tips
+   personal brand tips
 
 ## Internal linking rules
 
@@ -129,10 +138,12 @@ Every post should:
 
 ## Operational workflow
 
-1. Add new drafts to `src/scheduled` using a dated folder name.
-2. Keep at least 14-30 posts queued ahead.
+1. Add new drafts to `src/scheduled` using dated folder names.
+2. Keep at least 14-30 days queued ahead for both the morning and evening slots.
 3. The `Daily Blog Publisher` workflow now publishes:
-   first, posts scheduled exactly for today;
-   otherwise, the oldest overdue scheduled post.
-4. Review `public/sitemap.xml` after publication.
-5. Add internal links from newer posts to older cornerstone posts.
+   the morning track around 07:00 Lisbon time;
+   the evening track around 17:00 Lisbon time;
+   and backup runs 15 minutes later for each slot.
+4. Morning posts stay unslotted in `src/scheduled`; evening posts use the `YYYY-MM-DD-pm-...` naming pattern.
+5. Review `public/sitemap.xml` after publication.
+6. Add internal links from newer posts to older cornerstone posts and between the two daily tracks where relevant.

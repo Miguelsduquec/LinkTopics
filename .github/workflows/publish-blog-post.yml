@@ -6,6 +6,10 @@ on:
       timezone: "Europe/Lisbon"
     - cron: "15 7 * * *"
       timezone: "Europe/Lisbon"
+    - cron: "0 17 * * *"
+      timezone: "Europe/Lisbon"
+    - cron: "15 17 * * *"
+      timezone: "Europe/Lisbon"
   workflow_dispatch: {}
 
 env:

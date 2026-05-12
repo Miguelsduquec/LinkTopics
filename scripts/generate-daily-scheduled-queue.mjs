@@ -21,6 +21,18 @@ const CATEGORY_ORDER = [
   "strategy",
 ];
 
+const SECONDARY_CATEGORY_ORDER = [
+  "professionTips",
+  "profileTips",
+  "networkingTips",
+  "contentTips",
+  "leadGenTips",
+  "jobSearchTips",
+  "personalBrandTips",
+];
+
+const TIPS_CATEGORIES = new Set(SECONDARY_CATEGORY_ORDER);
+
 const IMAGE_BY_CATEGORY = {
   ads: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1400&q=80",
   reactions: "https://images.unsplash.com/photo-1516321165247-4aa89a48be28?auto=format&fit=crop&w=1400&q=80",
@@ -29,6 +41,13 @@ const IMAGE_BY_CATEGORY = {
   persona: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1400&q=80",
   comparison: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1400&q=80",
   strategy: "https://images.unsplash.com/photo-1487014679447-9f8336841d58?auto=format&fit=crop&w=1400&q=80",
+  professionTips: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1400&q=80",
+  profileTips: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1400&q=80",
+  networkingTips: "https://images.unsplash.com/photo-1515169067868-5387ec356754?auto=format&fit=crop&w=1400&q=80",
+  contentTips: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1400&q=80",
+  leadGenTips: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1400&q=80",
+  jobSearchTips: "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1400&q=80",
+  personalBrandTips: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1400&q=80",
 };
 
 const CHROME_STORE_URL =
@@ -42,6 +61,13 @@ const RELATED_SLUG_BY_CATEGORY = {
   persona: "/blog/remove-ads-and-noise-on-linkedin",
   comparison: "/blog/remove-ads-and-noise-on-linkedin",
   strategy: "/blog/remove-ads-and-noise-on-linkedin",
+  professionTips: "/blog/remove-ads-and-noise-on-linkedin",
+  profileTips: "/blog/remove-ads-and-noise-on-linkedin",
+  networkingTips: "/blog/remove-ads-and-noise-on-linkedin",
+  contentTips: "/blog/remove-ads-and-noise-on-linkedin",
+  leadGenTips: "/blog/remove-ads-and-noise-on-linkedin",
+  jobSearchTips: "/blog/remove-ads-and-noise-on-linkedin",
+  personalBrandTips: "/blog/remove-ads-and-noise-on-linkedin",
 };
 
 const CATEGORY_CONTEXT = {
@@ -72,6 +98,34 @@ const CATEGORY_CONTEXT = {
   strategy: {
     label: "a cleaner LinkedIn workflow",
     short: "LinkedIn feed clarity",
+  },
+  professionTips: {
+    label: "role-specific LinkedIn habits",
+    short: "LinkedIn workflow tips",
+  },
+  profileTips: {
+    label: "LinkedIn profile improvements",
+    short: "LinkedIn profile tips",
+  },
+  networkingTips: {
+    label: "LinkedIn networking habits",
+    short: "LinkedIn networking tips",
+  },
+  contentTips: {
+    label: "LinkedIn content habits",
+    short: "LinkedIn content tips",
+  },
+  leadGenTips: {
+    label: "LinkedIn lead generation workflows",
+    short: "LinkedIn lead gen tips",
+  },
+  jobSearchTips: {
+    label: "LinkedIn job search workflows",
+    short: "LinkedIn job search tips",
+  },
+  personalBrandTips: {
+    label: "LinkedIn personal brand habits",
+    short: "LinkedIn personal brand tips",
   },
 };
 
@@ -338,6 +392,73 @@ const STRATEGY_VARIANTS = [
   },
 ];
 
+const PROFESSION_TIPS_VARIANTS = [
+  { keyword: "LinkedIn Tips for Recruiters", title: "LinkedIn Tips for Recruiters", angle: "LinkedIn tips for recruiters" },
+  { keyword: "LinkedIn Tips for Sales Teams", title: "LinkedIn Tips for Sales Teams", angle: "LinkedIn tips for sales teams" },
+  { keyword: "LinkedIn Tips for Marketers", title: "LinkedIn Tips for Marketers", angle: "LinkedIn tips for marketers" },
+  { keyword: "LinkedIn Tips for Founders", title: "LinkedIn Tips for Founders", angle: "LinkedIn tips for founders" },
+  { keyword: "LinkedIn Tips for Consultants", title: "LinkedIn Tips for Consultants", angle: "LinkedIn tips for consultants" },
+  { keyword: "LinkedIn Tips for Job Seekers", title: "LinkedIn Tips for Job Seekers", angle: "LinkedIn tips for job seekers" },
+  { keyword: "LinkedIn Tips for HR Teams", title: "LinkedIn Tips for HR Teams", angle: "LinkedIn tips for HR teams" },
+  { keyword: "LinkedIn Tips for Developers", title: "LinkedIn Tips for Developers", angle: "LinkedIn tips for developers" },
+  { keyword: "LinkedIn Tips for Designers", title: "LinkedIn Tips for Designers", angle: "LinkedIn tips for designers" },
+  { keyword: "LinkedIn Tips for Lawyers", title: "LinkedIn Tips for Lawyers", angle: "LinkedIn tips for lawyers" },
+];
+
+const PROFILE_TIPS_VARIANTS = [
+  { keyword: "LinkedIn Headline Tips", title: "LinkedIn Headline Tips", angle: "writing a stronger LinkedIn headline" },
+  { keyword: "LinkedIn Profile Tips", title: "LinkedIn Profile Tips", angle: "improving a LinkedIn profile" },
+  { keyword: "LinkedIn About Section Tips", title: "LinkedIn About Section Tips", angle: "improving the LinkedIn About section" },
+  { keyword: "LinkedIn Banner Tips", title: "LinkedIn Banner Tips", angle: "using a better LinkedIn banner" },
+  { keyword: "LinkedIn Featured Section Tips", title: "LinkedIn Featured Section Tips", angle: "using the LinkedIn Featured section" },
+  { keyword: "LinkedIn Experience Section Tips", title: "LinkedIn Experience Tips", angle: "improving the LinkedIn Experience section" },
+];
+
+const NETWORKING_TIPS_VARIANTS = [
+  { keyword: "LinkedIn Networking Tips", title: "LinkedIn Networking Tips", angle: "building a stronger LinkedIn network" },
+  { keyword: "LinkedIn Connection Request Tips", title: "LinkedIn Connection Tips", angle: "sending better connection requests" },
+  { keyword: "LinkedIn DM Tips", title: "LinkedIn DM Tips", angle: "writing better LinkedIn direct messages" },
+  { keyword: "LinkedIn Follow-Up Tips", title: "LinkedIn Follow-Up Tips", angle: "following up better on LinkedIn" },
+  { keyword: "LinkedIn Search Tips", title: "LinkedIn Search Tips", angle: "searching better on LinkedIn" },
+  { keyword: "LinkedIn Outreach Tips", title: "LinkedIn Outreach Tips", angle: "doing warmer outreach on LinkedIn" },
+];
+
+const CONTENT_TIPS_VARIANTS = [
+  { keyword: "LinkedIn Content Tips", title: "LinkedIn Content Tips", angle: "posting better content on LinkedIn" },
+  { keyword: "LinkedIn Post Writing Tips", title: "LinkedIn Post Writing Tips", angle: "writing stronger LinkedIn posts" },
+  { keyword: "LinkedIn Commenting Tips", title: "LinkedIn Commenting Tips", angle: "commenting more intentionally on LinkedIn" },
+  { keyword: "LinkedIn Posting Tips", title: "LinkedIn Posting Tips", angle: "posting more consistently on LinkedIn" },
+  { keyword: "LinkedIn Engagement Tips", title: "LinkedIn Engagement Tips", angle: "getting more useful engagement on LinkedIn" },
+  { keyword: "LinkedIn Carousel Tips", title: "LinkedIn Carousel Tips", angle: "using LinkedIn carousel posts well" },
+];
+
+const LEADGEN_TIPS_VARIANTS = [
+  { keyword: "LinkedIn Lead Gen Tips", title: "LinkedIn Lead Gen Tips", angle: "using LinkedIn for lead generation" },
+  { keyword: "LinkedIn Prospecting Tips", title: "LinkedIn Prospecting Tips", angle: "prospecting better on LinkedIn" },
+  { keyword: "LinkedIn Social Selling Tips", title: "LinkedIn Social Selling Tips", angle: "doing social selling on LinkedIn" },
+  { keyword: "LinkedIn Inbound Tips", title: "LinkedIn Inbound Tips", angle: "creating more inbound demand from LinkedIn" },
+  { keyword: "LinkedIn Sales Navigator Tips", title: "Sales Navigator Tips", angle: "using Sales Navigator better" },
+  { keyword: "LinkedIn Discovery Call Tips", title: "LinkedIn Discovery Tips", angle: "turning LinkedIn conversations into calls" },
+];
+
+const JOB_SEARCH_TIPS_VARIANTS = [
+  { keyword: "LinkedIn Job Search Tips", title: "LinkedIn Job Search Tips", angle: "using LinkedIn better during a job search" },
+  { keyword: "LinkedIn Open to Work Tips", title: "Open to Work Tips", angle: "using Open to Work well on LinkedIn" },
+  { keyword: "LinkedIn Interview Tips", title: "LinkedIn Interview Tips", angle: "using LinkedIn before interviews" },
+  { keyword: "LinkedIn Resume Tips", title: "LinkedIn Resume Tips", angle: "aligning a resume with LinkedIn" },
+  { keyword: "LinkedIn Application Tips", title: "LinkedIn Application Tips", angle: "applying more intentionally through LinkedIn" },
+  { keyword: "LinkedIn Job Alert Tips", title: "LinkedIn Job Alert Tips", angle: "using LinkedIn job alerts better" },
+];
+
+const PERSONAL_BRAND_TIPS_VARIANTS = [
+  { keyword: "LinkedIn Personal Brand Tips", title: "Personal Brand Tips", angle: "building a stronger LinkedIn personal brand" },
+  { keyword: "LinkedIn Thought Leadership Tips", title: "Thought Leadership Tips", angle: "showing thought leadership on LinkedIn" },
+  { keyword: "LinkedIn Visibility Tips", title: "LinkedIn Visibility Tips", angle: "improving visibility on LinkedIn" },
+  { keyword: "LinkedIn Credibility Tips", title: "LinkedIn Credibility Tips", angle: "building more credibility on LinkedIn" },
+  { keyword: "LinkedIn Authority Tips", title: "LinkedIn Authority Tips", angle: "building authority on LinkedIn" },
+  { keyword: "LinkedIn Creator Tips", title: "LinkedIn Creator Tips", angle: "using LinkedIn more like a creator" },
+];
+
 const TITLE_SUFFIXES_BY_CATEGORY = {
   ads: [
     "",
@@ -466,6 +587,75 @@ const TITLE_SUFFIXES_BY_CATEGORY = {
     "Now",
     "Chrome Guide",
     "Checklist",
+    "{month} {year}",
+  ],
+  professionTips: [
+    "",
+    "{year}",
+    "Guide",
+    "Tips",
+    "Playbook",
+    "Checklist",
+    "for Work",
+    "Today",
+    "{month} {year}",
+  ],
+  profileTips: [
+    "",
+    "{year}",
+    "Guide",
+    "Tips",
+    "Checklist",
+    "for Work",
+    "Today",
+    "{month} {year}",
+  ],
+  networkingTips: [
+    "",
+    "{year}",
+    "Guide",
+    "Tips",
+    "Playbook",
+    "Checklist",
+    "Today",
+    "{month} {year}",
+  ],
+  contentTips: [
+    "",
+    "{year}",
+    "Guide",
+    "Tips",
+    "Checklist",
+    "Today",
+    "{month} {year}",
+  ],
+  leadGenTips: [
+    "",
+    "{year}",
+    "Guide",
+    "Tips",
+    "Playbook",
+    "Checklist",
+    "Today",
+    "{month} {year}",
+  ],
+  jobSearchTips: [
+    "",
+    "{year}",
+    "Guide",
+    "Tips",
+    "Checklist",
+    "Today",
+    "{month} {year}",
+  ],
+  personalBrandTips: [
+    "",
+    "{year}",
+    "Guide",
+    "Tips",
+    "Playbook",
+    "Checklist",
+    "Today",
     "{month} {year}",
   ],
 };
@@ -632,9 +822,27 @@ function byCategory(category) {
       return COMPARISON_VARIANTS;
     case "strategy":
       return STRATEGY_VARIANTS;
+    case "professionTips":
+      return PROFESSION_TIPS_VARIANTS;
+    case "profileTips":
+      return PROFILE_TIPS_VARIANTS;
+    case "networkingTips":
+      return NETWORKING_TIPS_VARIANTS;
+    case "contentTips":
+      return CONTENT_TIPS_VARIANTS;
+    case "leadGenTips":
+      return LEADGEN_TIPS_VARIANTS;
+    case "jobSearchTips":
+      return JOB_SEARCH_TIPS_VARIANTS;
+    case "personalBrandTips":
+      return PERSONAL_BRAND_TIPS_VARIANTS;
     default:
       throw new Error(`Unknown category: ${category}`);
   }
+}
+
+function isTipsCategory(category) {
+  return TIPS_CATEGORIES.has(category);
 }
 
 function composeUniqueTitle(baseTitle, primarySuffix, secondarySuffix) {
@@ -794,13 +1002,20 @@ function pickVariant(category, dayIndex, dateISO, usedTitles) {
   };
 }
 
-function buildMetaDescription(title) {
+function buildMetaDescription(title, category) {
   const normalizedTitle = String(title).replace(/[.?!]+$/, "");
+  if (isTipsCategory(category)) {
+    return `${normalizedTitle}. Practical LinkedIn advice for better profiles, networking, content, visibility, and day-to-day workflow.`;
+  }
   return `${normalizedTitle}. Learn why it appears in the LinkedIn feed, what native settings can and cannot do, and how LinkTopics helps reduce feed noise.`;
 }
 
 function buildIntro({ category, keyword, angle, pattern }) {
   const focusPattern = pattern || angle;
+
+  if (isTipsCategory(category)) {
+    return `If you are searching for ${keyword}, you are probably trying to use LinkedIn with more intention instead of relying on random habits, noisy scrolling, or generic advice that does not match your real workflow.`;
+  }
 
   switch (category) {
     case "ads":
@@ -831,6 +1046,10 @@ function escapeHtml(value) {
 }
 
 function standfirstFor({ category, keyword, angle }) {
+  if (isTipsCategory(category)) {
+    return `LinkedIn works better when the feed, profile, and day-to-day habits support your actual goals. Here is a practical take on ${angle} without generic advice or empty productivity clichés.`;
+  }
+
   switch (category) {
     case "ads":
       return "LinkedIn keeps inserting promoted content into a feed that should be about work. Here is how to understand ads and promoted posts, and reduce them with less manual cleanup.";
@@ -866,6 +1085,10 @@ function labelPhrase(pattern) {
 }
 
 function whyHeadingFor({ category, pattern }) {
+  if (isTipsCategory(category)) {
+    return "Why Better LinkedIn Habits Still Matter";
+  }
+
   switch (category) {
     case "ads":
       return "Why LinkedIn Keeps Showing Promoted and Sponsored Posts";
@@ -904,6 +1127,10 @@ function exampleLabelsFor({ category }) {
 function whyLinkedInShowsSection({ category, angle, pattern }) {
   const subject = subjectFor({ angle, pattern });
 
+  if (isTipsCategory(category)) {
+    return `LinkedIn can be useful for visibility, research, hiring, sales, and job discovery, but most people never shape the platform around their real goals. They react to whatever the feed gives them instead of building a workflow that makes LinkedIn more relevant and less noisy.`;
+  }
+
   switch (category) {
     case "ads":
       return "LinkedIn inserts ads and promoted posts directly into the main feed because they are part of the platform's revenue model. The result is a browsing experience where commercial posts compete with real updates from your network.";
@@ -927,6 +1154,10 @@ function whyLinkedInShowsSection({ category, angle, pattern }) {
 function nativeControlsSection({ category, angle, pattern }) {
   const subject = subjectFor({ angle, pattern });
 
+  if (isTipsCategory(category)) {
+    return "LinkedIn gives you plenty of features, but it does not tell you how to combine them into a calm, repeatable workflow. Native controls help with profile edits, notifications, and individual post cleanup, yet they still leave most people with too much noise and too little structure.";
+  }
+
   switch (category) {
     case "comparison":
       return "LinkedIn gives you basic controls such as Hide this post, unfollow, and feed sorting, but it does not provide recurring category-level filtering. That is why Premium, native settings, and generic blockers are not the same thing as a dedicated LinkedIn feed cleaner.";
@@ -939,6 +1170,10 @@ function nativeControlsSection({ category, angle, pattern }) {
 
 function linkTopicsSection({ category }) {
   const label = CATEGORY_CONTEXT[category]?.label || "feed noise";
+
+  if (isTipsCategory(category)) {
+    return "LinkTopics fits into this workflow by cleaning the feed layer first. When promoted posts, reaction-driven cards, reshared content, and suggestions stop competing for attention, it becomes much easier to apply better profile, networking, content, and research habits consistently.";
+  }
 
   switch (category) {
     case "comparison":
@@ -956,6 +1191,10 @@ function headerSummaryFor() {
 
 function quickAnswerFor({ category, angle, pattern }) {
   const subject = subjectFor({ angle, pattern });
+
+  if (isTipsCategory(category)) {
+    return `Quick answer: the best LinkedIn advice is usually operational, not motivational. Build a cleaner feed first, then improve the profile, networking, content, or outreach habit that matches your real objective.`;
+  }
 
   switch (category) {
     case "ads":
@@ -979,6 +1218,15 @@ function quickAnswerFor({ category, angle, pattern }) {
 
 function keyTakeawaysFor({ category, keyword, angle, pattern }) {
   const subject = subjectFor({ angle, pattern });
+
+  if (isTipsCategory(category)) {
+    return [
+      "Good LinkedIn results usually come from systems, not from checking the feed more often.",
+      "A cleaner feed makes profile, networking, content, and outreach tactics easier to execute consistently.",
+      `${keyword} is usually a search for more useful professional habits, not just vanity metrics.`,
+      "Practical LinkedIn improvement starts by reducing noise and clarifying what the platform is for in your workflow.",
+    ];
+  }
 
   switch (category) {
     case "ads":
@@ -1053,6 +1301,21 @@ function supportedFeatureList() {
 function extraSectionFor({ category, keyword, angle, pattern }) {
   const subject = subjectFor({ angle, pattern });
 
+  if (isTipsCategory(category)) {
+    return {
+      title: "A Simple Way to Apply This in Real Work",
+      body: `
+        <p>The easiest way to make ${escapeHtml(angle)} useful is to connect it to a weekly routine instead of treating it like one more productivity idea.</p>
+        <ol>
+          <li>Clean the feed so research and updates are easier to scan.</li>
+          <li>Decide what LinkedIn is for this week: hiring, prospecting, content, job search, or networking.</li>
+          <li>Use one focused habit that supports that goal instead of trying to do everything at once.</li>
+          <li>Review what actually created better conversations, visibility, or opportunities.</li>
+        </ol>
+      `,
+    };
+  }
+
   switch (category) {
     case "comparison":
       return {
@@ -1110,6 +1373,27 @@ function extraSectionFor({ category, keyword, angle, pattern }) {
 
 function faqEntriesFor({ category, keyword, angle, pattern }) {
   const subject = subjectFor({ angle, pattern });
+
+  if (isTipsCategory(category)) {
+    return [
+      {
+        q: `Why do ${keyword} matter in practice?`,
+        a: "Because LinkedIn becomes much more useful when your profile, content, networking, and feed habits actually support a clear professional goal instead of default scrolling.",
+      },
+      {
+        q: "Do I need to post every day to get value from LinkedIn?",
+        a: "No. Most people benefit more from a cleaner feed, a clearer profile, and more intentional interactions than from posting frequently without a system.",
+      },
+      {
+        q: "Why does feed quality matter for LinkedIn tips?",
+        a: "Because even good tactics are harder to apply when the feed keeps interrupting attention with low-signal content. Cleaner inputs make better habits easier to sustain.",
+      },
+      {
+        q: "Where should I start if LinkedIn feels noisy and unfocused?",
+        a: "Start by reducing recurring feed noise, then improve the one LinkedIn habit that matters most right now: profile positioning, networking, content, lead generation, or job search.",
+      },
+    ];
+  }
 
   switch (category) {
     case "ads":
@@ -1270,7 +1554,7 @@ function faqEntriesFor({ category, keyword, angle, pattern }) {
 function renderHtml({ title, slug, dateISO, category, keyword, angle, pattern }) {
   const prettyDate = isoToPretty(dateISO);
   const image = IMAGE_BY_CATEGORY[category];
-  const description = buildMetaDescription(title);
+  const description = buildMetaDescription(title, category);
   const intro = buildIntro({ category, keyword, angle, pattern });
   const standfirst = standfirstFor({ category, keyword, angle });
   const context = CATEGORY_CONTEXT[category] || CATEGORY_CONTEXT.strategy;
@@ -1478,7 +1762,8 @@ function ensureDir(dir) {
 
 function buildQueue() {
   const items = [];
-  let dayIndex = 0;
+  let primaryDayIndex = 0;
+  let secondaryDayIndex = 0;
   const todayISO = todayInLisbon();
   const removedScheduledDuplicates = removeScheduledDuplicates();
   const startDate = addDaysIso(todayISO, 1);
@@ -1486,23 +1771,43 @@ function buildQueue() {
   const usedTitles = new Set();
 
   for (const dateISO of dateRange(startDate, END_DATE)) {
-    const category = CATEGORY_ORDER[dayIndex % CATEGORY_ORDER.length];
-    const categoryIndex = categoryCounts[category] || 0;
-    const variant = pickVariant(category, categoryIndex, dateISO, usedTitles);
-    const title = variant.title;
-    const slug = slugify(title);
+    const primaryCategory = CATEGORY_ORDER[primaryDayIndex % CATEGORY_ORDER.length];
+    const primaryCategoryIndex = categoryCounts[primaryCategory] || 0;
+    const primaryVariant = pickVariant(primaryCategory, primaryCategoryIndex, dateISO, usedTitles);
+    const primaryTitle = primaryVariant.title;
     items.push({
       dateISO,
-      category,
-      keyword: variant.keyword,
-      title,
-      slug,
-      angle: variant.angle,
-      pattern: variant.pattern || "",
+      slot: "am",
+      track: "core",
+      category: primaryCategory,
+      keyword: primaryVariant.keyword,
+      title: primaryTitle,
+      slug: slugify(primaryTitle),
+      angle: primaryVariant.angle,
+      pattern: primaryVariant.pattern || "",
     });
-    usedTitles.add(title);
-    categoryCounts[category] = categoryIndex + 1;
-    dayIndex += 1;
+    usedTitles.add(primaryTitle);
+    categoryCounts[primaryCategory] = primaryCategoryIndex + 1;
+    primaryDayIndex += 1;
+
+    const secondaryCategory = SECONDARY_CATEGORY_ORDER[secondaryDayIndex % SECONDARY_CATEGORY_ORDER.length];
+    const secondaryCategoryIndex = categoryCounts[secondaryCategory] || 0;
+    const secondaryVariant = pickVariant(secondaryCategory, secondaryCategoryIndex, dateISO, usedTitles);
+    const secondaryTitle = secondaryVariant.title;
+    items.push({
+      dateISO,
+      slot: "pm",
+      track: "tips",
+      category: secondaryCategory,
+      keyword: secondaryVariant.keyword,
+      title: secondaryTitle,
+      slug: slugify(secondaryTitle),
+      angle: secondaryVariant.angle,
+      pattern: secondaryVariant.pattern || "",
+    });
+    usedTitles.add(secondaryTitle);
+    categoryCounts[secondaryCategory] = secondaryCategoryIndex + 1;
+    secondaryDayIndex += 1;
   }
 
   return { items, startDate, removedScheduledDuplicates, todayISO };
@@ -1511,10 +1816,12 @@ function buildQueue() {
 function writeManifest(items) {
   ensureDir(path.dirname(MANIFEST_PATH));
   const csv = [
-    "date,title,slug,category,keyword",
+    "date,slot,track,title,slug,category,keyword",
     ...items.map((item) =>
       [
         item.dateISO,
+        item.slot,
+        item.track,
         JSON.stringify(item.title),
         item.slug,
         item.category,
@@ -1530,13 +1837,21 @@ function writeScheduledPosts(items) {
   let created = 0;
   let updated = 0;
 
+  const existingFolders = fs.existsSync(SCHEDULED_DIR)
+    ? fs.readdirSync(SCHEDULED_DIR).filter((name) => fs.statSync(path.join(SCHEDULED_DIR, name)).isDirectory())
+    : [];
+
   for (const item of items) {
-    const folderName = `${item.dateISO}-${slugify(item.title)}`;
-    const existingFolderName = fs.existsSync(SCHEDULED_DIR)
-      ? fs.readdirSync(SCHEDULED_DIR)
-          .filter((name) => name.startsWith(`${item.dateISO}-`))
-          .sort()[0]
-      : null;
+    const folderName = item.slot === "pm"
+      ? `${item.dateISO}-pm-${slugify(item.title)}`
+      : `${item.dateISO}-${slugify(item.title)}`;
+    const existingFolderName = existingFolders
+      .filter((name) => {
+        if (!name.startsWith(`${item.dateISO}-`)) return false;
+        if (item.slot === "pm") return name.startsWith(`${item.dateISO}-pm-`);
+        return !name.startsWith(`${item.dateISO}-pm-`);
+      })
+      .sort()[0];
     const folderPath = path.join(SCHEDULED_DIR, existingFolderName || folderName);
     const htmlPath = path.join(folderPath, "content.html");
 
