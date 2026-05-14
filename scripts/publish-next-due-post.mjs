@@ -256,8 +256,8 @@ function readCalendarRows() {
     .sort((a, b) => a.publishKey.localeCompare(b.publishKey) || a.title.localeCompare(b.title));
 }
 
-function chooseNextRow(rows, published, now) {
-  return rows.find(
+function chooseDueRows(rows, published, now) {
+  return rows.filter(
     (row) =>
       row.publishKey <= now.key &&
       !published.publishedSlugs.has(row.slug) &&
@@ -730,14 +730,14 @@ ${buildCtaBlock(row, true)}
 </html>`;
 }
 
-function publishNextDuePost() {
+function publishDuePosts() {
   ensureDir(POSTS_DIR);
   const now = getLisbonNow();
   const published = readPublishedIndex();
   const rows = readCalendarRows();
-  const nextRow = chooseNextRow(rows, published, now);
+  const dueRows = chooseDueRows(rows, published, now);
 
-  if (!nextRow) {
+  if (!dueRows.length) {
     return {
       now,
       published: false,
@@ -745,29 +745,41 @@ function publishNextDuePost() {
     };
   }
 
-  const targetDir = path.join(POSTS_DIR, nextRow.folder);
-  if (fs.existsSync(targetDir)) {
-    return {
-      now,
-      published: false,
-      reason: "folder_already_exists",
-      folder: nextRow.folder,
-      slug: nextRow.slug,
-    };
-  }
+  const created = [];
+  const skipped = [];
 
-  ensureDir(targetDir);
-  fs.writeFileSync(path.join(targetDir, "content.html"), buildArticle(nextRow), "utf8");
+  for (const row of dueRows) {
+    const targetDir = path.join(POSTS_DIR, row.folder);
+    if (fs.existsSync(targetDir)) {
+      skipped.push({
+        reason: "folder_already_exists",
+        folder: row.folder,
+        slug: row.slug,
+        title: row.title,
+      });
+      continue;
+    }
+
+    ensureDir(targetDir);
+    fs.writeFileSync(path.join(targetDir, "content.html"), buildArticle(row), "utf8");
+
+    created.push({
+      folder: row.folder,
+      slug: row.slug,
+      title: row.title,
+      publishDate: row.publishDate,
+      publishTime: row.publishTime,
+    });
+  }
 
   return {
     now,
-    published: true,
-    folder: nextRow.folder,
-    slug: nextRow.slug,
-    title: nextRow.title,
-    publishDate: nextRow.publishDate,
-    publishTime: nextRow.publishTime,
+    published: created.length > 0,
+    createdCount: created.length,
+    skippedCount: skipped.length,
+    created,
+    skipped,
   };
 }
 
-console.log(JSON.stringify(publishNextDuePost(), null, 2));
+console.log(JSON.stringify(publishDuePosts(), null, 2));

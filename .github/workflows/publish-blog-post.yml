@@ -2,14 +2,7 @@ name: Daily Blog Publisher
 
 on:
   schedule:
-    - cron: "0 7 * * *"
-      timezone: "Europe/Lisbon"
-    - cron: "15 7 * * *"
-      timezone: "Europe/Lisbon"
-    - cron: "0 17 * * *"
-      timezone: "Europe/Lisbon"
-    - cron: "15 17 * * *"
-      timezone: "Europe/Lisbon"
+    - cron: "0,30 6-21 * * *"
   workflow_dispatch: {}
 
 env:
