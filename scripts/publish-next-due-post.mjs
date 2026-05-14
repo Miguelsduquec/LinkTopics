@@ -259,7 +259,7 @@ function readCalendarRows() {
 function chooseDueRows(rows, published, now) {
   return rows.filter(
     (row) =>
-      row.publishKey <= now.key &&
+      row.publishDate === now.date &&
       !published.publishedSlugs.has(row.slug) &&
       !published.publishedTitles.has(row.title.toLowerCase())
   );

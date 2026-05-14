@@ -2,7 +2,7 @@ name: Daily Blog Publisher
 
 on:
   schedule:
-    - cron: "0,30 6-21 * * *"
+    - cron: "0 8 * * *"
   workflow_dispatch: {}
 
 env:
