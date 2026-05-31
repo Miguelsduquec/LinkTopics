@@ -2,12 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.linktopics.me/</loc>
-    <lastmod>2026-05-30</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.linktopics.me/blog</loc>
-    <lastmod>2026-05-30</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
@@ -51,6 +51,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/better-feed-for-analysts</loc>
+    <lastmod>2026-05-31</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/block-developers-feed-noise</loc>
     <lastmod>2026-05-29</lastmod>
     <priority>0.8</priority>
@@ -68,6 +73,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/build-a-strong-linkedin-network</loc>
     <lastmod>2025-12-06</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/chrome-tools-for-linkedin-now</loc>
+    <lastmod>2026-05-31</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -93,6 +103,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/cold-pitch-posts-cleaner-for-job-seekers</loc>
     <lastmod>2026-05-19</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/cold-pitch-posts-cleaner-for-smbs</loc>
+    <lastmod>2026-05-31</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -343,6 +358,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/is-linkedin-turning-into-facebook-not-anymore</loc>
     <lastmod>2025-10-11</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/is-linktopics-safe-for-agencies</loc>
+    <lastmod>2026-05-31</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -626,6 +646,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/smbs-linkedin-rules</loc>
+    <lastmod>2026-05-31</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/standardise-your-teams-linkedin</loc>
     <lastmod>2025-12-04</lastmod>
     <priority>0.8</priority>
@@ -787,12 +812,12 @@
   </url>
   <url>
     <loc>https://www.linktopics.me/privacy-policy</loc>
-    <lastmod>2026-05-30</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://www.linktopics.me/tos</loc>
-    <lastmod>2026-05-30</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <priority>0.5</priority>
   </url>
 </urlset>
