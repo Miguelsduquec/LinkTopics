@@ -2,12 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.linktopics.me/</loc>
-    <lastmod>2026-06-04</lastmod>
+    <lastmod>2026-06-05</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.linktopics.me/blog</loc>
-    <lastmod>2026-06-04</lastmod>
+    <lastmod>2026-06-05</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
@@ -116,6 +116,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/clean-polls</loc>
+    <lastmod>2026-06-05</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/clean-training-posts-in-2027</loc>
     <lastmod>2026-05-21</lastmod>
     <priority>0.8</priority>
@@ -203,6 +208,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/customize-your-linkedin-feed-fast</loc>
     <lastmod>2026-02-12</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/cut-hiring-posts-for-sdrs</loc>
+    <lastmod>2026-06-05</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -591,6 +601,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/pms-linkedin-cleanup</loc>
+    <lastmod>2026-06-05</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/podcast-posts-cleaner-for-bdrs</loc>
     <lastmod>2026-05-16</lastmod>
     <priority>0.8</priority>
@@ -616,8 +631,18 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/promo-posts-checklist-for-hr-teams</loc>
+    <lastmod>2026-06-05</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/promo-posts-examples-for-startups</loc>
     <lastmod>2026-05-15</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/promo-posts-filter-setup</loc>
+    <lastmod>2026-06-05</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -912,12 +937,12 @@
   </url>
   <url>
     <loc>https://www.linktopics.me/privacy-policy</loc>
-    <lastmod>2026-06-04</lastmod>
+    <lastmod>2026-06-05</lastmod>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://www.linktopics.me/tos</loc>
-    <lastmod>2026-06-04</lastmod>
+    <lastmod>2026-06-05</lastmod>
     <priority>0.5</priority>
   </url>
 </urlset>
