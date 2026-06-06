@@ -2,12 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.linktopics.me/</loc>
-    <lastmod>2026-06-05</lastmod>
+    <lastmod>2026-06-06</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.linktopics.me/blog</loc>
-    <lastmod>2026-06-05</lastmod>
+    <lastmod>2026-06-06</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
@@ -33,6 +33,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/ads-cleanup-for-execs</loc>
     <lastmod>2026-06-03</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/ads-filter-strategy</loc>
+    <lastmod>2026-06-06</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -316,6 +321,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/generic-advice-cleanup-examples</loc>
+    <lastmod>2026-06-06</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/generic-advice-cleanup-for-analysts</loc>
     <lastmod>2026-06-01</lastmod>
     <priority>0.8</priority>
@@ -383,6 +393,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/hiring-posts-control-for-recruiters</loc>
     <lastmod>2026-06-04</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/hiring-posts-filter-examples</loc>
+    <lastmod>2026-06-06</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -601,6 +616,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/ops-teams-feed-strategy</loc>
+    <lastmod>2026-06-06</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/pms-linkedin-cleanup</loc>
     <lastmod>2026-06-05</lastmod>
     <priority>0.8</priority>
@@ -698,6 +718,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/remove-linkedin-ads-for-founders</loc>
     <lastmod>2026-05-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/reposts-cleanup-scorecard</loc>
+    <lastmod>2026-06-06</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -937,12 +962,12 @@
   </url>
   <url>
     <loc>https://www.linktopics.me/privacy-policy</loc>
-    <lastmod>2026-06-05</lastmod>
+    <lastmod>2026-06-06</lastmod>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://www.linktopics.me/tos</loc>
-    <lastmod>2026-06-05</lastmod>
+    <lastmod>2026-06-06</lastmod>
     <priority>0.5</priority>
   </url>
 </urlset>
