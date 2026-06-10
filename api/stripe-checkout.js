@@ -3,6 +3,10 @@ import { maskEmail, normalizeEmail } from "./_lib/stripe-entitlements.js";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const DEFAULT_APP_URL = "https://www.linktopics.me";
+const STRIPE_CHECKOUT_URL_PREFIXES = [
+  "https://buy.stripe.com/",
+  "https://checkout.stripe.com/",
+];
 
 function resolveBaseUrl(req) {
   const forwardedHost = req.headers["x-forwarded-host"];
@@ -21,6 +25,77 @@ function sanitizeBrowserId(value) {
     .trim()
     .replace(/[^a-zA-Z0-9_-]/g, "")
     .slice(0, 120);
+}
+
+function isHostedStripeCheckoutUrl(value) {
+  return STRIPE_CHECKOUT_URL_PREFIXES.some((prefix) => value.startsWith(prefix));
+}
+
+function summarizeCheckoutTarget(value) {
+  const rawValue = String(value || "").trim();
+  if (!rawValue) return "missing";
+  if (isHostedStripeCheckoutUrl(rawValue)) return "hosted_checkout_url";
+  if (rawValue.startsWith("price_")) return `price:${rawValue.slice(0, 12)}`;
+  if (rawValue.startsWith("prod_")) return `product:${rawValue.slice(0, 12)}`;
+  return `unknown:${rawValue.slice(0, 12)}`;
+}
+
+async function resolvePriceFromProduct(productId) {
+  const product = await stripe.products.retrieve(productId, {
+    expand: ["default_price"],
+  });
+
+  const defaultPrice = product?.default_price;
+  const defaultPriceId =
+    typeof defaultPrice === "string" ? defaultPrice : defaultPrice?.id || "";
+
+  if (!defaultPriceId) {
+    const error = new Error("product_missing_default_price");
+    error.code = "product_missing_default_price";
+    throw error;
+  }
+
+  if (typeof defaultPrice === "string") {
+    return stripe.prices.retrieve(defaultPrice, { expand: ["product"] });
+  }
+
+  return defaultPrice;
+}
+
+async function resolveCheckoutTarget(rawValue) {
+  const value = String(rawValue || "").trim();
+
+  if (!value) {
+    const error = new Error("missing_checkout_target");
+    error.code = "missing_checkout_target";
+    throw error;
+  }
+
+  if (isHostedStripeCheckoutUrl(value)) {
+    return {
+      kind: "hosted_checkout_url",
+      url: value,
+      mode: "payment",
+      recurring: false,
+      priceId: "",
+      productId: "",
+    };
+  }
+
+  const price = value.startsWith("prod_")
+    ? await resolvePriceFromProduct(value)
+    : await stripe.prices.retrieve(value, { expand: ["product"] });
+
+  const productId =
+    typeof price?.product === "string" ? price.product : price?.product?.id || "";
+
+  return {
+    kind: value.startsWith("prod_") ? "product_default_price" : "price",
+    mode: price?.recurring ? "subscription" : "payment",
+    recurring: !!price?.recurring,
+    priceId: price?.id || "",
+    productId,
+  };
 }
 
 export default async function handler(req, res) {
@@ -42,14 +117,29 @@ export default async function handler(req, res) {
     const baseUrl = resolveBaseUrl(req);
     const browserId = sanitizeBrowserId(req.body?.browserId);
     const email = normalizeEmail(req.body?.email);
+    const configuredTarget = process.env.STRIPE_LIFETIME_PRICE_ID;
+    const checkoutTarget = await resolveCheckoutTarget(configuredTarget);
 
-    const session = await stripe.checkout.sessions.create({
-      mode: "payment",
+    if (checkoutTarget.kind === "hosted_checkout_url") {
+      console.info("stripe-checkout using hosted checkout url", {
+        browserId,
+        email: maskEmail(email),
+        configuredTarget: summarizeCheckoutTarget(configuredTarget),
+      });
+
+      return res.status(200).json({
+        ok: true,
+        url: checkoutTarget.url,
+        fallback: true,
+      });
+    }
+
+    const sessionParams = {
+      mode: checkoutTarget.mode,
       allow_promotion_codes: true,
-      customer_creation: "always",
       line_items: [
         {
-          price: process.env.STRIPE_LIFETIME_PRICE_ID,
+          price: checkoutTarget.priceId,
           quantity: 1,
         },
       ],
@@ -57,18 +147,29 @@ export default async function handler(req, res) {
       cancel_url: `${baseUrl}/#pricing`,
       metadata: {
         linktopics_product: "pro",
-        linktopics_plan: "oneoff",
+        linktopics_plan: checkoutTarget.mode === "subscription" ? "subscription" : "oneoff",
         linktopics_browser_id: browserId,
       },
       ...(browserId ? { client_reference_id: browserId } : {}),
       ...(email ? { customer_email: email } : {}),
-    });
+    };
+
+    if (checkoutTarget.mode === "payment") {
+      sessionParams.customer_creation = "always";
+    }
+
+    const session = await stripe.checkout.sessions.create(sessionParams);
 
     console.info("stripe-checkout created", {
       sessionId: session.id,
       browserId,
       email: maskEmail(email),
       baseUrl,
+      configuredTarget: summarizeCheckoutTarget(configuredTarget),
+      resolvedKind: checkoutTarget.kind,
+      resolvedPriceId: checkoutTarget.priceId,
+      mode: checkoutTarget.mode,
+      recurring: checkoutTarget.recurring,
     });
 
     return res.status(200).json({
@@ -83,6 +184,7 @@ export default async function handler(req, res) {
       code: err?.code,
       email: maskEmail(req.body?.email),
       browserId: sanitizeBrowserId(req.body?.browserId),
+      configuredTarget: summarizeCheckoutTarget(process.env.STRIPE_LIFETIME_PRICE_ID),
     });
     return res.status(500).json({ ok: false, error: "checkout_create_failed" });
   }
