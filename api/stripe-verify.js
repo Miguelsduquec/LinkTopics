@@ -4,6 +4,7 @@ import {
   ensureCustomerForCheckoutSession,
   getPlanFromSubscription,
   issueLicenseToken,
+  maskEmail,
   updateCustomerEntitlement,
 } from "./_lib/stripe-entitlements.js";
 
@@ -16,6 +17,7 @@ export default async function handler(req, res) {
   try {
     const { session_id } = req.query;
     if (!session_id) {
+      console.warn("stripe-verify missing session_id");
       return res.status(400).json({ ok: false, error: "missing_session_id" });
     }
 
@@ -60,9 +62,28 @@ export default async function handler(req, res) {
     // 3) gerar token (JWT)
     const token = issueLicenseToken(email, period);
 
+    console.info("stripe-verify success", {
+      sessionId: session.id,
+      mode: session.mode,
+      paymentStatus: session.payment_status,
+      customerId: customer?.id || "",
+      browserId:
+        session?.metadata?.linktopics_browser_id ||
+        session?.client_reference_id ||
+        "",
+      email: maskEmail(email),
+      plan: period,
+      hasSubscription: !!sub,
+    });
+
     return res.status(200).json({ ok: true, token, plan: period });
   } catch (err) {
-    console.error("stripe-verify error", err);
+    console.error("stripe-verify error", {
+      message: err?.message,
+      type: err?.type,
+      code: err?.code,
+      sessionId: req?.query?.session_id || "",
+    });
     return res.status(500).json({ ok: false, error: "server_error" });
   }
 }

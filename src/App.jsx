@@ -11,13 +11,12 @@ const CHROME_URL =
 const VIDEO_URL = "https://www.youtube.com/watch?v=L28hvycCQqc";
 const CONTACT_MAILTO = "mailto:miguel.duquec@gmail.com?subject=Support%20request";
 
-/* >>> LINKS DO STRIPE */
-const STRIPE_LIFETIME_URL = "https://buy.stripe.com/3cI28rbaO5C54F1c8wbsc0a";
-
 // --- LICENÇA / PRO ---
+const API_CHECKOUT_URL = "/api/stripe-checkout";
 const API_VERIFY_URL = "/api/stripe-verify";
 const API_RESTORE_URL = "/api/stripe-restore";
 const LICENSE_STORAGE_KEY = "ltp_license";
+const BROWSER_ID_STORAGE_KEY = "ltp_browser_id";
 const RESTORE_PRO_QUERY_KEY = "restore_pro";
 const CWS_RATING_LABEL = "4.8/5 from Chrome Web Store";
 const CWS_REVIEWS = [
@@ -107,6 +106,23 @@ function getLicense() {
   }
 }
 
+function getOrCreateBrowserId() {
+  try {
+    const existing = localStorage.getItem(BROWSER_ID_STORAGE_KEY);
+    if (existing) return existing;
+
+    const generated =
+      typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
+        ? crypto.randomUUID()
+        : `ltp_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
+
+    localStorage.setItem(BROWSER_ID_STORAGE_KEY, generated);
+    return generated;
+  } catch {
+    return "";
+  }
+}
+
 export default function AppRouter() {
   const [routeKey, setRouteKey] = useState(() =>
     typeof window !== "undefined"
@@ -181,6 +197,7 @@ function LandingPage() {
   const [restoreBusy, setRestoreBusy] = useState(false);
   const [restoreMsg, setRestoreMsg] = useState("");
   const [restoreError, setRestoreError] = useState("");
+  const [checkoutBusy, setCheckoutBusy] = useState(false);
 
   // Scroll suave para #hash
   useEffect(() => {
@@ -353,6 +370,37 @@ function LandingPage() {
     }
   };
 
+  const handleCheckoutStart = async () => {
+    try {
+      setCheckoutBusy(true);
+      setErrorMsg("");
+
+      const browserId = getOrCreateBrowserId();
+
+      const res = await fetch(API_CHECKOUT_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ browserId }),
+      });
+
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data?.ok || !data?.url) {
+        throw new Error(data?.error || "checkout_failed");
+      }
+
+      window.location.assign(data.url);
+    } catch (error) {
+      console.error("LinkTopics checkout start failed", error);
+      setErrorMsg(
+        "We couldn't start checkout right now. Please try again in a moment or contact support."
+      );
+      setCheckoutBusy(false);
+    }
+  };
+
   return (
     <main className="ltp-root">
       {/* ✅ Home: pode ter FAQ + SoftwareApplication */}
@@ -420,7 +468,7 @@ function LandingPage() {
       <Hero />
       <SocialProof />
       <HowItWorks />
-      <Pricing />
+      <Pricing onUnlockPro={handleCheckoutStart} checkoutBusy={checkoutBusy} />
       <FAQ />
       <FinalCTA />
       <Footer />
@@ -1021,7 +1069,7 @@ function HowItWorks() {
   );
 }
 
-function Pricing() {
+function Pricing({ onUnlockPro, checkoutBusy }) {
   return (
     <section id="pricing" className="section">
       <div className="container">
@@ -1064,14 +1112,14 @@ function Pricing() {
               <li>Priority support</li>
             </ul>
             <div className="price-cta">
-              <a
+              <button
                 className="btn btn-gold"
-                href={STRIPE_LIFETIME_URL}
-                target="_blank"
-                rel="noopener noreferrer"
+                type="button"
+                onClick={onUnlockPro}
+                disabled={checkoutBusy}
               >
-                Unlock Pro for $29
-              </a>
+                {checkoutBusy ? "Redirecting…" : "Unlock Pro for $29"}
+              </button>
             </div>
           </div>
         </div>

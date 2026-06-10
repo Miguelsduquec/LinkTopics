@@ -6,6 +6,20 @@ export function normalizeEmail(value) {
   return String(value || "").trim().toLowerCase();
 }
 
+export function maskEmail(value) {
+  const email = normalizeEmail(value);
+  if (!email || !email.includes("@")) return "";
+
+  const [localPart, domain] = email.split("@");
+  if (!localPart || !domain) return "";
+
+  if (localPart.length <= 2) {
+    return `${localPart[0] || "*"}*@${domain}`;
+  }
+
+  return `${localPart.slice(0, 2)}***@${domain}`;
+}
+
 export function issueLicenseToken(email, plan) {
   return jwt.sign(
     {
@@ -31,6 +45,26 @@ export function readEntitlementMetadata(customer) {
     plan: String(metadata.linktopics_plan || "").trim().toLowerCase(),
     grantsPro: String(metadata.linktopics_grants_pro || "").trim().toLowerCase() === "true",
     source: String(metadata.linktopics_source || "").trim().toLowerCase(),
+  };
+}
+
+export function summarizeCustomerEntitlement(customer) {
+  const entitlement = readEntitlementMetadata(customer);
+
+  return {
+    customerId: customer?.id || "",
+    email: entitlement.email,
+    maskedEmail: maskEmail(entitlement.email || customer?.email),
+    status: entitlement.status,
+    plan: entitlement.plan,
+    grantsPro: entitlement.grantsPro,
+    source: entitlement.source,
+    checkoutSessionId: String(customer?.metadata?.linktopics_checkout_session_id || ""),
+    subscriptionId: String(customer?.metadata?.linktopics_subscription_id || ""),
+    paymentIntentId: String(customer?.metadata?.linktopics_payment_intent_id || ""),
+    paidAt: String(customer?.metadata?.linktopics_paid_at || ""),
+    lastEvent: String(customer?.metadata?.linktopics_last_event || ""),
+    updatedAt: String(customer?.metadata?.linktopics_updated_at || ""),
   };
 }
 

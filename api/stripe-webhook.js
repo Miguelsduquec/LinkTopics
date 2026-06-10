@@ -3,7 +3,7 @@ import {
   ACTIVE_SUBSCRIPTION_STATUSES,
   ensureCustomerForCheckoutSession,
   getPlanFromSubscription,
-  normalizeEmail,
+  maskEmail,
   updateCustomerEntitlement,
 } from "./_lib/stripe-entitlements.js";
 
@@ -56,6 +56,23 @@ async function handleCheckoutSessionCompleted(session, eventType) {
     paidAt: new Date((session.created || Math.floor(Date.now() / 1000)) * 1000).toISOString(),
     lastEvent: eventType,
   });
+
+  console.info("stripe-webhook checkout processed", {
+    type: eventType,
+    sessionId: session.id || "",
+    customerId: customer.id,
+    browserId:
+      session?.metadata?.linktopics_browser_id ||
+      session?.client_reference_id ||
+      "",
+    email: maskEmail(
+      session?.customer_details?.email || session?.customer_email || customer?.email
+    ),
+    mode: session?.mode || "",
+    paymentStatus: session?.payment_status || "",
+    plan,
+    subscriptionId,
+  });
 }
 
 async function handleSubscriptionChange(subscription, eventType) {
@@ -79,6 +96,15 @@ async function handleSubscriptionChange(subscription, eventType) {
         ? new Date(subscription.current_period_start * 1000).toISOString()
         : "",
     lastEvent: eventType,
+  });
+
+  console.info("stripe-webhook subscription processed", {
+    type: eventType,
+    subscriptionId: subscription?.id || "",
+    customerId,
+    status: subscription?.status || "",
+    plan: getPlanFromSubscription(subscription),
+    active: isActive,
   });
 }
 
@@ -104,6 +130,27 @@ async function handleChargeRefunded(charge, eventType) {
     paidAt: "",
     lastEvent: eventType,
   });
+
+  console.info("stripe-webhook refund processed", {
+    type: eventType,
+    customerId,
+    paymentIntentId:
+      typeof charge?.payment_intent === "string" ? charge.payment_intent : "",
+    amount,
+    amountRefunded,
+  });
+}
+
+async function handleInvoicePaymentSucceeded(invoice, eventType) {
+  const subscriptionId =
+    typeof invoice?.subscription === "string"
+      ? invoice.subscription
+      : invoice?.subscription?.id || "";
+
+  if (!subscriptionId) return;
+
+  const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+  await handleSubscriptionChange(subscription, eventType);
 }
 
 export default async function handler(req, res) {
@@ -113,6 +160,10 @@ export default async function handler(req, res) {
 
   const signature = req.headers["stripe-signature"];
   if (!signature || !process.env.STRIPE_WEBHOOK_SECRET) {
+    console.error("stripe-webhook missing signature or secret", {
+      hasSignature: !!signature,
+      hasSecret: !!process.env.STRIPE_WEBHOOK_SECRET,
+    });
     return res.status(400).json({ ok: false, error: "missing_webhook_signature" });
   }
 
@@ -136,9 +187,14 @@ export default async function handler(req, res) {
         await handleCheckoutSessionCompleted(event.data.object, event.type);
         break;
 
+      case "customer.subscription.created":
       case "customer.subscription.updated":
       case "customer.subscription.deleted":
         await handleSubscriptionChange(event.data.object, event.type);
+        break;
+
+      case "invoice.payment_succeeded":
+        await handleInvoicePaymentSucceeded(event.data.object, event.type);
         break;
 
       case "charge.refunded":
@@ -146,15 +202,31 @@ export default async function handler(req, res) {
         break;
 
       default:
+        console.info("stripe-webhook ignored event", { type: event.type, id: event.id });
         break;
+    }
+
+    if (
+      event.type === "checkout.session.completed" ||
+      event.type === "customer.subscription.created" ||
+      event.type === "customer.subscription.updated" ||
+      event.type === "customer.subscription.deleted" ||
+      event.type === "invoice.payment_succeeded" ||
+      event.type === "charge.refunded"
+    ) {
+      console.info("stripe-webhook handled event", {
+        id: event.id,
+        type: event.type,
+      });
     }
 
     return res.status(200).json({ ok: true, received: true, type: event.type });
   } catch (err) {
     console.error("stripe-webhook handler error", {
+      id: event?.id,
       type: event?.type,
       message: err?.message,
-      email: normalizeEmail(
+      email: maskEmail(
         event?.data?.object?.customer_email || event?.data?.object?.customer_details?.email
       ),
     });
