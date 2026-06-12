@@ -2,12 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.linktopics.me/</loc>
-    <lastmod>2026-06-11</lastmod>
+    <lastmod>2026-06-12</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.linktopics.me/blog</loc>
-    <lastmod>2026-06-11</lastmod>
+    <lastmod>2026-06-12</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
@@ -113,6 +113,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/block-polls-fast</loc>
     <lastmod>2026-06-03</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/block-promoted-posts-in-2026</loc>
+    <lastmod>2026-06-12</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -396,6 +401,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/generic-advice-control-for-founders</loc>
+    <lastmod>2026-06-12</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/generic-advice-workflow-for-execs</loc>
     <lastmod>2026-06-02</lastmod>
     <priority>0.8</priority>
@@ -666,6 +676,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/manage-linkedin-sales-noise</loc>
+    <lastmod>2026-06-12</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/manage-podcast-posts-fast</loc>
     <lastmod>2026-05-23</lastmod>
     <priority>0.8</priority>
@@ -771,6 +786,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/reaction-posts-cleaner-for-startups</loc>
+    <lastmod>2026-06-12</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/recruiter-noise-cleanup-for-managers</loc>
     <lastmod>2026-06-03</lastmod>
     <priority>0.8</priority>
@@ -793,6 +813,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/recruiters-scan-linkedin-profiles</loc>
     <lastmod>2026-01-12</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/reduce-generic-advice-for-pms</loc>
+    <lastmod>2026-06-12</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -1087,12 +1112,12 @@
   </url>
   <url>
     <loc>https://www.linktopics.me/privacy-policy</loc>
-    <lastmod>2026-06-11</lastmod>
+    <lastmod>2026-06-12</lastmod>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://www.linktopics.me/tos</loc>
-    <lastmod>2026-06-11</lastmod>
+    <lastmod>2026-06-12</lastmod>
     <priority>0.5</priority>
   </url>
 </urlset>
