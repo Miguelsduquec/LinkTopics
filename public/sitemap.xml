@@ -2,12 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.linktopics.me/</loc>
-    <lastmod>2026-06-12</lastmod>
+    <lastmod>2026-06-13</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.linktopics.me/blog</loc>
-    <lastmod>2026-06-12</lastmod>
+    <lastmod>2026-06-13</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
@@ -691,6 +691,21 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/manage-suggested-posts-for-bdrs</loc>
+    <lastmod>2026-06-13</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/manage-viral-posts-for-product-teams</loc>
+    <lastmod>2026-06-13</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/managers-feed-sop</loc>
+    <lastmod>2026-06-13</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/manual-linkedin-feed-cleanup-guide</loc>
     <lastmod>2026-01-01</lastmod>
     <priority>0.8</priority>
@@ -773,6 +788,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/promo-posts-filter-setup</loc>
     <lastmod>2026-06-05</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/promo-posts-removal-for-sdrs</loc>
+    <lastmod>2026-06-13</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -961,6 +981,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/suggested-posts-rules-for-marketers</loc>
+    <lastmod>2026-06-13</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/the-hidden-cost-of-a-noisy-professional-feed</loc>
     <lastmod>2026-03-23</lastmod>
     <priority>0.8</priority>
@@ -1112,12 +1137,12 @@
   </url>
   <url>
     <loc>https://www.linktopics.me/privacy-policy</loc>
-    <lastmod>2026-06-12</lastmod>
+    <lastmod>2026-06-13</lastmod>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://www.linktopics.me/tos</loc>
-    <lastmod>2026-06-12</lastmod>
+    <lastmod>2026-06-13</lastmod>
     <priority>0.5</priority>
   </url>
 </urlset>
