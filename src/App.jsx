@@ -8,7 +8,6 @@ const APP_NAME = "LinkTopics";
 const CHROME_EXTENSION_ID = "bdilfiejpkdfbildemdncbkblegpejfb";
 const CHROME_URL =
   "https://chromewebstore.google.com/detail/bdilfiejpkdfbildemdncbkblegpejfb?utm_source=item-share-cb";
-const VIDEO_URL = "https://www.youtube.com/watch?v=L28hvycCQqc";
 const CONTACT_MAILTO = "mailto:miguel.duquec@gmail.com?subject=Support%20request";
 
 // --- LICENÇA / PRO ---
@@ -410,7 +409,7 @@ function LandingPage() {
         includeSoftware
       />
       <StyleTag />
-      <Header />
+      <Header onUnlockPro={handleCheckoutStart} checkoutBusy={checkoutBusy} />
 
       {/* Banner de estado Pro */}
       {verifying && (
@@ -494,7 +493,7 @@ export function Seo({
     "Clean your LinkedIn feed automatically: hide promoted posts, “Liked by/Reacted” posts, reshared content, and distractions. Runs locally.";
 
   const url = canonical || "https://www.linktopics.me/";
-  const ogImage = "https://www.linktopics.me/1280x630_OG_image.png";
+  const ogImage = "https://www.linktopics.me/linktopics-social-card-20260618.png";
   const siteName = "LinkTopics";
 
   const jsonLdSoftware = {
@@ -614,6 +613,10 @@ export function Seo({
     setMeta("property", "og:type", "website");
     setMeta("property", "og:url", url);
     setMeta("property", "og:image", ogImage);
+    setMeta("property", "og:image:secure_url", ogImage);
+    setMeta("property", "og:image:width", "1280");
+    setMeta("property", "og:image:height", "630");
+    setMeta("property", "og:image:alt", "LinkTopics - LinkedIn Feed Cleaner");
     setMeta("property", "og:site_name", siteName);
 
     // Twitter
@@ -621,6 +624,7 @@ export function Seo({
     setMeta("name", "twitter:title", _title);
     setMeta("name", "twitter:description", _description);
     setMeta("name", "twitter:image", ogImage);
+    setMeta("name", "twitter:image:alt", "LinkTopics - LinkedIn Feed Cleaner");
     setMeta("name", "twitter:site", "@miguelduquec");
 
     // Links
@@ -631,8 +635,6 @@ export function Seo({
       "stylesheet",
       "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
     );
-    linkRel("preconnect", "https://www.youtube.com");
-    linkRel("preconnect", "https://i.ytimg.com");
     linkRel("icon", "/favicon-32x32.png", { sizes: "32x32", type: "image/png" });
     linkRel("icon", "/favicon-16x16.png", { sizes: "16x16", type: "image/png" });
     linkRel("apple-touch-icon", "/apple-touch-icon.png");
@@ -685,6 +687,47 @@ export function StyleTag() {
       .brand .dot { width:28px; height:28px; border-radius:10px; background:linear-gradient(135deg,var(--primary),#3b82f6); box-shadow:var(--shadow); }
       .nav-center { display:none; justify-content:center; gap:22px; align-items:center; font-size:14px; }
       @media (min-width:900px){ .nav-center{ display:flex; } }
+      .nav-cta { display:flex; align-items:center; justify-content:flex-end; gap:8px; }
+      .nav-cta .btn {
+        white-space:nowrap;
+        min-height:44px;
+        height:44px;
+        padding:0 14px;
+      }
+      .nav-cta .btn-primary { box-shadow:0 8px 18px rgba(37,99,235,.22); }
+      .nav-cta .btn-gold {
+        padding-inline:16px;
+        font-weight:800;
+        background:linear-gradient(135deg,#fde68a,#facc15);
+        border:1px solid rgba(245,158,11,.35);
+        box-shadow:0 12px 26px rgba(245,158,11,.28);
+      }
+      .nav-cta .btn-gold:hover { box-shadow:0 16px 30px rgba(245,158,11,.36); }
+      .nav-cta .btn-chrome { gap:8px; }
+      .nav-cta .btn-chrome svg { width:22px; height:22px; }
+      .nav-cta .btn-chrome span { font-size:13px; }
+      @media (max-width:480px){
+        .nav-inner { gap:8px; }
+        .nav-cta .btn {
+          min-height:44px;
+          height:44px;
+          padding:0 12px;
+        }
+        .nav-cta .btn-gold { font-size:12px; padding-inline:13px; min-height:44px; height:44px; }
+        .nav-cta .btn-chrome svg { width:20px; height:20px; }
+        .nav-cta .btn-chrome span { font-size:12px; }
+      }
+      @media (max-width:380px){
+        .nav-cta { gap:6px; }
+        .nav-cta .btn {
+          min-height:42px;
+          height:42px;
+          padding:0 10px;
+        }
+        .nav-cta .btn-gold { padding-inline:10px; font-size:11px; min-height:42px; height:42px; }
+        .nav-cta .btn-chrome svg { width:18px; height:18px; }
+        .nav-cta .btn-chrome span { font-size:11px; }
+      }
       .nav a { color: inherit; text-decoration: none; }
       .nav a:hover { text-decoration: none; opacity: .85; }
       .btn { display:inline-flex; align-items:center; justify-content:center; gap:10px; border-radius:999px; font-weight:700; letter-spacing:.2px; padding:14px 20px; text-decoration:none; transition:transform .12s ease, box-shadow .12s ease, opacity .12s ease; min-height:44px; }
@@ -714,7 +757,15 @@ export function StyleTag() {
       .badge.dark { color:#fff; background:#111; }
       .hero-visual { display:flex; flex-direction:column; gap:16px; }
       .video-wrap { aspect-ratio:16/9; width:100%; border-radius:16px; overflow:hidden; box-shadow:var(--shadow); background:#000; }
+      .comparison-card { margin:0; border:1px solid var(--border); border-radius:18px; overflow:hidden; background:linear-gradient(180deg,#f8fbff,#fff); box-shadow:var(--shadow); }
+      .comparison-card img { display:block; width:100%; height:auto; }
+      .comparison-card figcaption { margin:0; padding:12px 14px; font-size:13px; line-height:1.55; color:var(--muted); }
+      .comparison-card strong { color:var(--fg); }
       @media (max-width:480px){ .video-wrap{ border-radius:12px; } }
+      @media (max-width:480px){
+        .comparison-card { border-radius:12px; }
+        .comparison-card figcaption { padding:10px 12px; font-size:12px; }
+      }
       @media (max-width:900px){
         .hero h1 { font-size:clamp(32px,8.5vw,44px); line-height:1.02; letter-spacing:-.03em; }
         .hero p.sub { font-size:17px; line-height:1.45; margin-bottom:18px; }
@@ -881,7 +932,7 @@ export function StyleTag() {
   );
 }
 
-export function Header() {
+export function Header({ onUnlockPro, checkoutBusy = false }) {
   return (
     <header className="nav">
       <div className="container nav-inner">
@@ -900,9 +951,31 @@ export function Header() {
         </nav>
         <div className="nav-cta">
           <PrimaryCTA />
+          <NavProCTA onUnlockPro={onUnlockPro} checkoutBusy={checkoutBusy} />
         </div>
       </div>
     </header>
+  );
+}
+
+function NavProCTA({ onUnlockPro, checkoutBusy = false }) {
+  if (typeof onUnlockPro === "function") {
+    return (
+      <button
+        className="btn btn-gold"
+        type="button"
+        onClick={onUnlockPro}
+        disabled={checkoutBusy}
+      >
+        {checkoutBusy ? "Redirecting…" : "Go Pro"}
+      </button>
+    );
+  }
+
+  return (
+    <a className="btn btn-gold" href="/#pricing">
+      Go Pro
+    </a>
   );
 }
 
@@ -929,36 +1002,20 @@ function SecondaryCTA({ label = "See how it works", href = "#how-it-works" }) {
   );
 }
 
-function getEmbedUrl(url) {
-  try {
-    if (!url) return "";
-    let out = url;
-    if (out.includes("/embed/")) return out;
-    if (out.includes("watch?v=")) out = out.replace("watch?v=", "embed/");
-    if (out.includes("youtu.be/"))
-      out = out.replace("youtu.be/", "www.youtube.com/embed/");
-    if (!/^https?:\/\//i.test(out)) out = "https://" + out;
-    return out;
-  } catch {
-    return url;
-  }
-}
-
-function VideoEmbed({ url, title = "Video" }) {
-  const src = getEmbedUrl(url);
+function FeedComparisonPreview() {
   return (
-    <div className="video-wrap">
-      <iframe
-        title={title}
-        width="100%"
-        height="100%"
-        src={src}
+    <figure className="comparison-card">
+      <img
+        src="/feed-before-after.png"
+        alt="Before and after LinkedIn feed comparison showing promoted, liked, and shared posts removed with LinkTopics."
         loading="lazy"
-        frameBorder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen
       />
-    </div>
+      <figcaption>
+        <strong>Before:</strong> promoted, liked, and reshared noise.
+        {" "}
+        <strong>After:</strong> a cleaner LinkedIn feed you can scan with focus.
+      </figcaption>
+    </figure>
   );
 }
 
@@ -982,7 +1039,7 @@ function Hero() {
             </div>
           </div>
           <div className="hero-visual">
-            <VideoEmbed url={VIDEO_URL} title="Demo" />
+            <FeedComparisonPreview />
           </div>
         </div>
       </div>
@@ -1150,7 +1207,7 @@ function FAQ() {
     },
     {
       q: "Is my data safe?",
-      a: "We process everything locally in your browser. No third-party trackers by default. You can delete your data anytime.",
+      a: "Feed filtering runs locally in your browser. Payments are handled by Stripe, and the website may use analytics or ads measurement. We do not sell your data.",
     },
     {
       q: "Do I need to pay to use LinkTopics?",
@@ -1227,7 +1284,7 @@ function LegalPage({ kind }) {
 
   const pageDescription =
     kind === "privacy"
-      ? "Privacy policy for LinkTopics"
+      ? "Privacy policy for LinkTopics, including data collection, processing, storage, and sharing."
       : "Terms of service for LinkTopics";
 
   return (
@@ -1258,21 +1315,124 @@ function LegalPage({ kind }) {
 function PrivacyContent() {
   return (
     <>
+      <p><strong>Last updated:</strong> June 16, 2026</p>
       <p>
-        We respect your privacy. LinkTopics runs locally in your browser and does not
-        automate actions on LinkedIn.
+        This Privacy Policy explains how LinkTopics collects, processes, stores, and shares
+        user data for the LinkTopics website and Chrome extension. LinkTopics is an
+        independent product and is not affiliated with, endorsed by, or sponsored by LinkedIn.
       </p>
-      <h2>Data we process</h2>
+      <h2>Data we collect</h2>
       <ul>
-        <li>Your topic preferences (saved in your browser).</li>
-        <li>Optional analytics like time saved (local only unless you opt-in).</li>
-        <li>No login, no third-party trackers by default.</li>
+        <li>
+          <strong>Extension settings:</strong> your enabled or paused status, selected filters,
+          hidden-post counters, Pro access status, and license token. These settings are stored
+          in Chrome extension storage so the extension can remember your preferences.
+        </li>
+        <li>
+          <strong>LinkedIn page content processed locally:</strong> the extension reads visible
+          LinkedIn feed text in your browser, such as labels like "Promoted", "Liked by",
+          "Reacted by", "Suggested", or "Reposted", only to decide what to hide on the page.
+          This feed content is not sent to LinkTopics servers.
+        </li>
+        <li>
+          <strong>Payment and license data:</strong> when you buy or restore Pro access, we may
+          process your email address, Stripe customer ID, Stripe checkout session ID, payment
+          status, plan type, license status, and related metadata needed to verify access.
+        </li>
+        <li>
+          <strong>Website analytics and advertising measurement:</strong> the website may use
+          tools such as Google tag / Google Ads measurement and DataFast to understand page
+          visits, campaign performance, referrers, approximate device/browser information, and
+          similar technical analytics. These providers may process IP address and browser data
+          according to their own policies.
+        </li>
+        <li>
+          <strong>Support communications:</strong> if you contact us, we collect the information
+          you choose to send, such as your email address and the details of your request.
+        </li>
       </ul>
-      <h2>Storage & deletion</h2>
-      <p>Your settings live in your browser storage and can be deleted any time from the extension options.</p>
+      <p>
+        LinkTopics does not intentionally collect your LinkedIn password, private messages,
+        full contact list, or LinkedIn login credentials.
+      </p>
+      <h2>How we process and use data</h2>
+      <ul>
+        <li>To run the extension and visually filter your LinkedIn feed in your browser.</li>
+        <li>To remember your settings and whether LinkTopics is paused or enabled.</li>
+        <li>To verify, restore, and support Pro access after a Stripe purchase.</li>
+        <li>To process payments, refunds, fraud prevention, and tax or accounting records through Stripe.</li>
+        <li>To measure website performance, advertising conversion events, and product interest.</li>
+        <li>To respond to support requests and troubleshoot product issues.</li>
+      </ul>
+      <h2>How data is stored</h2>
+      <ul>
+        <li>
+          Extension preferences and license tokens are stored in Chrome extension storage on
+          your device or in Chrome sync storage, depending on the browser environment.
+        </li>
+        <li>
+          Payment and customer records are stored by Stripe. LinkTopics may store or process
+          limited license records and server logs needed to verify Pro access and operate the service.
+        </li>
+        <li>
+          Website analytics data is stored by the analytics and advertising providers we use.
+        </li>
+        <li>
+          We keep data only for as long as reasonably needed to provide the product, support
+          purchases, comply with legal obligations, resolve disputes, and maintain security.
+        </li>
+      </ul>
+      <h2>How data is shared</h2>
+      <ul>
+        <li>
+          <strong>Stripe:</strong> payment, customer, checkout, refund, and license-related
+          information is shared with Stripe so payments and Pro access can work.
+        </li>
+        <li>
+          <strong>Hosting and infrastructure providers:</strong> data may be processed by
+          providers that host the LinkTopics website, APIs, logs, and related services.
+        </li>
+        <li>
+          <strong>Analytics and advertising providers:</strong> website usage and conversion
+          data may be shared with tools such as Google and DataFast for analytics and ad measurement.
+        </li>
+        <li>
+          <strong>Legal or safety reasons:</strong> we may disclose information if required by
+          law, to enforce our terms, or to protect users, LinkTopics, or others.
+        </li>
+      </ul>
+      <p>
+        We do not sell your personal data. We do not use LinkedIn feed content for advertising
+        targeting, credit decisions, or automated decisions with legal or similarly significant effects.
+      </p>
+      <h2>Your choices and deletion</h2>
+      <ul>
+        <li>You can pause or disable the extension at any time.</li>
+        <li>You can uninstall the extension to stop local feed filtering.</li>
+        <li>You can clear extension storage from your browser to remove local settings.</li>
+        <li>You can contact us to request access, correction, or deletion of support or license records.</li>
+        <li>You can use browser settings or extensions to limit cookies, analytics, and ad measurement.</li>
+      </ul>
+      <h2>Security</h2>
+      <p>
+        We use reasonable technical and organizational safeguards to protect data we process.
+        No online service can guarantee perfect security, so please contact us if you believe
+        something is wrong with your account or license access.
+      </p>
+      <h2>Children</h2>
+      <p>
+        LinkTopics is intended for professional users and is not directed to children under 13.
+        We do not knowingly collect personal data from children.
+      </p>
+      <h2>Changes to this policy</h2>
+      <p>
+        We may update this policy from time to time. When we make material changes, we will
+        update the date above and publish the revised version on this page.
+      </p>
       <h2>Contact</h2>
       <p>
-        Questions? <a href="mailto:miguel.duquec@gmail.com">miguel.duquec@gmail.com</a>
+        Questions or privacy requests? Contact us at{" "}
+        <a href="mailto:miguel.duquec@gmail.com">miguel.duquec@gmail.com</a>.
       </p>
     </>
   );
@@ -1330,14 +1490,6 @@ export function Footer() {
             rel="noopener noreferrer"
           >
             Chrome Web Store
-          </a>
-
-          <a
-            href={VIDEO_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Watch demo
           </a>
 
           <span>

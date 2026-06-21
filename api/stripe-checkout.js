@@ -1,12 +1,22 @@
 import Stripe from "stripe";
 import { maskEmail, normalizeEmail } from "./_lib/stripe-entitlements.js";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const DEFAULT_APP_URL = "https://www.linktopics.me";
+const DEFAULT_STRIPE_CHECKOUT_URL = "https://buy.stripe.com/3cI28rbaO5C54F1c8wbsc0a";
 const STRIPE_CHECKOUT_URL_PREFIXES = [
   "https://buy.stripe.com/",
   "https://checkout.stripe.com/",
 ];
+
+function createStripeClient() {
+  const secretKey = process.env.STRIPE_SECRET_KEY;
+
+  if (!secretKey) {
+    return null;
+  }
+
+  return new Stripe(secretKey);
+}
 
 function resolveBaseUrl(req) {
   const forwardedHost = req.headers["x-forwarded-host"];
@@ -40,7 +50,7 @@ function summarizeCheckoutTarget(value) {
   return `unknown:${rawValue.slice(0, 12)}`;
 }
 
-async function resolvePriceFromProduct(productId) {
+async function resolvePriceFromProduct(stripe, productId) {
   const product = await stripe.products.retrieve(productId, {
     expand: ["default_price"],
   });
@@ -62,7 +72,7 @@ async function resolvePriceFromProduct(productId) {
   return defaultPrice;
 }
 
-async function resolveCheckoutTarget(rawValue) {
+async function resolveCheckoutTarget(stripe, rawValue) {
   const value = String(rawValue || "").trim();
 
   if (!value) {
@@ -83,7 +93,7 @@ async function resolveCheckoutTarget(rawValue) {
   }
 
   const price = value.startsWith("prod_")
-    ? await resolvePriceFromProduct(value)
+    ? await resolvePriceFromProduct(stripe, value)
     : await stripe.prices.retrieve(value, { expand: ["product"] });
 
   const productId =
@@ -103,24 +113,20 @@ export default async function handler(req, res) {
     return res.status(405).json({ ok: false, error: "method_not_allowed" });
   }
 
-  if (!process.env.STRIPE_SECRET_KEY) {
-    console.error("stripe-checkout missing STRIPE_SECRET_KEY");
-    return res.status(500).json({ ok: false, error: "checkout_not_configured" });
-  }
-
-  if (!process.env.STRIPE_LIFETIME_PRICE_ID) {
-    console.error("stripe-checkout missing STRIPE_LIFETIME_PRICE_ID");
-    return res.status(500).json({ ok: false, error: "checkout_not_configured" });
-  }
-
   try {
     const baseUrl = resolveBaseUrl(req);
     const browserId = sanitizeBrowserId(req.body?.browserId);
     const email = normalizeEmail(req.body?.email);
-    const configuredTarget = process.env.STRIPE_LIFETIME_PRICE_ID;
-    const checkoutTarget = await resolveCheckoutTarget(configuredTarget);
+    const configuredTarget =
+      process.env.STRIPE_LIFETIME_PRICE_ID || DEFAULT_STRIPE_CHECKOUT_URL;
 
-    if (checkoutTarget.kind === "hosted_checkout_url") {
+    if (!process.env.STRIPE_LIFETIME_PRICE_ID) {
+      console.warn("stripe-checkout missing STRIPE_LIFETIME_PRICE_ID; using hosted fallback", {
+        configuredTarget: summarizeCheckoutTarget(configuredTarget),
+      });
+    }
+
+    if (isHostedStripeCheckoutUrl(String(configuredTarget || "").trim())) {
       console.info("stripe-checkout using hosted checkout url", {
         browserId,
         email: maskEmail(email),
@@ -129,10 +135,20 @@ export default async function handler(req, res) {
 
       return res.status(200).json({
         ok: true,
-        url: checkoutTarget.url,
+        url: String(configuredTarget || "").trim(),
         fallback: true,
       });
     }
+
+    const stripe = createStripeClient();
+    if (!stripe) {
+      console.error("stripe-checkout missing STRIPE_SECRET_KEY", {
+        configuredTarget: summarizeCheckoutTarget(configuredTarget),
+      });
+      return res.status(500).json({ ok: false, error: "checkout_not_configured" });
+    }
+
+    const checkoutTarget = await resolveCheckoutTarget(stripe, configuredTarget);
 
     const sessionParams = {
       mode: checkoutTarget.mode,

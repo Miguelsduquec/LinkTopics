@@ -62,6 +62,7 @@ const OUT_CHROME_URL =
   "https://chromewebstore.google.com/detail/bdilfiejpkdfbildemdncbkblegpejfb?utm_source=linktopics_blog";
 const OUT_YOUTUBE_URL = "https://www.youtube.com/watch?v=L28hvycCQqc";
 const OUT_X_URL = "https://x.com/miguelduquec";
+const DEFAULT_SOCIAL_IMAGE = siteOrigin() + "/linktopics-social-card-20260618.png";
 
 /* ----------------------------------------------------
    BLOG SEO
@@ -74,7 +75,7 @@ function BlogListSeo() {
 
   // canonical estável, sem query params
   const url = siteOrigin() + "/blog";
-  const image = siteOrigin() + "/1280x630_OG_image.png";
+  const image = DEFAULT_SOCIAL_IMAGE;
 
   // ✅ paginação: /blog?page=2+ => noindex,follow
   const isPaginated = useMemo(() => {
@@ -97,8 +98,10 @@ function BlogListSeo() {
     setMeta("property", "og:type", "website");
     setMeta("property", "og:url", url);
     setMeta("property", "og:image", image);
-    setMeta("property", "og:image:width", "1200");
+    setMeta("property", "og:image:secure_url", image);
+    setMeta("property", "og:image:width", "1280");
     setMeta("property", "og:image:height", "630");
+    setMeta("property", "og:image:alt", "LinkTopics - LinkedIn Feed Cleaner");
     setMeta("property", "og:site_name", "LinkTopics");
 
     // Twitter
@@ -106,6 +109,7 @@ function BlogListSeo() {
     setMeta("name", "twitter:title", title);
     setMeta("name", "twitter:description", description);
     setMeta("name", "twitter:image", image);
+    setMeta("name", "twitter:image:alt", "LinkTopics - LinkedIn Feed Cleaner");
     setMeta("name", "twitter:site", "@miguelduquec");
 
     // BreadcrumbList
@@ -133,7 +137,7 @@ function BlogPostSeo({ post }) {
     ? post.cover.startsWith("http")
       ? post.cover
       : origin + post.cover
-    : origin + "/1280x630_OG_image.png";
+    : DEFAULT_SOCIAL_IMAGE;
 
   const toISO = (d) => {
     try {
@@ -162,8 +166,10 @@ function BlogPostSeo({ post }) {
     setMeta("property", "og:type", "article");
     setMeta("property", "og:url", url);
     setMeta("property", "og:image", image);
-    setMeta("property", "og:image:width", "1200");
+    setMeta("property", "og:image:secure_url", image);
+    setMeta("property", "og:image:width", "1280");
     setMeta("property", "og:image:height", "630");
+    setMeta("property", "og:image:alt", post.title);
     setMeta("property", "og:site_name", "LinkTopics");
 
     // Twitter
@@ -171,6 +177,7 @@ function BlogPostSeo({ post }) {
     setMeta("name", "twitter:title", title);
     setMeta("name", "twitter:description", description);
     setMeta("name", "twitter:image", image);
+    setMeta("name", "twitter:image:alt", post.title);
     setMeta("name", "twitter:site", "@miguelduquec");
 
     // Article meta
