@@ -2,12 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.linktopics.me/</loc>
-    <lastmod>2026-07-02</lastmod>
+    <lastmod>2026-07-03</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.linktopics.me/blog</loc>
-    <lastmod>2026-07-02</lastmod>
+    <lastmod>2026-07-03</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
@@ -58,6 +58,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/ai-posts-cleanup-for-product-teams</loc>
     <lastmod>2026-06-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/ai-posts-cleanup-setup</loc>
+    <lastmod>2026-07-03</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -208,6 +213,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/clean-training-posts-in-2027</loc>
     <lastmod>2026-05-21</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/cleaner-feed-for-recruiters-for-sales</loc>
+    <lastmod>2026-07-03</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -653,6 +663,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/hide-linkedin-ads-for-hiring</loc>
     <lastmod>2026-06-09</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/hide-linkedin-engagement-bait</loc>
+    <lastmod>2026-07-03</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -1141,6 +1156,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/promoted-posts-audit-for-smbs</loc>
+    <lastmod>2026-07-03</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/promoted-posts-control-for-job-seekers</loc>
     <lastmod>2026-05-19</lastmod>
     <priority>0.8</priority>
@@ -1183,6 +1203,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/reduce-comment-spam-for-agencies</loc>
     <lastmod>2026-06-29</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/reduce-feed-noise-in-2027</loc>
+    <lastmod>2026-07-03</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -1612,12 +1637,12 @@
   </url>
   <url>
     <loc>https://www.linktopics.me/privacy-policy</loc>
-    <lastmod>2026-07-02</lastmod>
+    <lastmod>2026-07-03</lastmod>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://www.linktopics.me/tos</loc>
-    <lastmod>2026-07-02</lastmod>
+    <lastmod>2026-07-03</lastmod>
     <priority>0.5</priority>
   </url>
 </urlset>
