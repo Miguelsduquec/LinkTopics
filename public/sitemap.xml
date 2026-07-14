@@ -2,12 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.linktopics.me/</loc>
-    <lastmod>2026-07-13</lastmod>
+    <lastmod>2026-07-14</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.linktopics.me/blog</loc>
-    <lastmod>2026-07-13</lastmod>
+    <lastmod>2026-07-14</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
@@ -1126,6 +1126,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/manage-reaction-posts-for-startups</loc>
+    <lastmod>2026-07-14</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/manage-suggested-posts-for-bdrs</loc>
     <lastmod>2026-06-13</lastmod>
     <priority>0.8</priority>
@@ -1576,6 +1581,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/skip-follow-prompts-for-consultants</loc>
+    <lastmod>2026-07-14</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/skip-reposts-for-founders</loc>
     <lastmod>2026-05-14</lastmod>
     <priority>0.8</priority>
@@ -1616,6 +1626,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/stop-feed-noise-for-marketers</loc>
+    <lastmod>2026-07-14</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/stop-linkedin-profile-tips</loc>
     <lastmod>2026-06-07</lastmod>
     <priority>0.8</priority>
@@ -1633,6 +1648,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/stop-revops-feed-noise</loc>
     <lastmod>2026-06-16</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/stop-sales-noise-fast</loc>
+    <lastmod>2026-07-14</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -1776,6 +1796,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/webinar-posts-removal-for-developers</loc>
+    <lastmod>2026-07-14</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/webinar-posts-removal-for-remote-teams</loc>
     <lastmod>2026-05-21</lastmod>
     <priority>0.8</priority>
@@ -1887,12 +1912,12 @@
   </url>
   <url>
     <loc>https://www.linktopics.me/privacy-policy</loc>
-    <lastmod>2026-07-13</lastmod>
+    <lastmod>2026-07-14</lastmod>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://www.linktopics.me/tos</loc>
-    <lastmod>2026-07-13</lastmod>
+    <lastmod>2026-07-14</lastmod>
     <priority>0.5</priority>
   </url>
 </urlset>
