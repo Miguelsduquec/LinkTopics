@@ -2,12 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.linktopics.me/</loc>
-    <lastmod>2026-07-16</lastmod>
+    <lastmod>2026-07-17</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.linktopics.me/blog</loc>
-    <lastmod>2026-07-16</lastmod>
+    <lastmod>2026-07-17</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
@@ -58,6 +58,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/ads-strategy-for-hr-teams</loc>
     <lastmod>2026-05-22</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/ai-posts-cleanup-for-execs</loc>
+    <lastmod>2026-07-17</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -193,6 +198,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/career-noise-control-for-managers</loc>
     <lastmod>2026-06-15</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/career-noise-filter-guide</loc>
+    <lastmod>2026-07-17</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -726,6 +736,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/generic-advice-removal-for-creators</loc>
+    <lastmod>2026-07-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/generic-advice-workflow-for-execs</loc>
     <lastmod>2026-06-02</lastmod>
     <priority>0.8</priority>
@@ -998,6 +1013,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/limit-clickbait-for-remote-teams</loc>
     <lastmod>2026-06-29</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/limit-news-noise-fast</loc>
+    <lastmod>2026-07-17</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -1388,6 +1408,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/reaction-posts-cleaner-for-startups</loc>
     <lastmod>2026-06-12</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/reaction-posts-control-for-ops-teams</loc>
+    <lastmod>2026-07-17</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -1962,12 +1987,12 @@
   </url>
   <url>
     <loc>https://www.linktopics.me/privacy-policy</loc>
-    <lastmod>2026-07-16</lastmod>
+    <lastmod>2026-07-17</lastmod>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://www.linktopics.me/tos</loc>
-    <lastmod>2026-07-16</lastmod>
+    <lastmod>2026-07-17</lastmod>
     <priority>0.5</priority>
   </url>
 </urlset>
