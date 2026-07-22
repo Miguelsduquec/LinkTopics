@@ -2,12 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.linktopics.me/</loc>
-    <lastmod>2026-07-21</lastmod>
+    <lastmod>2026-07-22</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.linktopics.me/blog</loc>
-    <lastmod>2026-07-21</lastmod>
+    <lastmod>2026-07-22</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
@@ -78,6 +78,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/analysts-feed-template</loc>
     <lastmod>2026-06-03</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/are-feed-cleaners-safe-without-unfollow</loc>
+    <lastmod>2026-07-22</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -446,6 +451,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/control-your-linkedin-feed-for-work</loc>
+    <lastmod>2026-07-22</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/creator-spam-cleaner-for-pms</loc>
     <lastmod>2026-06-11</lastmod>
     <priority>0.8</priority>
@@ -513,6 +523,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/declutter-clickbait-for-ops-teams</loc>
     <lastmod>2026-07-16</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/declutter-job-posts-for-coaches</loc>
+    <lastmod>2026-07-22</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -1451,6 +1466,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/promo-posts-cleanup-for-agencies</loc>
+    <lastmod>2026-07-22</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/promo-posts-examples-for-startups</loc>
     <lastmod>2026-05-15</lastmod>
     <priority>0.8</priority>
@@ -1876,6 +1896,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/take-back-linkedin-feed-on-chrome</loc>
+    <lastmod>2026-07-22</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/the-hidden-cost-of-a-noisy-professional-feed</loc>
     <lastmod>2026-03-23</lastmod>
     <priority>0.8</priority>
@@ -2087,12 +2112,12 @@
   </url>
   <url>
     <loc>https://www.linktopics.me/privacy-policy</loc>
-    <lastmod>2026-07-21</lastmod>
+    <lastmod>2026-07-22</lastmod>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://www.linktopics.me/tos</loc>
-    <lastmod>2026-07-21</lastmod>
+    <lastmod>2026-07-22</lastmod>
     <priority>0.5</priority>
   </url>
 </urlset>
