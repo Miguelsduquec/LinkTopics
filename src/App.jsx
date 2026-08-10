@@ -14,7 +14,7 @@ const CONTACT_MAILTO = "mailto:miguel.duquec@gmail.com?subject=Support%20request
 const API_CHECKOUT_URL = "/api/stripe-checkout";
 const API_VERIFY_URL = "/api/stripe-verify";
 const API_RESTORE_URL = "/api/stripe-restore";
-const PRO_CHECKOUT_PAUSED = true;
+const PRO_CHECKOUT_PAUSED = false;
 const LICENSE_STORAGE_KEY = "ltp_license";
 const BROWSER_ID_STORAGE_KEY = "ltp_browser_id";
 const RESTORE_PRO_QUERY_KEY = "restore_pro";
