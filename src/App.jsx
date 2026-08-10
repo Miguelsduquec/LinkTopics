@@ -474,6 +474,7 @@ function LandingPage() {
       <SocialProof />
       <HowItWorks />
       <Pricing onUnlockPro={handleCheckoutStart} checkoutBusy={checkoutBusy} />
+      <Troubleshooting />
       <FAQ />
       <FinalCTA />
       <Footer />
@@ -848,6 +849,24 @@ export function StyleTag() {
         .price-card.pop .btn-gold { min-height:50px; padding:14px 20px; font-size:15px; }
       }
 
+      /* TROUBLESHOOTING */
+      .troubleshooting-card { border:1px solid var(--border); border-radius:22px; background:linear-gradient(135deg,#f8fbff,#fff7ed); padding:24px; box-shadow:var(--shadow); }
+      .troubleshooting-layout { display:grid; grid-template-columns:1fr; gap:22px; align-items:start; }
+      @media (min-width:900px){ .troubleshooting-layout{ grid-template-columns:.9fr 1.1fr; } }
+      .troubleshooting-copy h2 { margin:0 0 10px; font-size:clamp(26px,3vw,38px); line-height:1.1; }
+      .troubleshooting-copy p { margin:0; color:var(--muted); line-height:1.6; }
+      .troubleshooting-steps { margin:0; padding:0; list-style:none; display:grid; gap:12px; counter-reset:trouble; }
+      .troubleshooting-steps li { position:relative; padding:14px 14px 14px 52px; border:1px solid var(--border); border-radius:16px; background:#fff; color:var(--fg); line-height:1.5; }
+      .troubleshooting-steps li::before { counter-increment:trouble; content:counter(trouble); position:absolute; left:14px; top:14px; width:26px; height:26px; border-radius:999px; display:inline-flex; align-items:center; justify-content:center; background:#dbeafe; color:#1d4ed8; font-weight:800; font-size:13px; }
+      .troubleshooting-note { margin-top:14px; padding:12px 14px; border-radius:14px; background:#ecfeff; color:#164e63; font-size:13px; line-height:1.5; }
+      @media (max-width:767px){
+        .troubleshooting-card { padding:18px; border-radius:18px; }
+        .troubleshooting-layout { gap:16px; }
+        .troubleshooting-copy p { font-size:14px; }
+        .troubleshooting-steps li { padding:13px 13px 13px 48px; font-size:13px; border-radius:14px; }
+        .troubleshooting-steps li::before { left:13px; top:13px; width:24px; height:24px; font-size:12px; }
+      }
+
       /* FAQ */
       .faq-grid { display:grid; gap:12px; grid-template-columns:1fr; }
       @media (min-width:1000px){ .faq-grid{ grid-template-columns:repeat(2,1fr); } }
@@ -1216,6 +1235,45 @@ export function SectionHeader({ eyebrow, title, subtitle }) {
       <h2>{title}</h2>
       {subtitle && <p>{subtitle}</p>}
     </div>
+  );
+}
+
+function Troubleshooting() {
+  const steps = [
+    "Pause LinkTopics in the popup, then refresh your LinkedIn feed.",
+    "Resume LinkTopics with only Hide Ads/Promoted posts active first.",
+    "Turn Pro filters on one at a time: Liked/Reacted, then Shared/Reshared, then Suggested/Recommended.",
+    "If your feed looks empty again, leave Suggested/Recommended off and send us a screenshot, your Chrome version, and your LinkTopics version.",
+  ];
+
+  return (
+    <section id="troubleshooting" className="section section--tight">
+      <div className="container">
+        <div className="troubleshooting-card">
+          <div className="troubleshooting-layout">
+            <div className="troubleshooting-copy">
+              <div className="eyebrow" style={{ marginBottom: 6 }}>
+                Troubleshooting
+              </div>
+              <h2>If your LinkedIn feed looks empty</h2>
+              <p>
+                This can happen when LinkedIn loads mostly suggested, reacted, or reshared posts
+                and every Pro filter is enabled at once. Try these steps before requesting a refund.
+              </p>
+              <div className="troubleshooting-note">
+                LinkTopics filtering is visual and local. It does not delete posts, change your
+                LinkedIn account, or perform LinkedIn actions for you.
+              </div>
+            </div>
+            <ol className="troubleshooting-steps">
+              {steps.map((step) => (
+                <li key={step}>{step}</li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 
