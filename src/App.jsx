@@ -1240,7 +1240,7 @@ export function SectionHeader({ eyebrow, title, subtitle }) {
 
 function Troubleshooting() {
   const steps = [
-    "Pause LinkTopics, then hard refresh your LinkedIn feed.",
+    "Pause LinkTopics, then hard refresh your browser.",
     "Resume with only Hide Ads/Promoted posts enabled.",
     "Turn Pro filters on one at a time. Keep Suggested/Recommended off if the feed looks empty.",
   ];
