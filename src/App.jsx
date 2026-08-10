@@ -1240,10 +1240,9 @@ export function SectionHeader({ eyebrow, title, subtitle }) {
 
 function Troubleshooting() {
   const steps = [
-    "Pause LinkTopics in the popup, then refresh your LinkedIn feed.",
-    "Resume LinkTopics with only Hide Ads/Promoted posts active first.",
-    "Turn Pro filters on one at a time: Liked/Reacted, then Shared/Reshared, then Suggested/Recommended.",
-    "If your feed looks empty again, leave Suggested/Recommended off and send us a screenshot, your Chrome version, and your LinkTopics version.",
+    "Pause LinkTopics, then hard refresh your LinkedIn feed.",
+    "Resume with only Hide Ads/Promoted posts enabled.",
+    "Turn Pro filters on one at a time. Keep Suggested/Recommended off if the feed looks empty.",
   ];
 
   return (
@@ -1258,11 +1257,14 @@ function Troubleshooting() {
               <h2>If your LinkedIn feed looks empty</h2>
               <p>
                 This can happen when LinkedIn loads mostly suggested, reacted, or reshared posts
-                and every Pro filter is enabled at once. Try these steps before requesting a refund.
+                and every Pro filter is enabled at once. If it keeps happening, contact me on{" "}
+                <a href="https://x.com/miguelduquec" target="_blank" rel="noreferrer">
+                  X
+                </a>{" "}
+                or <a href={CONTACT_MAILTO}>email</a>.
               </p>
               <div className="troubleshooting-note">
-                LinkTopics filtering is visual and local. It does not delete posts, change your
-                LinkedIn account, or perform LinkedIn actions for you.
+                Filtering is local and visual. It does not change your LinkedIn account.
               </div>
             </div>
             <ol className="troubleshooting-steps">
