@@ -14,6 +14,7 @@ const CONTACT_MAILTO = "mailto:miguel.duquec@gmail.com?subject=Support%20request
 const API_CHECKOUT_URL = "/api/stripe-checkout";
 const API_VERIFY_URL = "/api/stripe-verify";
 const API_RESTORE_URL = "/api/stripe-restore";
+const PRO_CHECKOUT_PAUSED = true;
 const LICENSE_STORAGE_KEY = "ltp_license";
 const BROWSER_ID_STORAGE_KEY = "ltp_browser_id";
 const RESTORE_PRO_QUERY_KEY = "restore_pro";
@@ -370,6 +371,11 @@ function LandingPage() {
   };
 
   const handleCheckoutStart = async () => {
+    if (PRO_CHECKOUT_PAUSED) {
+      setErrorMsg("Pro purchases are temporarily paused while we improve the filters.");
+      return;
+    }
+
     try {
       setCheckoutBusy(true);
       setErrorMsg("");
@@ -928,6 +934,16 @@ export function StyleTag() {
       .btn-gold, .btn-gold * { color:#111 !important; }
       .btn-gold:hover { box-shadow:0 14px 28px rgba(253,224,71,.45); transform:translateY(-1px); }
       .btn-gold:active { transform:translateY(1px); }
+      .btn-gold:disabled {
+        cursor:not-allowed;
+        opacity:.58;
+        box-shadow:none;
+        transform:none;
+      }
+      .btn-gold:disabled:hover {
+        box-shadow:none;
+        transform:none;
+      }
     `}</style>
   );
 }
@@ -959,13 +975,16 @@ export function Header({ onUnlockPro, checkoutBusy = false }) {
 }
 
 function NavProCTA({ onUnlockPro, checkoutBusy = false }) {
+  const disabled = PRO_CHECKOUT_PAUSED || checkoutBusy;
+
   if (typeof onUnlockPro === "function") {
     return (
       <button
         className="btn btn-gold"
         type="button"
-        onClick={onUnlockPro}
-        disabled={checkoutBusy}
+        onClick={PRO_CHECKOUT_PAUSED ? undefined : onUnlockPro}
+        disabled={disabled}
+        title={PRO_CHECKOUT_PAUSED ? "Pro purchases are temporarily paused while we improve the filters." : undefined}
       >
         {checkoutBusy ? "Redirecting…" : "Go Pro"}
       </button>
@@ -1172,8 +1191,9 @@ function Pricing({ onUnlockPro, checkoutBusy }) {
               <button
                 className="btn btn-gold"
                 type="button"
-                onClick={onUnlockPro}
-                disabled={checkoutBusy}
+                onClick={PRO_CHECKOUT_PAUSED ? undefined : onUnlockPro}
+                disabled={PRO_CHECKOUT_PAUSED || checkoutBusy}
+                title={PRO_CHECKOUT_PAUSED ? "Pro purchases are temporarily paused while we improve the filters." : undefined}
               >
                 {checkoutBusy ? "Redirecting…" : "Unlock Pro for $29"}
               </button>
