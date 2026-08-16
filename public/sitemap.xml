@@ -2,12 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.linktopics.me/</loc>
-    <lastmod>2026-08-15</lastmod>
+    <lastmod>2026-08-16</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.linktopics.me/blog</loc>
-    <lastmod>2026-08-15</lastmod>
+    <lastmod>2026-08-16</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
@@ -1021,6 +1021,16 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/freelancers-feed-audit</loc>
+    <lastmod>2026-08-16</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/freelancers-feed-review</loc>
+    <lastmod>2026-08-16</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/generic-advice-cleaner-for-analysts</loc>
     <lastmod>2026-08-12</lastmod>
     <priority>0.8</priority>
@@ -1616,6 +1626,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/managers-feed-checklist</loc>
+    <lastmod>2026-08-16</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/managers-feed-sop</loc>
     <lastmod>2026-06-13</lastmod>
     <priority>0.8</priority>
@@ -1938,6 +1953,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/reaction-posts-cleaner-for-startups</loc>
     <lastmod>2026-06-12</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/reaction-posts-cleanup-for-startups</loc>
+    <lastmod>2026-08-16</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -2576,6 +2596,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/webinar-posts-cleanup-examples</loc>
+    <lastmod>2026-08-16</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/webinar-posts-cleanup-for-freelancers</loc>
     <lastmod>2026-05-18</lastmod>
     <priority>0.8</priority>
@@ -2712,12 +2737,12 @@
   </url>
   <url>
     <loc>https://www.linktopics.me/privacy-policy</loc>
-    <lastmod>2026-08-15</lastmod>
+    <lastmod>2026-08-16</lastmod>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://www.linktopics.me/tos</loc>
-    <lastmod>2026-08-15</lastmod>
+    <lastmod>2026-08-16</lastmod>
     <priority>0.5</priority>
   </url>
 </urlset>
