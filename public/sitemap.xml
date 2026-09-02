@@ -2,12 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.linktopics.me/</loc>
-    <lastmod>2026-09-01</lastmod>
+    <lastmod>2026-09-02</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.linktopics.me/blog</loc>
-    <lastmod>2026-09-01</lastmod>
+    <lastmod>2026-09-02</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
@@ -38,6 +38,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/ads-cleanup-for-sdrs</loc>
     <lastmod>2026-06-07</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/ads-cleanup-ideas</loc>
+    <lastmod>2026-09-02</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -581,6 +586,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/control-creator-spam-in-2027</loc>
+    <lastmod>2026-09-02</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/control-linkedin-creator-spam</loc>
     <lastmod>2026-08-10</lastmod>
     <priority>0.8</priority>
@@ -946,6 +956,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/feed-noise-tips-for-consultants</loc>
+    <lastmod>2026-09-02</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/filter-ai-posts</loc>
     <lastmod>2026-06-26</lastmod>
     <priority>0.8</priority>
@@ -1241,6 +1256,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/hide-engagement-bait</loc>
+    <lastmod>2026-09-02</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/hide-feed-noise-for-ops-teams</loc>
     <lastmod>2026-08-31</lastmod>
     <priority>0.8</priority>
@@ -1518,6 +1538,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/job-posts-template-for-smbs</loc>
     <lastmod>2026-07-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/liked-posts-cleaner-for-bdrs</loc>
+    <lastmod>2026-09-02</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -3137,12 +3162,12 @@
   </url>
   <url>
     <loc>https://www.linktopics.me/privacy-policy</loc>
-    <lastmod>2026-09-01</lastmod>
+    <lastmod>2026-09-02</lastmod>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://www.linktopics.me/tos</loc>
-    <lastmod>2026-09-01</lastmod>
+    <lastmod>2026-09-02</lastmod>
     <priority>0.5</priority>
   </url>
 </urlset>
