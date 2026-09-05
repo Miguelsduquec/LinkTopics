@@ -2,12 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.linktopics.me/</loc>
-    <lastmod>2026-09-04</lastmod>
+    <lastmod>2026-09-05</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.linktopics.me/blog</loc>
-    <lastmod>2026-09-04</lastmod>
+    <lastmod>2026-09-05</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
@@ -211,6 +211,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/best-linkedin-chrome-tools-for-work</loc>
+    <lastmod>2026-09-05</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/best-linkedin-feed-cleaner-guide</loc>
     <lastmod>2026-01-26</lastmod>
     <priority>0.8</priority>
@@ -261,6 +266,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/block-linkedin-ai-posts</loc>
+    <lastmod>2026-09-05</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/block-linkedin-event-posts</loc>
     <lastmod>2026-08-27</lastmod>
     <priority>0.8</priority>
@@ -268,6 +278,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/block-linkedin-follow-prompts</loc>
     <lastmod>2026-07-12</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/block-outreach-noise-for-sales-teams</loc>
+    <lastmod>2026-09-05</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -518,6 +533,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/comment-spam-checklist-for-marketers</loc>
     <lastmod>2026-05-18</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/comment-spam-cleanup-for-developers</loc>
+    <lastmod>2026-09-05</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -2251,6 +2271,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/promo-posts-removal-for-sales-teams</loc>
+    <lastmod>2026-09-05</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/promo-posts-removal-for-sdrs</loc>
     <lastmod>2026-06-13</lastmod>
     <priority>0.8</priority>
@@ -3212,12 +3237,12 @@
   </url>
   <url>
     <loc>https://www.linktopics.me/privacy-policy</loc>
-    <lastmod>2026-09-04</lastmod>
+    <lastmod>2026-09-05</lastmod>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://www.linktopics.me/tos</loc>
-    <lastmod>2026-09-04</lastmod>
+    <lastmod>2026-09-05</lastmod>
     <priority>0.5</priority>
   </url>
 </urlset>
