@@ -2,12 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.linktopics.me/</loc>
-    <lastmod>2026-09-10</lastmod>
+    <lastmod>2026-09-11</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.linktopics.me/blog</loc>
-    <lastmod>2026-09-10</lastmod>
+    <lastmod>2026-09-11</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
@@ -201,6 +201,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/bdrs-feed-scorecard</loc>
+    <lastmod>2026-09-11</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/best-chrome-extensions-for-linkedin</loc>
     <lastmod>2025-11-27</lastmod>
     <priority>0.8</priority>
@@ -228,6 +233,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/better-feed-for-bdrs</loc>
     <lastmod>2026-06-01</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/better-feed-for-creators</loc>
+    <lastmod>2026-09-11</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -661,6 +671,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/control-job-seekers-feed-noise</loc>
+    <lastmod>2026-09-11</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/control-linkedin-creator-spam</loc>
     <lastmod>2026-08-10</lastmod>
     <priority>0.8</priority>
@@ -883,6 +898,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/declutter-linkedin-sales-noise</loc>
     <lastmod>2026-06-26</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/declutter-outreach-noise</loc>
+    <lastmod>2026-09-11</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -1808,6 +1828,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/linkedin-feed-for-recruiters</loc>
     <lastmod>2026-02-26</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/linkedin-feed-for-recruiters-for-sdrs</loc>
+    <lastmod>2026-09-11</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -3362,12 +3387,12 @@
   </url>
   <url>
     <loc>https://www.linktopics.me/privacy-policy</loc>
-    <lastmod>2026-09-10</lastmod>
+    <lastmod>2026-09-11</lastmod>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://www.linktopics.me/tos</loc>
-    <lastmod>2026-09-10</lastmod>
+    <lastmod>2026-09-11</lastmod>
     <priority>0.5</priority>
   </url>
 </urlset>
