@@ -2,12 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.linktopics.me/</loc>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-12</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.linktopics.me/blog</loc>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-12</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
@@ -868,6 +868,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/cut-managers-feed-noise</loc>
     <lastmod>2026-05-23</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/cut-outreach-noise-in-2027</loc>
+    <lastmod>2026-09-12</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -2201,6 +2206,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/pms-feed-guide</loc>
+    <lastmod>2026-09-12</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/pms-feed-review</loc>
     <lastmod>2026-08-28</lastmod>
     <priority>0.8</priority>
@@ -2238,6 +2248,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/podcast-posts-playbook-for-ceos</loc>
     <lastmod>2026-08-18</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/podcast-posts-removal-for-remote-teams</loc>
+    <lastmod>2026-09-12</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -2841,6 +2856,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/sales-teams-feed-workflow</loc>
+    <lastmod>2026-09-12</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/sdrs-feed-checklist</loc>
     <lastmod>2026-06-18</lastmod>
     <priority>0.8</priority>
@@ -3048,6 +3068,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/stop-webinar-posts</loc>
     <lastmod>2026-06-21</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/students-feed-checklist</loc>
+    <lastmod>2026-09-12</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -3387,12 +3412,12 @@
   </url>
   <url>
     <loc>https://www.linktopics.me/privacy-policy</loc>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-12</lastmod>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://www.linktopics.me/tos</loc>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-12</lastmod>
     <priority>0.5</priority>
   </url>
 </urlset>
