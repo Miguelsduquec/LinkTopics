@@ -2,12 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.linktopics.me/</loc>
-    <lastmod>2026-09-13</lastmod>
+    <lastmod>2026-09-14</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.linktopics.me/blog</loc>
-    <lastmod>2026-09-13</lastmod>
+    <lastmod>2026-09-14</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
@@ -268,6 +268,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/block-event-posts-for-product-teams</loc>
     <lastmod>2026-05-22</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/block-feed-noise-fast</loc>
+    <lastmod>2026-09-14</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -936,6 +941,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/declutter-students-feed-noise</loc>
+    <lastmod>2026-09-14</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/does-linkedin-premium-clean-feed</loc>
     <lastmod>2026-02-11</lastmod>
     <priority>0.8</priority>
@@ -1268,6 +1278,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/fix-your-linkedin-feed-daily</loc>
     <lastmod>2026-06-04</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/fix-your-linkedin-feed-privately</loc>
+    <lastmod>2026-09-14</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -1751,6 +1766,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/liked-posts-strategy-for-ceos</loc>
+    <lastmod>2026-09-14</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/limit-ads</loc>
     <lastmod>2026-06-26</lastmod>
     <priority>0.8</priority>
@@ -1788,6 +1808,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/limit-profile-tips</loc>
     <lastmod>2026-06-07</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/limit-profile-tips-for-founders</loc>
+    <lastmod>2026-09-14</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -3437,12 +3462,12 @@
   </url>
   <url>
     <loc>https://www.linktopics.me/privacy-policy</loc>
-    <lastmod>2026-09-13</lastmod>
+    <lastmod>2026-09-14</lastmod>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://www.linktopics.me/tos</loc>
-    <lastmod>2026-09-13</lastmod>
+    <lastmod>2026-09-14</lastmod>
     <priority>0.5</priority>
   </url>
 </urlset>
