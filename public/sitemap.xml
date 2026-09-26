@@ -2,12 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.linktopics.me/</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-09-26</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.linktopics.me/blog</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-09-26</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
@@ -566,6 +566,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/clickbait-removal-for-ops-teams</loc>
+    <lastmod>2026-09-26</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/clickbait-scorecard-for-ceos</loc>
     <lastmod>2026-06-17</lastmod>
     <priority>0.8</priority>
@@ -1043,6 +1048,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/engagement-bait-checklist-for-ceos</loc>
     <lastmod>2026-06-14</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/engagement-bait-cleaner-for-marketers</loc>
+    <lastmod>2026-09-26</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -1741,6 +1751,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/hiring-posts-playbook-for-managers</loc>
+    <lastmod>2026-09-26</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/hiring-posts-strategy-for-smbs</loc>
     <lastmod>2026-09-10</lastmod>
     <priority>0.8</priority>
@@ -1983,6 +1998,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/limit-suggested-posts-fast</loc>
     <lastmod>2026-08-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/limit-suggested-posts-in-2027</loc>
+    <lastmod>2026-09-26</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -2828,6 +2848,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/reduce-linkedin-scrolling-for-sdrs</loc>
     <lastmod>2026-07-29</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/reduce-linkedin-scrolling-for-work</loc>
+    <lastmod>2026-09-26</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -3737,12 +3762,12 @@
   </url>
   <url>
     <loc>https://www.linktopics.me/privacy-policy</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-09-26</lastmod>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://www.linktopics.me/tos</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-09-26</lastmod>
     <priority>0.5</priority>
   </url>
 </urlset>
