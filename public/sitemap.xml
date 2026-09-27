@@ -2,12 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.linktopics.me/</loc>
-    <lastmod>2026-09-26</lastmod>
+    <lastmod>2026-09-27</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.linktopics.me/blog</loc>
-    <lastmod>2026-09-26</lastmod>
+    <lastmod>2026-09-27</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
@@ -1346,6 +1346,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/fix-linkedin-comment-spam</loc>
+    <lastmod>2026-09-27</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/fix-linkedin-feed-noise</loc>
     <lastmod>2026-09-07</lastmod>
     <priority>0.8</priority>
@@ -1901,6 +1906,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/liked-posts-cleaner-for-sourcers</loc>
+    <lastmod>2026-09-27</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/liked-posts-cleanup-fix</loc>
     <lastmod>2026-09-25</lastmod>
     <priority>0.8</priority>
@@ -1943,6 +1953,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/limit-clickbait-for-remote-teams</loc>
     <lastmod>2026-06-29</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/limit-comment-spam-in-2027</loc>
+    <lastmod>2026-09-27</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -2596,6 +2611,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/profile-tips-cleanup-for-creators</loc>
+    <lastmod>2026-09-27</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/profile-tips-cleanup-for-remote-teams</loc>
     <lastmod>2026-08-22</lastmod>
     <priority>0.8</priority>
@@ -3013,6 +3033,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/reposts-cleanup-scorecard</loc>
     <lastmod>2026-06-06</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/reposts-control-for-job-seekers</loc>
+    <lastmod>2026-09-27</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -3762,12 +3787,12 @@
   </url>
   <url>
     <loc>https://www.linktopics.me/privacy-policy</loc>
-    <lastmod>2026-09-26</lastmod>
+    <lastmod>2026-09-27</lastmod>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://www.linktopics.me/tos</loc>
-    <lastmod>2026-09-26</lastmod>
+    <lastmod>2026-09-27</lastmod>
     <priority>0.5</priority>
   </url>
 </urlset>
