@@ -2,12 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.linktopics.me/</loc>
-    <lastmod>2026-10-02</lastmod>
+    <lastmod>2026-10-03</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.linktopics.me/blog</loc>
-    <lastmod>2026-10-02</lastmod>
+    <lastmod>2026-10-03</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
@@ -68,6 +68,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/ads-removal-for-freelancers</loc>
     <lastmod>2026-06-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/ads-removal-for-startups</loc>
+    <lastmod>2026-10-03</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -971,6 +976,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/cut-career-noise</loc>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/cut-company-posts</loc>
     <lastmod>2026-08-26</lastmod>
     <priority>0.8</priority>
@@ -1348,6 +1358,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/filter-recruiter-noise-in-2027</loc>
     <lastmod>2026-09-08</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/filter-sales-noise</loc>
+    <lastmod>2026-10-03</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -2286,6 +2301,16 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/make-linkedin-productive</loc>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/manage-ads-in-2027</loc>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/manage-clickbait-for-execs</loc>
     <lastmod>2026-10-02</lastmod>
     <priority>0.8</priority>
@@ -2338,6 +2363,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/manage-promo-posts</loc>
     <lastmod>2026-07-16</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/manage-promoted-posts</loc>
+    <lastmod>2026-10-03</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -2398,6 +2428,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/marketers-signal-feed</loc>
     <lastmod>2026-08-22</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/meme-posts-checklist-for-recruiters</loc>
+    <lastmod>2026-10-03</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -2781,6 +2816,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/promo-posts-control-for-smbs</loc>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/promo-posts-examples-for-startups</loc>
     <lastmod>2026-05-15</lastmod>
     <priority>0.8</priority>
@@ -2813,6 +2853,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/promo-posts-removal-for-students</loc>
     <lastmod>2026-05-24</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/promo-posts-strategy-for-sdrs</loc>
+    <lastmod>2026-10-03</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -3486,6 +3531,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/stop-liked-posts-privately</loc>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/stop-linkedin-distractions-for-teams</loc>
     <lastmod>2026-08-21</lastmod>
     <priority>0.8</priority>
@@ -3962,12 +4012,12 @@
   </url>
   <url>
     <loc>https://www.linktopics.me/privacy-policy</loc>
-    <lastmod>2026-10-02</lastmod>
+    <lastmod>2026-10-03</lastmod>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://www.linktopics.me/tos</loc>
-    <lastmod>2026-10-02</lastmod>
+    <lastmod>2026-10-03</lastmod>
     <priority>0.5</priority>
   </url>
 </urlset>
