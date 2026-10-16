@@ -536,7 +536,7 @@ export function Seo({
         name: "Which browsers are supported?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Chrome, Brave and Edge (Chromium). Firefox on the roadmap.",
+          text: "Chrome and Edge (Chromium). Firefox and Brave on the roadmap.",
         },
       },
     ],
@@ -1294,7 +1294,7 @@ function FAQ() {
       a: "No. The free version hides Promoted posts right away. You only pay if you want lifetime access to the advanced filters.",
     },
     { q: "Will it slow down my LinkedIn?", a: "It’s lightweight and you can pause per-site or per-session anytime." },
-    { q: "Which browsers are supported?", a: "Chrome, Brave, Edge (Chromium). Firefox on the roadmap." },
+    { q: "Which browsers are supported?", a: "Chrome and Edge (Chromium). Firefox and Brave on the roadmap." },
     { q: "What’s the difference vs. generic filters?", a: "Topics (semantic), measurable ROI (time saved), Focus scheduling, and safe-by-design." },
   ];
 
