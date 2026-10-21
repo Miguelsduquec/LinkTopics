@@ -763,15 +763,17 @@ export function StyleTag() {
       .badge { display:inline-flex; align-items:center; gap:8px; font-size:12px; padding:6px 10px; border-radius:999px; }
       .badge.dark { color:#fff; background:#111; }
       .hero-visual { display:flex; flex-direction:column; gap:16px; }
+      @media (min-width:1024px){
+        .hero-grid { grid-template-columns:minmax(0,.8fr) minmax(0,1.3fr); gap:40px; }
+        .hero h1 { font-size:clamp(34px,3.6vw,52px); }
+      }
+      @media (min-width:1360px){ .hero-visual { margin-right:-120px; } }
       .video-wrap { aspect-ratio:16/9; width:100%; border-radius:16px; overflow:hidden; box-shadow:var(--shadow); background:#000; }
       .comparison-card { margin:0; border:1px solid var(--border); border-radius:18px; overflow:hidden; background:linear-gradient(180deg,#f8fbff,#fff); box-shadow:var(--shadow); }
       .comparison-card img { display:block; width:100%; height:auto; }
-      .comparison-card figcaption { margin:0; padding:12px 14px; font-size:13px; line-height:1.55; color:var(--muted); }
-      .comparison-card strong { color:var(--fg); }
       @media (max-width:480px){ .video-wrap{ border-radius:12px; } }
       @media (max-width:480px){
         .comparison-card { border-radius:12px; }
-        .comparison-card figcaption { padding:10px 12px; font-size:12px; }
       }
       @media (max-width:900px){
         .hero h1 { font-size:clamp(32px,8.5vw,44px); line-height:1.02; letter-spacing:-.03em; }
@@ -1051,11 +1053,6 @@ function FeedComparisonPreview() {
         loading="eager"
         fetchpriority="high"
       />
-      <figcaption>
-        <strong>Before:</strong> sidebar ads and promoted posts in your feed.
-        {" "}
-        <strong>After:</strong> only the posts worth reading.
-      </figcaption>
     </figure>
   );
 }
@@ -1064,7 +1061,7 @@ function Hero() {
   return (
     <section id="home" className="hero">
       <div className="container">
-        <div className="grid-2" style={{ alignItems: "center" }}>
+        <div className="grid-2 hero-grid" style={{ alignItems: "center" }}>
           <div className="hero-copy">
             <h1>Clean Your LinkedIn Feed in 30 Seconds</h1>
             <p className="sub">
