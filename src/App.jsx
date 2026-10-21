@@ -1044,14 +1044,17 @@ function FeedComparisonPreview() {
   return (
     <figure className="comparison-card">
       <img
-        src="/feed-before-after.png"
-        alt="Before and after LinkedIn feed comparison showing promoted, liked, and shared posts removed with LinkTopics."
-        loading="lazy"
+        src="/feed-before-after-v2.jpg"
+        alt="Before and after LinkTopics: a LinkedIn feed with sidebar ads and promoted posts, then the same feed showing only useful posts."
+        width="1600"
+        height="1062"
+        loading="eager"
+        fetchpriority="high"
       />
       <figcaption>
-        <strong>Before:</strong> promoted, liked, and reshared noise.
+        <strong>Before:</strong> sidebar ads and promoted posts in your feed.
         {" "}
-        <strong>After:</strong> a cleaner LinkedIn feed you can scan with focus.
+        <strong>After:</strong> only the posts worth reading.
       </figcaption>
     </figure>
   );
