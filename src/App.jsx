@@ -672,7 +672,7 @@ export function Seo({
 export function StyleTag() {
   return (
     <style>{`
-      :root { color-scheme: light; --bg:#ffffff; --fg:#0b0b0f; --muted:#6b7280; --card:#f7f8fb; --border:#e6e8ee; --primary:#2563eb; --shadow:0 10px 25px rgba(0,0,0,.08); }
+      :root { color-scheme: light; --bg:#f5f5f7; --fg:#0b0b0f; --muted:#6b7280; --card:#ffffff; --border:#e6e8ee; --primary:#2563eb; --shadow:0 10px 25px rgba(0,0,0,.08); }
       html, body, #root, .ltp-root { scroll-behavior: smooth; }
       html { color-scheme: light; background: var(--bg); color: var(--fg); }
       body { background: var(--bg); color: var(--fg); font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, 'Apple Color Emoji', 'Segoe UI Emoji'; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
@@ -687,7 +687,7 @@ export function StyleTag() {
       .grid-2 { display:grid; grid-template-columns:1fr; gap:36px; }
       @media (min-width:1024px){ .grid-2{ grid-template-columns:1.1fr 1fr; } }
       @media (max-width:1023px){ .grid-2{ gap:24px; } }
-      .nav { position:sticky; top:0; z-index:40; backdrop-filter:saturate(180%) blur(8px); background:rgba(255,255,255,.75); }
+      .nav { position:sticky; top:0; z-index:40; background:#ffffff; border-bottom:1px solid rgba(0,0,0,.06); }
       .nav-inner { height:56px; display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:10px; }
       @media (min-width:900px){ .nav-inner { height:64px; } }
       .brand { display:flex; align-items:center; gap:12px; font-weight:700; text-decoration:none; color:inherit; }
