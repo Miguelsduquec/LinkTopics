@@ -763,11 +763,22 @@ export function StyleTag() {
       .badge { display:inline-flex; align-items:center; gap:8px; font-size:12px; padding:6px 10px; border-radius:999px; }
       .badge.dark { color:#fff; background:#111; }
       .hero-visual { display:flex; flex-direction:column; gap:16px; }
-      @media (min-width:1024px){
-        .hero-grid { grid-template-columns:minmax(0,.8fr) minmax(0,1.3fr); gap:40px; }
-        .hero h1 { font-size:clamp(34px,3.6vw,52px); }
+      .hero-stack { display:flex; flex-direction:column; align-items:center; gap:32px; }
+      .hero-stack .hero-visual { width:100%; max-width:1040px; }
+      .hero-stack .hero-copy { max-width:760px; text-align:center; }
+      .hero .hero-stack h1 { font-size:clamp(32px,3.4vw,46px); line-height:1.08; letter-spacing:-.02em; text-wrap:balance; }
+      .hero .hero-stack p.sub { font-size:clamp(16px,1.6vw,19px); margin:0 0 18px; text-wrap:balance; }
+      .hero-stack .hero-ctas { justify-content:center; }
+      .hero-stack .hero-badges { justify-content:center; flex-wrap:wrap; }
+      @media (max-width:900px){
+        .hero-stack { gap:20px; }
+        .hero .hero-stack h1 { font-size:clamp(24px,6.4vw,32px); line-height:1.12; letter-spacing:-.02em; margin-bottom:8px; }
+        .hero .hero-stack p.sub { font-size:15px; line-height:1.45; margin-bottom:14px; }
       }
-      @media (min-width:1360px){ .hero-visual { margin-right:-120px; } }
+      @media (max-width:480px){
+        .hero .hero-stack h1 { font-size:clamp(22px,6.6vw,26px); }
+        .hero .hero-stack p.sub { font-size:14px; }
+      }
       .video-wrap { aspect-ratio:16/9; width:100%; border-radius:16px; overflow:hidden; box-shadow:var(--shadow); background:#000; }
       .comparison-card { margin:0; border:1px solid var(--border); border-radius:18px; overflow:hidden; background:linear-gradient(180deg,#f8fbff,#fff); box-shadow:var(--shadow); }
       .comparison-card img { display:block; width:100%; height:auto; }
@@ -1061,7 +1072,10 @@ function Hero() {
   return (
     <section id="home" className="hero">
       <div className="container">
-        <div className="grid-2 hero-grid" style={{ alignItems: "center" }}>
+        <div className="hero-stack">
+          <div className="hero-visual">
+            <FeedComparisonPreview />
+          </div>
           <div className="hero-copy">
             <h1>Clean Your LinkedIn Feed in 30 Seconds</h1>
             <p className="sub">
@@ -1075,9 +1089,6 @@ function Hero() {
               <span className="badge dark">Runs locally</span>
               <span>• No risky automations • Not affiliated with LinkedIn</span>
             </div>
-          </div>
-          <div className="hero-visual">
-            <FeedComparisonPreview />
           </div>
         </div>
       </div>
