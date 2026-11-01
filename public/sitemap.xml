@@ -2,12 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.linktopics.me/</loc>
-    <lastmod>2026-10-31</lastmod>
+    <lastmod>2026-11-01</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.linktopics.me/blog</loc>
-    <lastmod>2026-10-31</lastmod>
+    <lastmod>2026-11-01</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
@@ -223,6 +223,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/audit-cold-pitch-posts-for-pms</loc>
     <lastmod>2026-07-19</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/audit-creator-spam-in-2027</loc>
+    <lastmod>2026-11-01</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -543,6 +548,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/ceos-feed-checklist</loc>
     <lastmod>2026-10-07</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/ceos-linkedin-cleanup</loc>
+    <lastmod>2026-11-01</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -1318,6 +1328,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/cut-managers-feed-noise</loc>
     <lastmod>2026-05-23</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/cut-meme-posts-fast</loc>
+    <lastmod>2026-11-01</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -2776,6 +2791,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/limit-ads-in-2027</loc>
+    <lastmod>2026-11-01</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/limit-clickbait-for-job-seekers</loc>
     <lastmod>2026-07-11</lastmod>
     <priority>0.8</priority>
@@ -3156,6 +3176,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/manage-feed-noise-fast</loc>
+    <lastmod>2026-11-01</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/manage-follow-prompts-in-2027</loc>
     <lastmod>2026-07-21</lastmod>
     <priority>0.8</priority>
@@ -3391,6 +3416,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/mute-reaction-posts-in-2027</loc>
+    <lastmod>2026-11-01</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/mute-reposts</loc>
     <lastmod>2026-07-27</lastmod>
     <priority>0.8</priority>
@@ -3441,6 +3471,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.linktopics.me/blog/news-noise-removal-for-bdrs</loc>
+    <lastmod>2026-11-01</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.linktopics.me/blog/news-noise-removal-for-remote-teams</loc>
     <lastmod>2026-10-16</lastmod>
     <priority>0.8</priority>
@@ -3463,6 +3498,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/ops-teams-noise-checklist</loc>
     <lastmod>2026-06-08</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/outreach-noise-cleaner-for-analysts</loc>
+    <lastmod>2026-11-01</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -3528,6 +3568,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/outreach-noise-filter-scorecard</loc>
     <lastmod>2026-07-19</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/outreach-noise-filter-setup</loc>
+    <lastmod>2026-11-01</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -3693,6 +3738,11 @@
   <url>
     <loc>https://www.linktopics.me/blog/prioritize-career-noise-in-2027</loc>
     <lastmod>2026-07-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.linktopics.me/blog/prioritize-feed-noise-for-hr-teams</loc>
+    <lastmod>2026-11-01</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -5412,12 +5462,12 @@
   </url>
   <url>
     <loc>https://www.linktopics.me/privacy-policy</loc>
-    <lastmod>2026-10-31</lastmod>
+    <lastmod>2026-11-01</lastmod>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://www.linktopics.me/tos</loc>
-    <lastmod>2026-10-31</lastmod>
+    <lastmod>2026-11-01</lastmod>
     <priority>0.5</priority>
   </url>
 </urlset>
